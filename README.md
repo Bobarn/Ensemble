@@ -1,5 +1,5 @@
 <!--!!START SILENT -->
-# Meetup Clone
+# GroupMe
 <!--!!END -->
 <!--!!ADD -->
 <!-- # <name of application here> -->
