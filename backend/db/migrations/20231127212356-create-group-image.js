@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Venues', {
+    await queryInterface.createTable('GroupImages', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,27 +11,18 @@ module.exports = {
       },
       groupId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'Groups'
         }
       },
-      address: {
+      url: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      city: {
-        type: Sequelize.STRING,
+      preview: {
+        type: Sequelize.BOOLEAN,
         allowNull: false
-      },
-      state: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      lat: {
-        type: Sequelize.DECIMAL
-      },
-      lng: {
-        type: Sequelize.DECIMAL
       },
       createdAt: {
         allowNull: false,
@@ -46,6 +37,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Venues');
+    await queryInterface.dropTable('GroupImages');
   }
 };

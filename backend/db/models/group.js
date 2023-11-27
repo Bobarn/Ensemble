@@ -18,6 +18,34 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'organizerId'
         }
       )
+
+      Group.hasMany(
+        models.Venue,
+        {
+          foreignKey: 'groupId'
+        }
+      )
+
+      Group.hasMany(
+        models.GroupImage,
+        {
+          foreignKey: 'groupId',
+          onDelete: 'CASCADE',
+          hooks: true
+        }
+      )
+
+      Group.belongsToMany(
+        models.User,
+        {
+          through: models.Membership,
+          foreignKey: 'groupId',
+          otherKey: 'userId',
+          onDelete: 'CASCADE',
+          hooks: true
+        }
+      )
+
     }
   }
   Group.init({
@@ -36,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT
     },
     type: {
-      type: DataTypes.ENUM,
+      type: DataTypes.ENUM('placeholder', 'filler'),
       allowNull: false
     },
     private: {

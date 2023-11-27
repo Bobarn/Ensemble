@@ -13,6 +13,17 @@ module.exports = (sequelize, DataTypes) => {
           hooks: true
         }
       )
+
+      User.belongsToMany(
+        models.Group,
+        {
+          through: models.Membership,
+          foreignKey: 'userId',
+          otherKey: 'groupId',
+          onDelete: 'CASCADE',
+          hooks: true
+        }
+      )
     }
   };
 

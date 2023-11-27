@@ -17,14 +17,14 @@ module.exports = {
         }
       },
       name: {
-        type: Sequelize.VARCHAR(100),
+        type: Sequelize.STRING,
         allowNull: false
       },
       about: {
         type: Sequelize.TEXT
       },
       type: {
-        type: Sequelize.ENUM,
+        type: Sequelize.ENUM('placeholder', 'filler'),
         allowNull: false
       },
       private: {
@@ -32,10 +32,10 @@ module.exports = {
         allowNull: false
       },
       city: {
-        type: Sequelize.VARCHAR(50)
+        type: Sequelize.STRING
       },
       state: {
-        type: Sequelize.VARCHAR(50)
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
