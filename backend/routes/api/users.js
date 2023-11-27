@@ -32,10 +32,10 @@ const validateSignup = [
     .isAlpha('en-US', {ignore: '-'})
     .withMessage('Please provide a valid first name without numbers or spaces. Must be below 31 characters.'),
   check('lastName')
-  .exists({checkFalsy: true})
-  .isLength({max: 30})
-  .isAlpha('en-US', {ignore: '-'})
-  .withMessage('Please provide a valid last name without numbers or spaces. Must be below 31 characters.'),
+    .exists({checkFalsy: true})
+    .isLength({max: 30})
+    .isAlpha('en-US', {ignore: '-'})
+    .withMessage('Please provide a valid last name without numbers or spaces. Must be below 31 characters.'),
   handleValidationErrors
 ];
 
