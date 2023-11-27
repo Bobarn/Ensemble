@@ -26,6 +26,16 @@ const validateSignup = [
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
     .withMessage('Password must be 6 characters or more.'),
+  check('firstName')
+    .exists({checkFalsy: true})
+    .isLength({max: 30})
+    .isAlpha('en-US', {ignore: '-'})
+    .withMessage('Please provide a valid first name without numbers or spaces. Must be below 31 characters.'),
+  check('lastName')
+  .exists({checkFalsy: true})
+  .isLength({max: 30})
+  .isAlpha('en-US', {ignore: '-'})
+  .withMessage('Please provide a valid last name without numbers or spaces. Must be below 31 characters.'),
   handleValidationErrors
 ];
 
@@ -34,12 +44,14 @@ router.post(
     '/',
     validateSignup,
     async (req, res) => {
-      const { email, password, username } = req.body;
+      const { email, password, username, firstName, lastName } = req.body;
       const hashedPassword = bcrypt.hashSync(password);
-      const user = await User.create({ email, username, hashedPassword });
+      const user = await User.create({ email, username, firstName, lastName, hashedPassword });
 
       const safeUser = {
         id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
         username: user.username,
       };
