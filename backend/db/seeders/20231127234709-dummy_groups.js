@@ -65,11 +65,10 @@ module.exports = {
     const Op = Sequelize.Op;
 
     return await queryInterface.bulkDelete(options, {
-      where: {
+
         id: {
           [Op.in]: [1, 2, 3]
         }
-      }
     })
   }
 };
