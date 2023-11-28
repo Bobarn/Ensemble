@@ -25,16 +25,16 @@ module.exports = (sequelize, DataTypes) => {
         }
       )
 
-      // User.belongsToMany(
-      //   models.Event,
-      //   {
-      //     through: models.Attendance,
-      //     foreignKey: 'userId',
-      //     otherKey: 'eventId',
-      //     onDelete: 'CASCADE',
-      //     hooks: true
-      //   }
-      // )
+      User.belongsToMany(
+        models.Event,
+        {
+          through: models.Attendance,
+          foreignKey: 'userId',
+          otherKey: 'eventId',
+          onDelete: 'CASCADE',
+          hooks: true
+        }
+      )
     }
   };
 

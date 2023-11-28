@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 
-const { EventImage } = require('../models');
+const { Attendance } = require('../models');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -20,24 +20,23 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await EventImage.bulkCreate([
+   await Attendance.bulkCreate([
     {
       eventId: 1,
-      url: 'https://example.com/',
-      preview: false
+      userId: 1,
+      status: 'present'
     },
     {
       eventId: 2,
-      url: 'https://i.imgur.com/CHE6ilh.jpg',
-      preview: true
+      userId: 2,
+      status: 'present'
     },
     {
       eventId: 3,
-      url: 'https://vercel.com/new/templates',
-      preview: false
+      userId: 3,
+      status: 'unknown'
     }
    ])
-
   },
 
   async down (queryInterface, Sequelize) {
@@ -47,13 +46,13 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    options.tableName = 'EventImages';
+    options.tableName = 'Attendances';
 
     const Op = Sequelize.Op;
 
     return await queryInterface.bulkDelete(options, {
-      url: {
-        [Op.in]: ['https://vercel.com/new/templates', 'https://i.imgur.com/CHE6ilh.jpg', 'https://example.com/']
+      eventId: {
+        [Op.in]: [1, 2, 3]
       }
     }, {})
   }
