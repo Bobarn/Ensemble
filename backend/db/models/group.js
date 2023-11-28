@@ -72,8 +72,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT
     },
     type: {
-      type: DataTypes.ENUM('In person', 'Online'),
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        options(value) {
+          if(value !== 'In person' && value !== 'Online') {
+            throw Error('type must be either "In person" or "Online"')
+          }
+        }
+      }
     },
     private: {
       type: DataTypes.BOOLEAN,
