@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     url: {
-      type: DataTypes.VARCHAR,
+      type: DataTypes.STRING,
       allowNull: false
     },
     preview: {
