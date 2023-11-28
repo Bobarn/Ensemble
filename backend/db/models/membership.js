@@ -14,7 +14,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Membership.init({
-    eventId: DataTypes.INTEGER
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    groupId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    status: {
+      type: DataTypes.ENUM('pending', 'accepted'),
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'Membership',
