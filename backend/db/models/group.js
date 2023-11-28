@@ -38,11 +38,10 @@ module.exports = (sequelize, DataTypes) => {
       Group.belongsToMany(
         models.User,
         {
+          as: 'Members',
           through: models.Membership,
           foreignKey: 'groupId',
-          otherKey: 'userId',
-          onDelete: 'CASCADE',
-          hooks: true
+          otherKey: 'userId'
         }
       )
 
@@ -73,7 +72,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT
     },
     type: {
-      type: DataTypes.ENUM('placeholder', 'filler'),
+      type: DataTypes.ENUM('In person', 'Online'),
       allowNull: false
     },
     private: {

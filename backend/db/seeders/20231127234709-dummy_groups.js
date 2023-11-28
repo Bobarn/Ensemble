@@ -27,7 +27,7 @@ module.exports = {
         organizerId: 1,
         name: 'GroupOne',
         about: 'A casual business group looking to have fun with other winners and talk business!',
-        type: 'placeholder',
+        type: 'In person',
         private: false,
         city: 'San Diego',
         state: 'California'
@@ -36,7 +36,7 @@ module.exports = {
         organizerId: 2,
         name: 'GroupTwo',
         about: 'A casual science group looking to have fun with other geeks and talk science',
-        type: 'placeholder',
+        type: 'Online',
         private: false,
         city: 'San Francisco',
         state: 'California'
@@ -45,7 +45,7 @@ module.exports = {
         organizerId: 3,
         name: 'GroupThree',
         about: 'A casual business group looking to have fun with other winners and talk business!',
-        type: 'filler',
+        type: 'In person',
         private: false,
         city: 'Jacksonville',
         state: 'Florida'

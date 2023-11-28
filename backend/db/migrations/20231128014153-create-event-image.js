@@ -1,7 +1,7 @@
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 
-const { EventImage } = require('../models');
+// const { EventImage } = require('../models');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
