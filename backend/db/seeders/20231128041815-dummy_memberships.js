@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 
-const { GroupImage } = require('../models');
+const { Membership } = require('../models');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -20,21 +20,26 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await GroupImage.bulkCreate([
+    await Membership.bulkCreate([
       {
+        userId: 1,
         groupId: 1,
-        url: 'https://example.com/',
-        preview: false
+        status: 'accepted'
       },
       {
+        userId: 2,
         groupId: 2,
-        url: 'https://i.imgur.com/CHE6ilh.jpg',
-        preview: true
+        status: 'accepted'
       },
       {
+        userId: 3,
         groupId: 3,
-        url: 'https://vercel.com/new/templates',
-        preview: false
+        status: 'accepted'
+      },
+      {
+        userId: 1,
+        groupId: 2,
+        status: 'pending'
       }
     ])
   },
@@ -46,13 +51,13 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    options.tableName = 'GroupImages';
+    options.tableName = 'Memberships';
 
     const Op = Sequelize.Op;
 
     return await queryInterface.bulkDelete(options, {
-      url: {
-        [Op.in]: ['https://vercel.com/new/templates', 'https://i.imgur.com/CHE6ilh.jpg', 'https://example.com/']
+      userId: {
+        [Op.in]: [1, 2, 3]
       }
     }, {})
   }
