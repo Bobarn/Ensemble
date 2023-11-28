@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     name: {
-      type: DataTypes.VARCHAR,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         len: [4, 100]
@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT
     },
     type: {
-      type: DataTypes.ENUM,
+      type: DataTypes.ENUM('placeholder', 'filler'),
       allowNull: false
     },
     private: {
@@ -44,13 +44,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     city: {
-      type: DataTypes.VARCHAR,
+      type: DataTypes.STRING,
       validate: {
         len: [0, 50]
       }
     },
     state: {
-      type:DataTypes.VARCHAR,
+      type:DataTypes.STRING,
       validate: {
         len: [0, 50]
       }

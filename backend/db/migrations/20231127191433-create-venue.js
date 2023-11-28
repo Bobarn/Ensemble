@@ -13,15 +13,15 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       address: {
-        type: Sequelize.VARCHAR(50),
+        type: Sequelize.STRING(50),
         allowNull: false
       },
       city: {
-        type: Sequelize.VARCHAR(50),
+        type: Sequelize.STRING(50),
         allowNull: false
       },
       state: {
-        type: Sequelize.VARCHAR(50),
+        type: Sequelize.STRING(50),
         allowNull: false
       },
       lat: {
