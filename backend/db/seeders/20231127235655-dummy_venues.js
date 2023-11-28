@@ -32,20 +32,20 @@ module.exports = {
         lng: 74.2
       },
       {
-        groupId: 3,
-        address: '123 First Street',
-        city: 'Jacksonville',
-        state: 'Florida',
-        lat: 32.486,
-        lng: 16.2
-      },
-      {
         groupId: 2,
         address: '456 Fourth Street',
         city: 'San Francisco',
         state: 'California',
         lat: 12.486,
         lng: 74.2
+      },
+      {
+        groupId: 3,
+        address: '123 First Street',
+        city: 'Jacksonville',
+        state: 'Florida',
+        lat: 32.486,
+        lng: 16.2
       }
     ])
   },
