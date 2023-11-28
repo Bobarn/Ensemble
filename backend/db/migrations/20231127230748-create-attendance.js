@@ -8,12 +8,19 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Memberships', {
+    await queryInterface.createTable('Attendances', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
+      },
+      eventId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Events'
+        }
       },
       userId: {
         type: Sequelize.INTEGER,
@@ -22,15 +29,8 @@ module.exports = {
           model: 'Users'
         }
       },
-      groupId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Groups'
-        }
-      },
       status: {
-        type: Sequelize.ENUM('pending', 'accepted'),
+        type: Sequelize.ENUM('present', 'unknown', 'absent'),
         allowNull: false
       },
       createdAt: {
@@ -46,7 +46,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = 'Memberships'
+    options.tableName = 'Attendances'
     await queryInterface.dropTable(options);
   }
 };
