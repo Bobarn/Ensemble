@@ -8,40 +8,27 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Groups', {
+    await queryInterface.createTable('GroupImages', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      organizerId: {
+      groupId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Users'
+          model: 'Groups'
         }
       },
-      name: {
-        type: Sequelize.STRING(100),
+      url: {
+        type: Sequelize.STRING,
         allowNull: false
       },
-      about: {
-        type: Sequelize.TEXT
-      },
-      type: {
-        type: Sequelize.ENUM('placeholder', 'filler'),
-        allowNull: false
-      },
-      private: {
+      preview: {
         type: Sequelize.BOOLEAN,
         allowNull: false
-      },
-      city: {
-        type: Sequelize.STRING(50)
-      },
-      state: {
-        type: Sequelize.STRING(50)
       },
       createdAt: {
         allowNull: false,
@@ -56,7 +43,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = 'Groups'
+    options.tableName = 'GroupImages'
     await queryInterface.dropTable(options);
   }
 };

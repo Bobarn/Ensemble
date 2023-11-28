@@ -13,6 +13,28 @@ module.exports = (sequelize, DataTypes) => {
           hooks: true
         }
       )
+
+      // User.belongsToMany(
+      //   models.Group,
+      //   {
+      //     through: models.Membership,
+      //     foreignKey: 'userId',
+      //     otherKey: 'groupId',
+      //     onDelete: 'CASCADE',
+      //     hooks: true
+      //   }
+      // )
+
+      // User.belongsToMany(
+      //   models.Event,
+      //   {
+      //     through: models.Attendance,
+      //     foreignKey: 'userId',
+      //     otherKey: 'eventId',
+      //     onDelete: 'CASCADE',
+      //     hooks: true
+      //   }
+      // )
     }
   };
 
