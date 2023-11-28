@@ -35,16 +35,16 @@ module.exports = (sequelize, DataTypes) => {
         }
       )
 
-      // Group.belongsToMany(
-      //   models.User,
-      //   {
-      //     through: models.Membership,
-      //     foreignKey: 'groupId',
-      //     otherKey: 'userId',
-      //     onDelete: 'CASCADE',
-      //     hooks: true
-      //   }
-      // )
+      Group.belongsToMany(
+        models.User,
+        {
+          through: models.Membership,
+          foreignKey: 'groupId',
+          otherKey: 'userId',
+          onDelete: 'CASCADE',
+          hooks: true
+        }
+      )
 
       // Group.belongsToMany(
       //   models.Venue,
