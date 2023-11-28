@@ -43,10 +43,9 @@ router.get('/', async (req, res) => {
 
 
  for(let group of groups) {
-    let members = await group.getUsers();
+    let members = await group.getMembers();
     let previewImage = await group.getGroupImages();
 
-   //  console.log(members);
 
     let numMembers = members.length;
 
@@ -54,9 +53,6 @@ router.get('/', async (req, res) => {
 
     group.numMembers = numMembers;
 
-    // console.log(group);
-
-   //  let previewImage = await group.getGroupImages();
 
     group.previewImage = previewImage[0].url;
 
