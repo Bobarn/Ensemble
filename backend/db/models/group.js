@@ -1,5 +1,5 @@
 'use strict';
-const { all } = require('bluebird');
+// const { all } = require('bluebird');
 const {
   Model
 } = require('sequelize');
