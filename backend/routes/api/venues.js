@@ -55,7 +55,7 @@ router.put('/:venueId', checkVenueId, requireAuth, authorize, validateVenueEdit,
 
     venue.lng = lng !== undefined ? lng : venue.lng;
 
-    venue.save();
+    await venue.save();
 
     const result = await Venue.findByPk(id);
 
