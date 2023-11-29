@@ -9,6 +9,8 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
-router.get('/')
+
+
+router.get
 
 module.exports = router;

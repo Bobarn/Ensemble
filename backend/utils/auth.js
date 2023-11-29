@@ -104,4 +104,19 @@ const authorize = async function (req, res, next) {
   }
 }
 
-module.exports = { setTokenCookie, restoreUser, requireAuth, authorize };
+const checkId = async function (req, res, next) {
+  const id = parseInt(req.params.groupId);
+
+  const group = await Group.findByPk(id);
+
+  if(!group) {
+     res.status(404)
+     return res.json({
+        message: "Group couldn't be found"
+     })
+  } else {
+     return next()
+  }
+}
+
+module.exports = { setTokenCookie, restoreUser, requireAuth, authorize, checkId };

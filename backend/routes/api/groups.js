@@ -2,8 +2,9 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
-const { setTokenCookie, requireAuth, authorize } = require('../../utils/auth');
+const { setTokenCookie, requireAuth, authorize, checkId } = require('../../utils/auth');
 const { Group, Membership, GroupImage, Venue } = require('../../db/models');
+const venuesRouter = require('./venues');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -64,20 +65,33 @@ const validateGroupPost = [
    handleValidationErrors
  ];
 
- const checkId = async function (req, res, next) {
-   const id = parseInt(req.params.groupId);
+ const validateVenuePost = [
+   check('address')
+     .exists({ checkFalsy: true })
+     .isString()
+     .withMessage('Street address is required'),
+   check('city')
+      .exists({ checkFalsy: true })
+      .isString()
+      .isAlpha('en-US', {ignore: [' ', '-']})
+      .withMessage('City is required'),
+   check('state')
+     .exists({ checkFalsy: true })
+     .isString()
+     .isAlpha('en-US', {ignore: [' ', '-']})
+     .withMessage('State is required'),
+   check('lat')
+     .exists({checkNull: true})
+     .isFloat({min: -90, max: 90})
+     .withMessage('Latitude is not valid'),
+   check('lng')
+     .exists({checkNull: true})
+     .isFloat({min: -180, max: 180})
+     .withMessage('Longitude is not valid'),
+   handleValidationErrors
+ ];
 
-   const group = await Group.findByPk(id);
 
-   if(!group) {
-      res.status(404)
-      return res.json({
-         message: "Group couldn't be found"
-      })
-   } else {
-      return next()
-   }
- }
 
 router.get('/', async (req, res) => {
  const groups = await Group.findAll();
@@ -150,17 +164,9 @@ router.get('/:groupId', checkId, async (req, res) => {
       attributes: ['id', 'firstName', 'lastName']
    })
 
-   const venues = await group.getVenues({
-      attributes: {
-         exclude: ['createdAt', 'updatedAt']
-      }
-   });
+   const venues = await group.getVenues();
 
-   const images = await group.getGroupImages({
-      attributes: {
-         exclude: ['createdAt', 'updatedAt', 'groupId']
-      }
-   });
+   const images = await group.getGroupImages();
 
    res.json({
       ...group.dataValues,
@@ -225,9 +231,6 @@ router.post('/:groupId/images', checkId, requireAuth, authorize, async (req, res
       result = await GroupImage.findOne({
          where: {
             id: image.id
-         },
-         attributes: {
-            exclude: ['createdAt', 'updatedAt', 'groupId']
          }
       })
 
@@ -282,13 +285,28 @@ router.get('/:groupId/venues', checkId, requireAuth, authorize, async (req, res)
 
    const group = await Group.findByPk(groupId);
 
-   const venues = await group.getVenues({
-      attributes: {
-         exclude: ['createdAt', 'updatedAt']
-      }
-   });
+   const venues = await group.getVenues();
 
    res.json({Venues: venues});
 })
+
+router.post('/:groupId/venues', checkId, requireAuth, authorize, validateVenuePost, async (req, res) => {
+
+   const groupId = parseInt(req.params.groupId);
+
+   const group = await Group.findByPk(groupId);
+
+   const { address, city, state, lat, lng } = req.body;
+
+   let venue = await group.createVenue({
+      address,
+      city,
+      state,
+      lat,
+      lng
+   })
+
+   res.json(venue);
+});
 
 module.exports = router;
