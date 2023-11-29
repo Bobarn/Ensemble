@@ -45,14 +45,14 @@ module.exports = (sequelize, DataTypes) => {
         }
       )
 
-      // Group.belongsToMany(
-      //   models.Venue,
-      //   {
-      //     through: models.Event,
-      //     foreignKey: 'groupId',
-      //     otherKey: 'venueId'
-      //   }
-      // )
+      Group.hasMany(
+        models.Event,
+        {
+          foreignKey: 'groupId',
+          onDelete: 'CASCADE',
+          hooks: true
+        }
+      )
 
     }
   }

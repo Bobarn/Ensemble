@@ -30,6 +30,20 @@ module.exports = (sequelize, DataTypes) => {
           hooks: true
         }
       )
+
+      Event.belongsTo(
+        models.Group,
+        {
+          foreignKey: 'groupId'
+        }
+      )
+
+      Event.belongsTo(
+        models.Venue,
+        {
+          foreignKey: 'venueId'
+        }
+      )
     }
   }
   Event.init({
