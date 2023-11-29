@@ -2,7 +2,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { setTokenCookie, requireAuth, authorize } = require('../../utils/auth');
 const { Group, Membership, GroupImage } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -27,11 +27,33 @@ const validateGroupPost = [
      .withMessage('Private must be a boolean'),
    check('city')
      .exists({checkFalsy: true})
-   //   .isAlpha('en-US', {ignore: '-'})
+     .isAlpha('en-US', {ignore: [' ', '-']})
      .withMessage('City is required'),
    check('state')
      .exists({checkFalsy: true})
      .isAlpha('en-US', {ignore: '-'})
+     .withMessage('State is required'),
+   handleValidationErrors
+ ];
+
+ const validateGroupEdit = [
+   check('name')
+     .isLength({ max: 60 })
+     .withMessage('Name must be 60 characters or less'),
+   check('about')
+     .isLength({ min: 50 })
+     .withMessage('About must be 50 characters or more'),
+   check('type')
+     .isIn(['Online', 'In person'])
+     .withMessage('Type must be "Online" or "In person"'),
+   check('private')
+     .isBoolean()
+     .withMessage('Private must be a boolean'),
+   check('city')
+      .isAlpha('en-US', {ignore: [' ', '-']})
+     .withMessage('City is required'),
+   check('state')
+      .isAlpha('en-US', {ignore: [' ', '-']})
      .withMessage('State is required'),
    handleValidationErrors
  ];
@@ -168,7 +190,7 @@ router.post('/', requireAuth, validateGroupPost, async (req, res) => {
 
 })
 
-router.post('/:groupId/images', requireAuth, async (req, res) => {
+router.post('/:groupId/images', requireAuth, authorize, async (req, res) => {
 
    const id = parseInt(req.params.groupId);
 
@@ -186,7 +208,13 @@ router.post('/:groupId/images', requireAuth, async (req, res) => {
 
    const group = await Group.findByPk(id);
 
-   if(user.id === group.organizerId) {
+   if(!group) {
+      return res.json({
+         message: "Group couldn't be found"
+      })
+   }
+
+   // if(user.id === group.organizerId) {
       image = await group.createGroupImage(image);
 
       result = await GroupImage.findOne({
@@ -197,14 +225,57 @@ router.post('/:groupId/images', requireAuth, async (req, res) => {
             exclude: ['createdAt', 'updatedAt', 'groupId']
          }
       })
-   }
+   // }
 
    res.json(result)
 })
 
+router.put('/:groupId', requireAuth, authorize, validateGroupEdit, async (req, res) => {
+   const id = parseInt(req.params.groupId);
 
+   const { name, about, type, private, city, state } = req.body;
 
+   const group = await Group.findByPk(id);
 
+   if(!group) {
+      return res.json({
+         message: "Group couldn't be found"
+      })
+   }
 
+   group.name = name || group.name;
+
+   group.about = about || group.about;
+
+   group.type = type || group.type;
+
+   group.private = private !== undefined ? private : group.private;
+
+   group.city = city || group.city;
+
+   group.state = state || group.state;
+
+   await group.save();
+
+   res.json(group);
+})
+
+router.delete('/:deleteId', requireAuth, authorize, async (req, res) => {
+
+   const id = parseInt(req.params.groupId);
+
+   const group = await Group.findByPk(id);
+
+   if(!group) {
+      res.status(404)
+      return res.json({
+         message: "Group couldn't be found"
+      })
+   }
+
+   await group.destroy();
+
+   return res.json({ message: 'Successfully deleted'})
+})
 
 module.exports = router;

@@ -1,7 +1,7 @@
 // backend/utils/auth.js
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
-const { User } = require('../db/models');
+const { User, Group } = require('../db/models');
 
 const { secret, expiresIn } = jwtConfig;
 
@@ -62,7 +62,7 @@ const restoreUser = (req, res, next) => {
     });
 };
 
-// If there is no current user, return an error
+// If there is no current user, return an error, authenticate
 const requireAuth = function (req, _res, next) {
     if (req.user) return next();
 
@@ -73,4 +73,26 @@ const requireAuth = function (req, _res, next) {
     return next(err);
   }
 
-module.exports = { setTokenCookie, restoreUser, requireAuth };
+// Check to see that current user is the organizer of the target group
+
+const authorize = async function (req, res, next) {
+  const { user } = req;
+
+  const groupId = parseInt(req.params.groupId);
+
+  const group = await Group.findByPk(groupId);
+
+  // console.log(user);
+
+  if(user.id == group.organizerId) {
+    return next();
+  } else {
+    const err = new Error('Forbidden');
+    err.title = 'Require proper authorization'
+    err.status = 403;
+    err.errors = { message: 'Require proper authorization'};
+    return next(err);
+  }
+}
+
+module.exports = { setTokenCookie, restoreUser, requireAuth, authorize };
