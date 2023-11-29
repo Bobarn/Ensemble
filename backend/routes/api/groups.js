@@ -38,21 +38,27 @@ const validateGroupPost = [
 
  const validateGroupEdit = [
    check('name')
+      .optional()
      .isLength({ max: 60 })
      .withMessage('Name must be 60 characters or less'),
    check('about')
+      .optional()
      .isLength({ min: 50 })
      .withMessage('About must be 50 characters or more'),
    check('type')
+      .optional()
      .isIn(['Online', 'In person'])
      .withMessage('Type must be "Online" or "In person"'),
    check('private')
+      .optional()
      .isBoolean()
      .withMessage('Private must be a boolean'),
    check('city')
+      .optional()
       .isAlpha('en-US', {ignore: [' ', '-']})
      .withMessage('City is required'),
    check('state')
+      .optional()
       .isAlpha('en-US', {ignore: [' ', '-']})
      .withMessage('State is required'),
    handleValidationErrors
