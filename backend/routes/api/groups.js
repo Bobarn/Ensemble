@@ -108,11 +108,14 @@ const validateEventPost = [
       .withMessage('Capacity must be an integer'),
    check('price')
       .exists()
-      .isCurrency({
-         require_symbol: false,
-         allow_negatives: false,
-         allow_decimal: true,
-         digits_after_decimal: [2]
+      .isFloat()
+      .custom((value) => {
+         value = value.toFixed(2);
+         console.log(value);
+         if(value.toString().split('.')[1].length > 2) {
+            throw new Error("Price is invalid")
+         }
+         return true
       })
       .withMessage('Price is invalid'),
    check('description')
