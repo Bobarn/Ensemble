@@ -2,7 +2,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
-const { setTokenCookie, requireAuth, authorize } = require('../../utils/auth');
+const { setTokenCookie, requireAuth, authorize, checkVenueId } = require('../../utils/auth');
 const { Venue } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -35,7 +35,7 @@ const validateVenueEdit = [
     handleValidationErrors
   ];
 
-router.put('/:venueId',requireAuth, authorize, validateVenueEdit, async (req, res) => {
+router.put('/:venueId', checkVenueId, requireAuth, authorize, validateVenueEdit, async (req, res) => {
 
 
 
@@ -44,14 +44,6 @@ router.put('/:venueId',requireAuth, authorize, validateVenueEdit, async (req, re
     const { address, city, state, lat, lng } = req.body;
 
     const venue = await Venue.findByPk(id);
-
-    if(!venue) {
-
-        res.status(404);
-       return res.json({
-            message: "Venue couldn't be found"
-        })
-    }
 
     venue.address = address || venue.address;
 

@@ -153,4 +153,19 @@ const checkId = async function (req, res, next) {
   }
 }
 
-module.exports = { setTokenCookie, restoreUser, requireAuth, authorize, checkId };
+const checkVenueId = async function (req, res, next) {
+  const id = parseInt(req.params.venueId);
+
+  const venue = await Venue.findByPk(id);
+
+  if(!venue) {
+     res.status(404)
+     return res.json({
+        message: "Venue couldn't be found"
+     })
+  } else {
+     return next()
+  }
+}
+
+module.exports = { setTokenCookie, restoreUser, requireAuth, authorize, checkId, checkVenueId };
