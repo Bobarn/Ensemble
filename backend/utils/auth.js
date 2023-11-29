@@ -1,7 +1,7 @@
 // backend/utils/auth.js
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
-const { User, Group } = require('../db/models');
+const { User, Group, Membership } = require('../db/models');
 
 const { secret, expiresIn } = jwtConfig;
 
@@ -82,9 +82,18 @@ const authorize = async function (req, res, next) {
 
   const group = await Group.findByPk(groupId);
 
+  const status = await Membership.findOne({
+    where: {
+      userId: user.id,
+      groupId: groupId
+    }
+  })
+
+  // console.log("===============", status.status);
+
   // console.log(user);
 
-  if(user.id == group.organizerId) {
+  if(user.id == group.organizerId || status.status === 'co-host') {
     return next();
   } else {
     const err = new Error('Forbidden');
