@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
   Event.init({
     venueId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     groupId: {
       type: DataTypes.INTEGER,
@@ -64,8 +64,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     type: {
-      type: DataTypes.ENUM('hybrid', 'in-person', 'online'),
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        options(value) {
+          if(value !== 'In person' && value !== 'Online') {
+            throw Error('type must be either "In person" or "Online"')
+          }
+        }
+      }
     },
     capacity: {
       type: DataTypes.INTEGER,
@@ -86,6 +93,18 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Event',
+    defaultScope: {
+      attributes: {
+        exclude: ['createdAt', 'updatedAt', 'capacity', 'price', 'description']
+      }
+    },
+    scopes: {
+      specific: {
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        }
+      }
+    }
   });
   return Event;
 };

@@ -24,7 +24,7 @@ module.exports = {
       {
         groupId: 1,
         url: 'https://example.com/',
-        preview: false
+        preview: true
       },
       {
         groupId: 2,
@@ -34,7 +34,7 @@ module.exports = {
       {
         groupId: 3,
         url: 'https://vercel.com/new/templates',
-        preview: false
+        preview: true
       }
     ])
   },

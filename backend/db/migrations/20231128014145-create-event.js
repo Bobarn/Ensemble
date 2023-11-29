@@ -17,7 +17,7 @@ module.exports = {
       },
       venueId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'Venues'
         },
@@ -40,7 +40,7 @@ module.exports = {
         allowNull: false
       },
       type: {
-        type: Sequelize.ENUM('hybrid', 'in-person', 'online'),
+        type: Sequelize.STRING,
         allowNull: false
       },
       capacity: {

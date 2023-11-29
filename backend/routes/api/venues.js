@@ -1,6 +1,5 @@
-// backend/routes/api/groups.js
+// backend/routes/api/venues.js
 const express = require('express');
-const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, requireAuth, authorize, checkVenueId } = require('../../utils/auth');
 const { Venue } = require('../../db/models');

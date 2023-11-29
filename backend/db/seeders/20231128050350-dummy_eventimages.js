@@ -24,7 +24,7 @@ module.exports = {
     {
       eventId: 1,
       url: 'https://example.com/',
-      preview: false
+      preview: true
     },
     {
       eventId: 2,
@@ -34,7 +34,7 @@ module.exports = {
     {
       eventId: 3,
       url: 'https://vercel.com/new/templates',
-      preview: false
+      preview: true
     }
    ])
 

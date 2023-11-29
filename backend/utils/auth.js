@@ -1,7 +1,7 @@
 // backend/utils/auth.js
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
-const { User, Group, Membership, Venue } = require('../db/models');
+const { User, Group, Membership, Venue, Event } = require('../db/models');
 
 const { secret, expiresIn } = jwtConfig;
 
@@ -168,4 +168,19 @@ const checkVenueId = async function (req, res, next) {
   }
 }
 
-module.exports = { setTokenCookie, restoreUser, requireAuth, authorize, checkId, checkVenueId };
+const checkEventId = async function (req, res, next) {
+  const id = parseInt(req.params.eventId);
+
+  const event = await Event.findByPk(id);
+
+  if(!event) {
+     res.status(404)
+     return res.json({
+        message: "Event couldn't be found"
+     })
+  } else {
+     return next()
+  }
+}
+
+module.exports = { setTokenCookie, restoreUser, requireAuth, authorize, checkId, checkVenueId, checkEventId };
