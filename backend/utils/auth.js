@@ -101,8 +101,13 @@ const groupAuthorize = async function (req, res, next) {
 
 if(group) {
 
-    if(user.id == group.organizerId || status.status === 'co-host') {
+    if(user.id == group.organizerId) {
       return next();
+    }
+    else if(status) {
+       if(status.status === 'co-host') {
+        return next()
+      }
     }
     else {
       const err = new Error('Forbidden');

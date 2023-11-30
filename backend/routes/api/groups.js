@@ -2,9 +2,11 @@
 const express = require('express');
 
 const { setTokenCookie, requireAuth, groupAuthorize, checkId } = require('../../utils/auth');
-const { Group, GroupImage, Venue, Event } = require('../../db/models');
+const { Group, GroupImage, Venue, Event, Membership } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 const router = express.Router();
 
@@ -271,8 +273,6 @@ router.post('/:groupId/images', checkId, requireAuth, groupAuthorize, async (req
 
    const id = parseInt(req.params.groupId);
 
-   const { user } = req;
-
    const { url, preview } = req.body;
 
    let image = {};
@@ -440,6 +440,58 @@ router.post('/:groupId/events', checkId, validateEventPost, requireAuth, groupAu
    event = await Event.scope('specific').findByPk(event.id);
 
    return res.json(event);
+})
+
+router.get('/:groupId/members', checkId, async (req, res) => {
+
+   const { user } = req;
+
+   let members;
+
+   let result = [];
+
+   const groupId = parseInt(req.params.groupId);
+
+   const group = await Group.findByPk(groupId);
+
+   let cohosts = await Membership.findOne({
+      where: {
+         userId: user.id,
+         groupId: group.id,
+         status: 'co-host'
+      }
+   })
+
+   if(group.organizerId === user.id || cohosts) {
+      members = await group.getMembers({
+         attributes: {
+            exclude: ['username']
+         },
+         through: ['status']
+      })
+
+      return res.json({
+         Members: members
+      })
+
+   } else {
+      members = await group.getMembers({
+         attributes: {
+            exclude: ['username']
+         },
+         through: ['status']
+      })
+      for(let member of members) {
+
+         if(member.Membership.status !== 'pending') {
+            result.push(member);
+         }
+      }
+      return res.json({
+         Members: result
+      });
+   }
+
 })
 
 
