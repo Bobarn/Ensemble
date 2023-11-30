@@ -22,8 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         models.Event,
         {
           foreignKey: 'venueId',
-          onDelete: 'CASCADE',
-          hooks: true
+          onDelete: 'SET NULL'
         }
       )
 

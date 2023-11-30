@@ -2,7 +2,7 @@
 const express = require('express');
 
 const { setTokenCookie, requireAuth, groupAuthorize, checkId } = require('../../utils/auth');
-const { Group, GroupImage, Venue, Event, Membership } = require('../../db/models');
+const { Group, GroupImage, Venue, Event, Membership, User } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const Sequelize = require('sequelize');
@@ -113,7 +113,7 @@ const validateEventPost = [
       .isFloat()
       .custom((value) => {
          value = value.toFixed(2);
-         console.log(value);
+         // console.log(value);
          if(value.toString().split('.')[1].length > 2) {
             throw new Error("Price is invalid")
          }
@@ -171,7 +171,13 @@ router.get('/', async (req, res) => {
 
     group.numMembers = numMembers;
 
-    group.previewImage = previewImage[0].url;
+    group.previewImage = ''
+
+    if(previewImage.length) {
+
+       group.previewImage = previewImage[0].url;
+
+    }
 
     groupsInfo.push(group);
  }
@@ -195,7 +201,11 @@ router.get('/current', async (req, res) => {
 
       let members = await group.getMembers();
 
-      let previewImage = await group.getGroupImages();
+      let previewImage = await group.getGroupImages({
+         where: {
+            preview: true
+         }
+      });
 
       let numMembers = members.length;
 
@@ -203,7 +213,14 @@ router.get('/current', async (req, res) => {
 
       group.numMembers = numMembers;
 
-      group.previewImage = previewImage[0].url;
+      group.previewImage = ''
+
+      if(previewImage.length) {
+
+         group.previewImage = previewImage[0].url;
+
+      }
+
 
       delete group.Membership
 
@@ -262,6 +279,12 @@ router.post('/', requireAuth, validateGroupPost, async (req, res) => {
    newGroup.organizerId = user.id
 
    const add = await Group.create(newGroup)
+
+   await Membership.create({
+      userId: user.id,
+      groupId: add.id,
+      status: 'member'
+   });
 
    res.status(201)
 
@@ -326,13 +349,6 @@ router.delete('/:groupId', checkId, requireAuth, groupAuthorize, async (req, res
    const id = parseInt(req.params.groupId);
 
    const group = await Group.findByPk(id);
-
-   if(!group) {
-      res.status(404)
-      return res.json({
-         message: "Group couldn't be found"
-      })
-   }
 
    await group.destroy();
 
@@ -493,6 +509,140 @@ router.get('/:groupId/members', checkId, async (req, res) => {
    }
 
 })
+
+router.post('/:groupId/membership', checkId, requireAuth, async (req, res) => {
+
+   const { user } = req;
+
+   let groupId = parseInt(req.params.groupId);
+
+   let newMember = {};
+
+   const group = await Group.findByPk(groupId);
+
+   let membership = await Membership.findOne({
+      where: {
+         groupId: group.id,
+         userId: user.id
+      }
+   })
+
+   if(membership) {
+      // console.log(membership);
+      res.status(400);
+      let message = {}
+
+      if(membership.status === 'member' || membership.status === 'co-host') {
+
+         message.message = "User is already a member of the group"
+
+      } else {
+
+         message.message = "Membership has already been requested"
+
+      }
+
+      return res.json(message)
+
+   }
+
+   await Membership.create({
+      groupId: group.id,
+      userId: user.id,
+      status: 'pending'
+   })
+
+   newMember.memberId = user.id;
+
+   newMember.status = 'pending';
+
+   return res.json(newMember);
+
+
+})
+
+router.put('/:groupId/membership', checkId, requireAuth, groupAuthorize, async (req, res) => {
+
+   const { user } = req;
+
+   const { memberId, status } = req.body;
+
+   const groupId = parseInt(req.params.groupId);
+
+   let memberUser = await User.findByPk(memberId);
+
+   let member = await Membership.scope('specific').findOne({
+      where: {
+         userId: memberId,
+         groupId: groupId
+      }
+   })
+
+   if(!memberUser) {
+
+      res.status(400);
+
+      return res.json(    {
+         "message": "Validation Error",
+         "errors": {
+           "memberId": "User couldn't be found"
+         }
+      });
+
+   } else if (!member) {
+      res.status(404);
+
+      return res.json( {
+         "message": "Membership between the user and the group does not exist"
+       });
+   }
+
+
+   let group = await Group.findByPk(groupId);
+
+   let organizer = group.organizerId;
+
+   let membership = await Membership.findOne({
+      where: {
+        userId: user.id,
+        groupId: groupId,
+        status: 'co-host'
+      }
+    });
+
+    if(status === 'pending') {
+      res.status(400);
+
+      return res.json( {
+         "message": "Validations Error",
+         "errors": {
+           "status" : "Cannot change a membership status to pending"
+         }
+       })
+    }
+
+    if((organizer == user.id || membership) && status === 'member') {
+      member.status = status;
+
+    } else if(organizer == user.id && status === 'co-host') {
+      member.status = status;
+    } else {
+      res.status(400)
+      return res.json({
+         message: "Status must be either 'member' or 'co-host'"
+      })
+    }
+    await member.save();
+    res.json({
+      id: member.id,
+      groupId: groupId,
+      memberId: member.userId,
+      status: member.status
+    });
+
+});
+
+router.delete('/:groupId/membership', )
 
 
 module.exports = router;

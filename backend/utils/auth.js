@@ -101,22 +101,33 @@ const groupAuthorize = async function (req, res, next) {
 
 if(group) {
 
-    if(user.id == group.organizerId) {
-      return next();
+
+  if(user.id == group.organizerId) {
+    return next();
+  }
+  else if(status.status === 'co-host') {
+    console.log('==============================')
+    // if(status.status === 'co-host') {
+    //     return next()
+    //   }
+    // }
+    // else {
+    //   const err = new Error('Forbidden');
+    //   err.title = 'Require proper authorization'
+    //   err.status = 403;
+    //   err.errors = { message: 'Require proper authorization'};
+    //   return next(err);
+    // }
+    return next()
+  }
+  else {
+    const err = new Error('Forbidden');
+    err.title = 'Require proper authorization'
+    err.status = 403;
+    err.errors = { message: 'Require proper authorization'};
+    return next(err);
     }
-    else if(status) {
-       if(status.status === 'co-host') {
-        return next()
-      }
-    }
-    else {
-      const err = new Error('Forbidden');
-      err.title = 'Require proper authorization'
-      err.status = 403;
-      err.errors = { message: 'Require proper authorization'};
-      return next(err);
-    }
-}
+  }
 }
 
 const venueAuthorize = async function (req, res, next) {
@@ -240,7 +251,7 @@ const checkVenueId = async function (req, res, next) {
   try {
 
     let id = req.params.venueId || req.body.venueId;
-    console.log("================");
+    // console.log("================");
 
     id = parseInt(id);
 

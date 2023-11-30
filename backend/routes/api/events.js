@@ -208,7 +208,7 @@ router.delete('/:eventId', checkEventId, requireAuth, eventAuthorize, async (req
 
     let eventId = req.params.eventId;
 
-    console.log('==============',eventId);
+    // console.log('==============',eventId);
 
     eventId = parseInt(eventId);
 

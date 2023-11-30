@@ -40,6 +40,13 @@ module.exports = (sequelize, DataTypes) => {
       attributes: {
         exclude: ['createdAt', 'updatedAt', 'userId', 'groupId']
       }
+    },
+    scopes: {
+      specific: {
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        }
+      }
     }
   });
   return Membership;
