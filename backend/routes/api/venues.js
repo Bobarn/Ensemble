@@ -1,7 +1,7 @@
 // backend/routes/api/venues.js
 const express = require('express');
 
-const { setTokenCookie, requireAuth, authorize, checkVenueId } = require('../../utils/auth');
+const { setTokenCookie, requireAuth, venueAuthorize, checkVenueId } = require('../../utils/auth');
 const { Venue } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -34,7 +34,7 @@ const validateVenueEdit = [
     handleValidationErrors
   ];
 
-router.put('/:venueId', checkVenueId, requireAuth, authorize, validateVenueEdit, async (req, res) => {
+router.put('/:venueId', checkVenueId, requireAuth, venueAuthorize, validateVenueEdit, async (req, res) => {
 
 
 
@@ -58,7 +58,7 @@ router.put('/:venueId', checkVenueId, requireAuth, authorize, validateVenueEdit,
 
     const result = await Venue.findByPk(id);
 
-    res.json(result)
+    return res.json(result)
 
 })
 

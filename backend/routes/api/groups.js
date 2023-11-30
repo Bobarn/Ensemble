@@ -1,7 +1,7 @@
 // backend/routes/api/groups.js
 const express = require('express');
 
-const { setTokenCookie, requireAuth, authorize, checkId } = require('../../utils/auth');
+const { setTokenCookie, requireAuth, groupAuthorize, checkId } = require('../../utils/auth');
 const { Group, GroupImage, Venue, Event } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -120,7 +120,7 @@ const validateEventPost = [
       .withMessage('Price is invalid'),
    check('description')
       .exists()
-      .isAlpha('en-US', {ignore: [' ', '-', '!', '.', '?']})
+      .isAlpha('en-US', {ignore: [' ', '-', '!', '.', '?', "'", '"', '(', ')']})
       .withMessage('Description is required'),
    check('startDate')
       .exists()
@@ -265,7 +265,7 @@ router.post('/', requireAuth, validateGroupPost, async (req, res) => {
 
 })
 
-router.post('/:groupId/images', checkId, requireAuth, authorize, async (req, res) => {
+router.post('/:groupId/images', checkId, requireAuth, groupAuthorize, async (req, res) => {
 
    const id = parseInt(req.params.groupId);
 
@@ -295,7 +295,7 @@ router.post('/:groupId/images', checkId, requireAuth, authorize, async (req, res
    res.json(result)
 })
 
-router.put('/:groupId', checkId, requireAuth, authorize, validateGroupEdit, async (req, res) => {
+router.put('/:groupId', checkId, requireAuth, groupAuthorize, validateGroupEdit, async (req, res) => {
    const id = parseInt(req.params.groupId);
 
    const { name, about, type, private, city, state } = req.body;
@@ -316,10 +316,10 @@ router.put('/:groupId', checkId, requireAuth, authorize, validateGroupEdit, asyn
 
    await group.save();
 
-   res.json(group);
+   return res.json(group);
 })
 
-router.delete('/:groupId', checkId, requireAuth, authorize, async (req, res) => {
+router.delete('/:groupId', checkId, requireAuth, groupAuthorize, async (req, res) => {
 
    const id = parseInt(req.params.groupId);
 
@@ -337,7 +337,7 @@ router.delete('/:groupId', checkId, requireAuth, authorize, async (req, res) => 
    return res.json({ message: 'Successfully deleted'})
 })
 
-router.get('/:groupId/venues', checkId, requireAuth, authorize, async (req, res) => {
+router.get('/:groupId/venues', checkId, requireAuth, groupAuthorize, async (req, res) => {
 
    const groupId = parseInt(req.params.groupId);
 
@@ -345,10 +345,10 @@ router.get('/:groupId/venues', checkId, requireAuth, authorize, async (req, res)
 
    const venues = await group.getVenues();
 
-   res.json({Venues: venues});
+   return res.json({Venues: venues});
 })
 
-router.post('/:groupId/venues', checkId, requireAuth, authorize, validateVenuePost, async (req, res) => {
+router.post('/:groupId/venues', checkId, requireAuth, groupAuthorize, validateVenuePost, async (req, res) => {
 
    const groupId = parseInt(req.params.groupId);
 
@@ -364,7 +364,7 @@ router.post('/:groupId/venues', checkId, requireAuth, authorize, validateVenuePo
       lng
    })
 
-   res.json(venue);
+   return res.json(venue);
 });
 
 router.get('/:groupId/events', checkId, async (req, res) => {
@@ -385,7 +385,7 @@ router.get('/:groupId/events', checkId, async (req, res) => {
       }]
   });
 
-  console.log(associated);
+//   console.log(associated);
 
    for(let event of associated) {
       let attendees = await event.getUsers();
@@ -407,12 +407,12 @@ router.get('/:groupId/events', checkId, async (req, res) => {
       Events.push(event);
    }
 
-   res.json({
+   return res.json({
       Events
    })
 })
 
-router.post('/:groupId/events', checkId, validateEventPost, requireAuth, authorize, async (req, res) => {
+router.post('/:groupId/events', checkId, validateEventPost, requireAuth, groupAuthorize, async (req, res) => {
 
    const groupId = parseInt(req.params.groupId);
 
@@ -437,7 +437,7 @@ router.post('/:groupId/events', checkId, validateEventPost, requireAuth, authori
 
    event = await Event.scope('specific').findByPk(event.id);
 
-   res.json(event);
+   return res.json(event);
 })
 
 

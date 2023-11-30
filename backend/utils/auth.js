@@ -75,20 +75,17 @@ const requireAuth = function (req, _res, next) {
 
 // Check to see that current user is the organizer of the target group
 
-const authorize = async function (req, res, next) {
+const groupAuthorize = async function (req, res, next) {
   const { user } = req;
 
   let group;
 
-  let venue;
-
   let status;
 
-  let venueGroup;
 
   const groupId = parseInt(req.params.groupId);
 
-  const venueId = parseInt(req.params.venueId);
+
 
   if(groupId) {
 
@@ -100,18 +97,8 @@ const authorize = async function (req, res, next) {
          groupId: groupId
        }
      })
-  } else {
-     venue = await Venue.findByPk(venueId);
-
-     venueGroup = await Group.findByPk(venue.groupId);
   }
 
-
-
-
-  // console.log("===============", status.status);
-
-  // console.log(user);
 if(group) {
 
     if(user.id == group.organizerId || status.status === 'co-host') {
@@ -124,7 +111,25 @@ if(group) {
       err.errors = { message: 'Require proper authorization'};
       return next(err);
     }
-} else if(venueGroup) {
+}
+}
+
+const venueAuthorize = async function (req, res, next) {
+  const { user } = req;
+
+  let venue;
+
+  let venueGroup;
+
+  const venueId = parseInt(req.params.venueId);
+
+  if(venueId){
+    venue = await Venue.findByPk(venueId);
+
+    venueGroup = await Group.findByPk(venue.groupId);
+ }
+
+ if(venueGroup) {
   if (venueGroup.organizerId === user.id) {
     return next();
   }
@@ -138,49 +143,138 @@ if(group) {
 }
 }
 
+const eventAuthorize = async function (req, res, next) {
+
+  const { user } = req;
+
+  let event;
+
+  let attendance;
+
+  const eventId = parseInt(req.params.eventId);
+
+  if(eventId) {
+    event = await Event.findByPk(eventId);
+  }
+
+  if(event) {
+
+    attendance = await event.getUsers({
+      where: {
+        id: user.id
+      }
+    })
+    if(req.method === 'POST') {
+      console.log(req.method, "ASASASASA");
+
+
+      if(attendance.length) {
+        return next();
+      } else {
+        const err = new Error('Forbidden');
+        err.title = 'Require proper authorization'
+        err.status = 403;
+        err.errors = { message: 'Require proper authorization'};
+        return next(err);
+      }
+    }
+   else if(req.method === 'PUT' || req.method === 'DELETE') {
+    let group = await event.getGroup();
+
+    let memberships = await Membership.findOne({
+      where: {
+        userId: user.id,
+        groupId: group.id,
+        status: 'co-host'
+      }
+    })
+
+    // console.log(memberships);
+
+    if(memberships || group.organizerId === user.id) {
+
+        return next();
+    }  else {
+      const err = new Error('Forbidden');
+      err.title = 'Require proper authorization'
+      err.status = 403;
+      err.errors = { message: 'Require proper authorization'};
+      return next(err);
+    }
+    }
+  }
+}
+
+
+
 const checkId = async function (req, res, next) {
-  const id = parseInt(req.params.groupId);
 
-  const group = await Group.findByPk(id);
+  try{
+    const id = parseInt(req.params.groupId);
 
-  if(!group) {
+    const group = await Group.findByPk(id);
+
+    if(group){
+
+      return next();
+    } else {
+      throw new Error()
+    }
+
+  } catch(err) {
+
      res.status(404)
      return res.json({
         message: "Group couldn't be found"
      })
-  } else {
-     return next()
   }
 }
 
 const checkVenueId = async function (req, res, next) {
-  const id = parseInt(req.params.venueId);
 
-  const venue = await Venue.findByPk(id);
+  try {
 
-  if(!venue) {
-     res.status(404)
-     return res.json({
-        message: "Venue couldn't be found"
-     })
-  } else {
-     return next()
-  }
+    let id = req.params.venueId || req.body.venueId;
+    console.log("================");
+
+    id = parseInt(id);
+
+
+    const venue = await Venue.findByPk(id);
+
+    if(venue) {
+      return next()
+    } else {
+      throw new Error();
+    }
+  } catch(err) {
+
+    res.status(404)
+    return res.json({
+       message: "Venue couldn't be found"
+    })
+ }
 }
 
 const checkEventId = async function (req, res, next) {
-  const id = parseInt(req.params.eventId);
+  try {
 
-  const event = await Event.findByPk(id);
+    const id = parseInt(req.params.eventId);
 
-  if(!event) {
-     res.status(404)
-     return res.json({
-        message: "Event couldn't be found"
-     })
-  } else {
-     return next()
-  }
+    const event = await Event.findByPk(id);
+
+    if(event) {
+      return next()
+    } else {
+      throw new Error();
+    }
+  } catch(err) {
+
+    res.status(404)
+    return res.json({
+       message: "Event couldn't be found"
+    })
+ }
 }
 
-module.exports = { setTokenCookie, restoreUser, requireAuth, authorize, checkId, checkVenueId, checkEventId };
+module.exports = { setTokenCookie, restoreUser, requireAuth, groupAuthorize, venueAuthorize, eventAuthorize, checkId, checkVenueId, checkEventId };

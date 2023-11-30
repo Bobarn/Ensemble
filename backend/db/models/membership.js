@@ -23,8 +23,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     status: {
-      type: DataTypes.ENUM('pending', 'accepted'),
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        options(value) {
+          if(value !== 'member' && value !== 'co-host' && value !== 'pending') {
+            throw Error('status must be either "member", "co-host", or "pending"')
+          }
+        }
+      }
     }
   }, {
     sequelize,
