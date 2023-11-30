@@ -43,11 +43,10 @@ const validateEventPut = [
        .withMessage('Description is required'),
     check('startDate')
        .optional()
-       .toDate()
        .custom(value=>{
           let enteredDate=new Date(value);
           let todaysDate=new Date();
-          if(enteredDate < todaysDate){
+          if(enteredDate <= todaysDate){
               throw new Error("Start date must be in the future");
           }
           return true;
@@ -55,9 +54,12 @@ const validateEventPut = [
        .withMessage('Start date must be in the future'),
     check('endDate')
        .optional()
-       .toDate()
        .custom((endDate, { req }) => {
-          if (endDate.getTime() < req.body.startDate.getTime()) {
+
+        let enteredDate=new Date(endDate);
+        let startDate=new Date(req.body.startDate);
+
+          if (enteredDate.getTime() < startDate.getTime()) {
               throw new Error('End date is less than start date');
           }
           return true
@@ -176,6 +178,8 @@ router.put('/:eventId', checkEventId, checkVenueId, validateEventPut, requireAut
     const eventId = parseInt(req.params.eventId);
 
     const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+
+    // console.log(startDate);
 
     const venue = await Venue.findByPk(parseInt(venueId));
 

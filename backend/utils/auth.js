@@ -165,7 +165,7 @@ const eventAuthorize = async function (req, res, next) {
       }
     })
     if(req.method === 'POST') {
-      console.log(req.method, "ASASASASA");
+      // console.log(req.method, "ASASASASA");
 
 
       if(attendance.length) {

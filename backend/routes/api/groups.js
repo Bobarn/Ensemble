@@ -124,11 +124,10 @@ const validateEventPost = [
       .withMessage('Description is required'),
    check('startDate')
       .exists()
-      .toDate()
       .custom(value=>{
          let enteredDate=new Date(value);
          let todaysDate=new Date();
-         if(enteredDate < todaysDate){
+         if(enteredDate <= todaysDate){
              throw new Error("Start date must be in the future");
          }
          return true;
@@ -136,13 +135,16 @@ const validateEventPost = [
       .withMessage('Start date must be in the future'),
    check('endDate')
       .exists()
-      .toDate()
       .custom((endDate, { req }) => {
-         if (endDate.getTime() < req.body.startDate.getTime()) {
-             throw new Error('End date is less than start date');
-         }
-         return true
-     })
+
+         let enteredDate=new Date(endDate);
+         let startDate=new Date(req.body.startDate);
+
+           if (enteredDate.getTime() < startDate.getTime()) {
+               throw new Error('End date is less than start date');
+           }
+           return true
+       })
       .withMessage('End date is less than start date'),
 handleValidationErrors
 ]
