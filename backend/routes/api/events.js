@@ -318,7 +318,10 @@ router.post('/:eventId/attendance', requireAuth, checkEventId, async (req, res, 
     let membership = await Membership.findOne({
         where: {
             userId: user.id,
-            groupId: groupId
+            groupId: groupId,
+            status: {
+                [Op.in]: ['member', 'co-host']
+            }
         }
     });
 
