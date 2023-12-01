@@ -199,7 +199,7 @@ router.post('/:eventId/images', requireAuth, checkEventId, async (req, res) => {
     } else {
         const err = new Error('Forbidden');
         err.title = 'Require proper authorization'
-        err.status = 403;
+        res.status(403);
         err.errors = { message: 'Require proper authorization'};
         return res.json(err);
     }
@@ -306,7 +306,7 @@ router.get('/:eventId/attendees', checkEventId, async (req, res) => {
     }
 })
 
-router.post('/:eventId/attendance', checkEventId, async (req, res, next) => {
+router.post('/:eventId/attendance', requireAuth, checkEventId, async (req, res, next) => {
     const { user } = req;
 
     const eventId = parseInt(req.params.eventId);
@@ -427,7 +427,7 @@ router.put('/:eventId/attendance', requireAuth, checkEventId, eventAuthorize, as
      });
 })
 
-router.delete('/:eventId/attendance', requireAuth, checkEventId, async (req, res) => {
+router.delete('/:eventId/attendance', requireAuth, checkEventId, async (req, res, next) => {
     const { user } = req;
 
     const eventId = parseInt(req.params.eventId);
@@ -464,6 +464,12 @@ router.delete('/:eventId/attendance', requireAuth, checkEventId, async (req, res
         return res.json( {
             "message": "Successfully deleted attendance from event"
           })
+    } else {
+        const err = new Error('Forbidden');
+        err.title = 'Require proper authorization'
+        err.status = 403;
+        err.errors = { message: 'Require proper authorization'};
+        return next(err);
     }
 })
 

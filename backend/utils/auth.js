@@ -167,16 +167,23 @@ const venueAuthorize = async function (req, res, next) {
 
   let venueGroup;
 
+
   const venueId = parseInt(req.params.venueId);
 
   if(venueId){
     venue = await Venue.findByPk(venueId);
 
     venueGroup = await Group.findByPk(venue.groupId);
- }
+  }
+  let status = await Membership.findOne({
+    where: {
+      userId: user.id,
+      groupId: venue.groupId
+    }
+  })
 
  if(venueGroup) {
-  if (venueGroup.organizerId === user.id) {
+  if (venueGroup.organizerId === user.id || status.status === 'co-host') {
     return next();
   }
   else {

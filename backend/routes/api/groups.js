@@ -688,7 +688,7 @@ router.delete('/:groupId/membership', requireAuth, checkId, async (req, res) => 
    } else {
       const err = new Error('Forbidden');
       err.title = 'Require proper authorization'
-      err.status = 403;
+      res.status(403);
       err.errors = { message: 'Require proper authorization'};
 
       return res.json(err)
