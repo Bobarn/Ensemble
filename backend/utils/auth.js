@@ -185,16 +185,16 @@ const venueAuthorize = async function (req, res, next) {
   })
 
  if(venueGroup) {
-  if (venueGroup.organizerId === user.id || status.status === 'co-host') {
+  if (venueGroup.organizerId === user.id) {
     return next();
+  } else if(status && status.status === 'co-host') {
+      return next();
   }
-  else {
     const err = new Error('Forbidden');
     err.title = 'Require proper authorization'
     err.status = 403;
     err.errors = { message: 'Require proper authorization'};
     return next(err);
-  }
 }
 }
 
