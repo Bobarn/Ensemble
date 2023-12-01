@@ -91,7 +91,7 @@ const validateEventPut = [
         .withMessage('Size must be greater than or equal to 1'),
     query('name')
         .optional()
-        .isString()
+        .isAlpha('en-US', {ignore: [' ', '-', '"']})
         .withMessage('Name must be a string'),
     query('type')
         .optional()
