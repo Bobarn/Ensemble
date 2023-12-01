@@ -335,6 +335,25 @@ router.post('/:eventId/attendance', requireAuth, checkEventId, async (req, res, 
         return next(err);
     } else {
 
+        let attendance = await Attendance.findOne({
+            userId: user.id,
+            eventId: eventId
+        })
+
+        if(attendance) {
+            res.status(400);
+
+            if(attendance.status === 'pending') {
+                res.json({
+                    "message": "Attendance has already been requested"
+                  })
+            } else {
+                res.json(  {
+                    "message": "User is already an attendee of the event"
+                  })
+            }
+        }
+
         await Attendance.create({
             userId: user.id,
             eventId: eventId,

@@ -167,6 +167,8 @@ const venueAuthorize = async function (req, res, next) {
 
   let venueGroup;
 
+  let status;
+
 
   const venueId = parseInt(req.params.venueId);
 
@@ -175,7 +177,7 @@ const venueAuthorize = async function (req, res, next) {
 
     venueGroup = await Group.findByPk(venue.groupId);
   }
-  let status = await Membership.findOne({
+    status = await Membership.scope('specific').findOne({
     where: {
       userId: user.id,
       groupId: venue.groupId
