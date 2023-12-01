@@ -152,7 +152,7 @@ router.get('/:eventId', checkEventId, async (req, res) => {
     return res.json(event)
 })
 
-router.post('/:eventId/images', checkEventId, requireAuth, async (req, res) => {
+router.post('/:eventId/images', requireAuth, checkEventId, async (req, res) => {
 
     const { user } = req;
 
@@ -205,7 +205,7 @@ router.post('/:eventId/images', checkEventId, requireAuth, async (req, res) => {
     }
 })
 
-router.put('/:eventId', checkEventId, checkVenueId, validateEventPut, requireAuth, eventAuthorize, async (req, res) => {
+router.put('/:eventId', requireAuth, checkEventId, checkVenueId, validateEventPut, eventAuthorize, async (req, res) => {
 
     const eventId = parseInt(req.params.eventId);
 
@@ -236,7 +236,7 @@ router.put('/:eventId', checkEventId, checkVenueId, validateEventPut, requireAut
     return res.json(newEvent);
 })
 
-router.delete('/:eventId', checkEventId, requireAuth, eventAuthorize, async (req, res) => {
+router.delete('/:eventId', requireAuth, checkEventId, eventAuthorize, async (req, res) => {
 
     let eventId = req.params.eventId;
 
@@ -344,7 +344,7 @@ router.post('/:eventId/attendance', checkEventId, async (req, res, next) => {
 
 })
 
-router.put('/:eventId/attendance', checkEventId, requireAuth, eventAuthorize, async (req, res, next) => {
+router.put('/:eventId/attendance', requireAuth, checkEventId, eventAuthorize, async (req, res, next) => {
 
     const { user } = req;
 
@@ -427,7 +427,7 @@ router.put('/:eventId/attendance', checkEventId, requireAuth, eventAuthorize, as
      });
 })
 
-router.delete('/:eventId/attendance', checkEventId, requireAuth, async (req, res) => {
+router.delete('/:eventId/attendance', requireAuth, checkEventId, async (req, res) => {
     const { user } = req;
 
     const eventId = parseInt(req.params.eventId);

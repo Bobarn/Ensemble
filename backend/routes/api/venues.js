@@ -34,7 +34,7 @@ const validateVenueEdit = [
     handleValidationErrors
   ];
 
-router.put('/:venueId', checkVenueId, requireAuth, venueAuthorize, validateVenueEdit, async (req, res) => {
+router.put('/:venueId', requireAuth, checkVenueId, venueAuthorize, validateVenueEdit, async (req, res) => {
 
 
 

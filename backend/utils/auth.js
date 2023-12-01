@@ -75,6 +75,47 @@ const requireAuth = function (req, _res, next) {
 
 // Check to see that current user is the organizer of the target group
 
+const strictGroupAuthorize = async function (req, res, next) {
+
+  const { user } = req;
+
+  let group;
+
+  let status;
+
+
+  const groupId = parseInt(req.params.groupId);
+
+
+
+  if(groupId) {
+
+    group = await Group.findByPk(groupId);
+
+    status = await Membership.findOne({
+       where: {
+         userId: user.id,
+         groupId: groupId
+       }
+     })
+  }
+
+if(group) {
+
+
+  if(user.id == group.organizerId) {
+    return next();
+  }
+  else {
+    const err = new Error('Forbidden');
+    err.title = 'Require proper authorization'
+    err.status = 403;
+    err.errors = { message: 'Require proper authorization'};
+    return next(err);
+    }
+  }
+}
+
 const groupAuthorize = async function (req, res, next) {
   const { user } = req;
 
@@ -364,4 +405,4 @@ const checkEventId = async function (req, res, next) {
  }
 }
 
-module.exports = { setTokenCookie, restoreUser, requireAuth, groupAuthorize, venueAuthorize, eventAuthorize, checkId, checkVenueId, checkEventId, groupImageAuthorize, eventImageAuthorize };
+module.exports = { setTokenCookie, restoreUser, requireAuth, strictGroupAuthorize, groupAuthorize, venueAuthorize, eventAuthorize, checkId, checkVenueId, checkEventId, groupImageAuthorize, eventImageAuthorize };

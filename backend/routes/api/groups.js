@@ -292,7 +292,7 @@ router.post('/', requireAuth, validateGroupPost, async (req, res) => {
 
 })
 
-router.post('/:groupId/images', checkId, requireAuth, groupAuthorize, async (req, res) => {
+router.post('/:groupId/images', requireAuth, checkId, strictGroupAuthorize, async (req, res) => {
 
    const id = parseInt(req.params.groupId);
 
@@ -320,7 +320,7 @@ router.post('/:groupId/images', checkId, requireAuth, groupAuthorize, async (req
    res.json(result)
 })
 
-router.put('/:groupId', checkId, requireAuth, groupAuthorize, validateGroupEdit, async (req, res) => {
+router.put('/:groupId', requireAuth, checkId, strictGroupAuthorize, validateGroupEdit, async (req, res) => {
    const id = parseInt(req.params.groupId);
 
    const { name, about, type, private, city, state } = req.body;
@@ -344,7 +344,7 @@ router.put('/:groupId', checkId, requireAuth, groupAuthorize, validateGroupEdit,
    return res.json(group);
 })
 
-router.delete('/:groupId', checkId, requireAuth, groupAuthorize, async (req, res) => {
+router.delete('/:groupId', requireAuth, checkId, strictGroupAuthorize, async (req, res) => {
 
    const id = parseInt(req.params.groupId);
 
@@ -355,7 +355,7 @@ router.delete('/:groupId', checkId, requireAuth, groupAuthorize, async (req, res
    return res.json({ message: 'Successfully deleted'})
 })
 
-router.get('/:groupId/venues', checkId, requireAuth, groupAuthorize, async (req, res) => {
+router.get('/:groupId/venues', requireAuth, checkId, groupAuthorize, async (req, res) => {
 
    const groupId = parseInt(req.params.groupId);
 
@@ -366,7 +366,7 @@ router.get('/:groupId/venues', checkId, requireAuth, groupAuthorize, async (req,
    return res.json({Venues: venues});
 })
 
-router.post('/:groupId/venues', checkId, requireAuth, groupAuthorize, validateVenuePost, async (req, res) => {
+router.post('/:groupId/venues', requireAuth, checkId, groupAuthorize, validateVenuePost, async (req, res) => {
 
    const groupId = parseInt(req.params.groupId);
 
@@ -430,7 +430,7 @@ router.get('/:groupId/events', checkId, async (req, res) => {
    })
 })
 
-router.post('/:groupId/events', checkId, validateEventPost, requireAuth, groupAuthorize, async (req, res) => {
+router.post('/:groupId/events', requireAuth, checkId, validateEventPost, groupAuthorize, async (req, res) => {
 
    const groupId = parseInt(req.params.groupId);
 
@@ -510,7 +510,7 @@ router.get('/:groupId/members', checkId, async (req, res) => {
 
 })
 
-router.post('/:groupId/membership', checkId, requireAuth, async (req, res) => {
+router.post('/:groupId/membership', requireAuth, checkId, async (req, res) => {
 
    const { user } = req;
 
@@ -561,7 +561,7 @@ router.post('/:groupId/membership', checkId, requireAuth, async (req, res) => {
 
 })
 
-router.put('/:groupId/membership', checkId, requireAuth, groupAuthorize, async (req, res) => {
+router.put('/:groupId/membership', requireAuth, checkId, groupAuthorize, async (req, res) => {
 
    const { user } = req;
 
@@ -642,7 +642,7 @@ router.put('/:groupId/membership', checkId, requireAuth, groupAuthorize, async (
 
 });
 
-router.delete('/:groupId/membership', checkId, requireAuth, async (req, res) => {
+router.delete('/:groupId/membership', requireAuth, checkId, async (req, res) => {
 
    const { user } = req;
 
