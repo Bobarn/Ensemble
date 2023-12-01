@@ -93,7 +93,7 @@ const validateGroupPost = [
 
 const validateEventPost = [
    check('venueId')
-      .exists()
+      .exists({ checkFalsy: true })
       .isInt()
       .withMessage('Venue does not exist'),
    check('name')
@@ -121,8 +121,9 @@ const validateEventPost = [
       })
       .withMessage('Price is invalid'),
    check('description')
-      .exists()
-      .isAlpha('en-US', {ignore: [' ', '-', '!', '.', '?', "'", '"', '(', ')']})
+      .exists({ checkFalsy: true })
+      // .isAlpha('en-US', {ignore: [' ', '-', '!', '.', '?', "'", '"', '(', ')']})
+      .isString()
       .withMessage('Description is required'),
    check('startDate')
       .exists()

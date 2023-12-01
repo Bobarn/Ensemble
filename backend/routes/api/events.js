@@ -165,7 +165,7 @@ router.get('/', validateEventQuery, async (req, res) => {
     }
     if(startDate) {
         startDate = startDate.slice(1, startDate.length - 1)
-        queryObj.where.startDate = startDate;
+        queryObj.where.startDate = new Date(startDate);
         console.log(queryObj);
     }
 
@@ -435,20 +435,26 @@ router.post('/:eventId/attendance', requireAuth, checkEventId, async (req, res, 
         return next(err);
     } else {
 
-        let attendance = await Attendance.findOne({
-            userId: user.id,
-            eventId: eventId
+        // console.log(eventId);
+
+        let attendance = await Attendance.scope('specific').findOne({
+            where: {
+                userId: user.id,
+                eventId: eventId
+            }
         })
+
+        console.log(attendance);
 
         if(attendance) {
             res.status(400);
 
             if(attendance.status === 'pending') {
-                res.json({
+                return res.json({
                     "message": "Attendance has already been requested"
                   })
             } else {
-                res.json(  {
+                return res.json(  {
                     "message": "User is already an attendee of the event"
                   })
             }

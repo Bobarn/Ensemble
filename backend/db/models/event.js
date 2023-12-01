@@ -56,11 +56,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [1, 60]
+      }
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [1, 1000]
+      }
     },
     type: {
       type: DataTypes.STRING,
@@ -75,11 +81,23 @@ module.exports = (sequelize, DataTypes) => {
     },
     capacity: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        min: 1
+      }
     },
     price: {
       type: DataTypes.DECIMAL,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        checkDecimals(value) {
+          value = value.toFixed(2);
+
+          if(value.toString().split('.')[1].length > 2) {
+             throw new Error("Price is invalid")
+          }
+        }
+      }
     },
     startDate: {
       type: DataTypes.DATE,

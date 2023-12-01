@@ -69,11 +69,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [4, 100]
+        len: [1, 60]
       }
     },
     about: {
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
+      validate: {
+        len: [50, 1000]
+      }
     },
     type: {
       type: DataTypes.STRING,
@@ -91,15 +94,17 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     city: {
+      allowNull: false,
       type: DataTypes.STRING,
       validate: {
-        len: [0, 50]
+        len: [1, 50],
       }
     },
     state: {
+      allowNull: false,
       type:DataTypes.STRING,
       validate: {
-        len: [0, 50]
+        len: [1, 50]
       }
     }
   }, {
