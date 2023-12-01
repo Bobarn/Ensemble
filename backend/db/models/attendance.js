@@ -23,12 +23,24 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     status: {
-      type: DataTypes.ENUM('present', 'unknown', 'absent'),
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        options(value) {
+          if(value !== 'attending' && value !== 'pending' && value !== 'waitlist') {
+            throw Error('type must be either "attending", "pending", or "waitlist"')
+          }
+        }
+      }
     }
   }, {
     sequelize,
     modelName: 'Attendance',
+    defaultScope: {
+      attributes: {
+        exclude: ['createdAt', 'updatedAt', 'userId', 'eventId']
+      }
+    }
   });
   return Attendance;
 };

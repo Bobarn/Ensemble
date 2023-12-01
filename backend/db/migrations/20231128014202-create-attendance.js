@@ -32,7 +32,7 @@ module.exports = {
         onDelete: 'CASCADE'
       },
       status: {
-        type: Sequelize.ENUM('present', 'unknown', 'absent'),
+        type: Sequelize.STRING,
         allowNull: false
       },
       createdAt: {

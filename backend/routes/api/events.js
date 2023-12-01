@@ -2,7 +2,7 @@
 const express = require('express');
 
 const { setTokenCookie, requireAuth, eventAuthorize, checkEventId, checkVenueId } = require('../../utils/auth');
-const { Event, Venue, Group, EventImage } = require('../../db/models');
+const { Event, Venue, Group, EventImage, Membership, Attendance } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -219,6 +219,97 @@ router.delete('/:eventId', checkEventId, requireAuth, eventAuthorize, async (req
     return res.json({
         "message": "Successfully deleted"
     })
+})
+
+router.get('/:eventId/attendees', checkEventId, async (req, res) => {
+
+    const { user } = req;
+
+    let attendees;
+
+    let result = [];
+
+    let event = await Event.findByPk(parseInt(req.params.eventId));
+
+    let groupId = event.groupId;
+
+    const group = await Group.findByPk(groupId);
+
+    let cohosts = await Membership.findOne({
+       where: {
+          userId: user.id,
+          groupId: group.id,
+          status: 'co-host'
+       }
+    })
+
+    if(group.organizerId === user.id || cohosts) {
+       attendees = await event.getUsers({
+          attributes: {
+             exclude: ['username']
+          },
+          through: ['status']
+       })
+
+       return res.json({
+          Attendees: attendees
+       })
+
+    } else {
+       attendees = await event.getUsers({
+          attributes: {
+             exclude: ['username']
+          },
+          through: ['status']
+       })
+       for(let attendee of attendees) {
+
+          if(attendee.Attendance.status !== 'pending') {
+             result.push(attendee);
+          }
+       }
+       return res.json({
+          Attendees: result
+       });
+    }
+})
+
+router.post('/:eventId/attendance', checkEventId, async (req, res, next) => {
+    const { user } = req;
+
+    const eventId = parseInt(req.params.eventId);
+
+    let event = await Event.findByPk(eventId);
+
+    let groupId = event.groupId;
+
+    let membership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: groupId
+        }
+    });
+
+    if(!membership) {
+        const err = new Error('Forbidden');
+        err.title = 'Require proper authorization'
+        err.status = 403;
+        err.errors = { message: 'Require proper authorization'};
+        return next(err);
+    } else {
+
+        await Attendance.create({
+            userId: user.id,
+            eventId: eventId,
+            status: 'pending'
+        })
+
+        return res.json({
+            userId: user.id,
+            status: 'pending'
+        })
+    }
+
 })
 
 module.exports = router;
