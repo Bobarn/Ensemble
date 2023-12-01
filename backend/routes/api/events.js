@@ -5,6 +5,8 @@ const { setTokenCookie, requireAuth, eventAuthorize, checkEventId, checkVenueId 
 const { Event, Venue, Group, EventImage, Membership, Attendance, User } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 const router = express.Router();
 
