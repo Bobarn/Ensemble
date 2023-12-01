@@ -152,13 +152,37 @@ router.get('/:eventId', checkEventId, async (req, res) => {
     return res.json(event)
 })
 
-router.post('/:eventId/images', checkEventId, requireAuth, eventAuthorize, async (req, res) => {
+router.post('/:eventId/images', checkEventId, requireAuth, async (req, res) => {
+
+    const { user } = req;
+
 
     const { url, preview} = req.body;
 
     const eventId = parseInt(req.params.eventId);
 
+    let attendance = await Attendance.findOne({
+        where: {
+            eventId: eventId,
+            userId: user.id,
+            status: 'attending'
+        }
+    })
+
     let event = await Event.findByPk(eventId)
+
+    let group = await Group.findByPk(event.groupId);
+
+        let membership = await Membership.findOne({
+            where: {
+                groupId: event.groupId,
+                userId: user.id,
+                status: 'co-host'
+            }
+        })
+
+    if(attendance || membership || group.organizerId == user.id) {
+
 
     let image = {url, preview}
 
@@ -171,6 +195,14 @@ router.post('/:eventId/images', checkEventId, requireAuth, eventAuthorize, async
     });
 
     return res.json(image);
+
+    } else {
+        const err = new Error('Forbidden');
+        err.title = 'Require proper authorization'
+        err.status = 403;
+        err.errors = { message: 'Require proper authorization'};
+        return res.json(err);
+    }
 })
 
 router.put('/:eventId', checkEventId, checkVenueId, validateEventPut, requireAuth, eventAuthorize, async (req, res) => {
