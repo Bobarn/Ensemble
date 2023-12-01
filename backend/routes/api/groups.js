@@ -1,7 +1,7 @@
 // backend/routes/api/groups.js
 const express = require('express');
 
-const { setTokenCookie, requireAuth, groupAuthorize, checkId } = require('../../utils/auth');
+const { setTokenCookie, requireAuth, strictGroupAuthorize, groupAuthorize, checkId } = require('../../utils/auth');
 const { Group, GroupImage, Venue, Event, Membership, User } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -187,7 +187,7 @@ router.get('/', async (req, res) => {
  })
 })
 
-router.get('/current', async (req, res) => {
+router.get('/current', requireAuth, async (req, res) => {
  const { user } = req;
 
  let groups
