@@ -135,7 +135,8 @@ const groupAuthorize = async function (req, res, next) {
     status = await Membership.findOne({
        where: {
          userId: user.id,
-         groupId: groupId
+         groupId: groupId,
+         status: 'co-host'
        }
      })
   }
@@ -146,8 +147,7 @@ if(group) {
   if(user.id == group.organizerId) {
     return next();
   }
-  else if(status.status === 'co-host') {
-
+  else if(status) {
     return next()
   }
   else {
