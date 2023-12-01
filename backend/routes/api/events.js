@@ -3,7 +3,7 @@ const express = require('express');
 
 const { setTokenCookie, requireAuth, eventAuthorize, checkEventId, checkVenueId } = require('../../utils/auth');
 const { Event, Venue, Group, EventImage, Membership, Attendance, User } = require('../../db/models');
-const { check } = require('express-validator');
+const { check, query } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
@@ -70,17 +70,117 @@ const validateEventPut = [
  handleValidationErrors
  ]
 
-router.get('/', async (req, res) => {
+ const validateEventQuery = [
+    query('page')
+        .default('1')
+        .custom((value) => {
+            if(parseInt(value) < 1) {
+                throw new Error('Page must be greater than or equal to 1')
+            }
+            return true
+        })
+        .withMessage('Page must be greater than or equal to 1'),
+    query('size')
+        .default('20')
+        .custom((value) => {
+            if(parseInt(value) < 1) {
+                throw new Error('Size must be greater than or equal to 1')
+            }
+            return true
+        })
+        .withMessage('Size must be greater than or equal to 1'),
+    query('name')
+        .optional()
+        .isString()
+        .withMessage('Name must be a string'),
+    query('type')
+        .optional()
+        .isIn(['"Online"', '"In person"'])
+        .withMessage('Type must be "Online" or "In person"'),
+    query('startDate')
+        .optional()
+        .custom((startDate) => {
 
-    const Events = await Event.findAll({
-        include: [{
-            model: Group,
-            attributes: ['id', 'name', 'city', 'state']
-        }, {
-            model: Venue,
-            attributes: ['id', 'city', 'state']
-        }]
-    });
+            startDate = startDate.slice(1, startDate.length - 1)
+
+
+            startDate = new Date(startDate);
+
+              if (!startDate.getTime()) {
+                  throw new Error('Start date must be a valid datetime');
+              }
+              return true
+          })
+        .withMessage('Start date must be a valid datetime'),
+    handleValidationErrors
+ ]
+
+router.get('/', validateEventQuery, async (req, res) => {
+
+    let { page, size, name, type, startDate } = req.query;
+
+    page = parseInt(page);
+
+    if(page > 10) {
+        page = 10;
+    }
+
+    size = parseInt(size);
+
+    if(size > 20) {
+        size = 20;
+    }
+
+    let queryObj = {};
+
+    queryObj.include = [{
+        model: Group,
+        attributes: ['id', 'name', 'city', 'state']
+    }, {
+        model: Venue,
+        attributes: ['id', 'city', 'state']
+    }]
+
+    let limit = size;
+
+    let offset = (page - 1) * size;
+
+    queryObj.limit = limit;
+
+    queryObj.offset = offset;
+
+    console.log(queryObj);
+
+    if(name) {
+        queryObj.where = {};
+
+        name = name.slice(1, name.length - 1)
+        queryObj.where.name = name;
+        console.log(queryObj);
+    }
+    if(type) {
+        type = type.slice(1, type.length - 1)
+        queryObj.where.type = type;
+        console.log(queryObj);
+    }
+    if(startDate) {
+        startDate = startDate.slice(1, startDate.length - 1)
+        queryObj.where.startDate = startDate;
+        console.log(queryObj);
+    }
+
+    const Events = await Event.findAll(queryObj)
+
+    // const Events = await Event.findAll({
+    //     include: [{
+    //         model: Group,
+    //         attributes: ['id', 'name', 'city', 'state']
+    //     }, {
+    //         model: Venue,
+    //         attributes: ['id', 'city', 'state']
+    //     }],
+
+    // });
 
     let allEvents = []
 
