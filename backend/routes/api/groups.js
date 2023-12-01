@@ -642,24 +642,17 @@ router.put('/:groupId/membership', checkId, requireAuth, groupAuthorize, async (
 
 });
 
-router.delete('/:groupId/membership', checkId, requireAuth, groupAuthorize, async (req, res) => {
+router.delete('/:groupId/membership', checkId, requireAuth, async (req, res) => {
 
    const { user } = req;
 
    const { memberId } = req.body;
 
-   // console.log(memberId);
-
    const groupId = parseInt(req.params.groupId);
 
    let group = await Group.findByPk(groupId);
 
-   // console.log("GROUP", group);
-
    let memberUser = await User.findByPk(memberId);
-
-   // console.log("MEMBER USER", memberUser)
-
 
    let member = await Membership.scope('specific').findOne({
       where: {
@@ -667,8 +660,6 @@ router.delete('/:groupId/membership', checkId, requireAuth, groupAuthorize, asyn
          groupId: groupId
       }
    })
-
-   console.log("MEMBER", member[0])
 
    if(!memberUser) {
 

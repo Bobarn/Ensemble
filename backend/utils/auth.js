@@ -1,7 +1,7 @@
 // backend/utils/auth.js
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
-const { User, Group, Membership, Venue, Event } = require('../db/models');
+const { User, Group, Membership, Venue, Event, GroupImage, EventImage } = require('../db/models');
 
 const { secret, expiresIn } = jwtConfig;
 
@@ -106,18 +106,7 @@ if(group) {
     return next();
   }
   else if(status.status === 'co-host') {
-    console.log('==============================')
-    // if(status.status === 'co-host') {
-    //     return next()
-    //   }
-    // }
-    // else {
-    //   const err = new Error('Forbidden');
-    //   err.title = 'Require proper authorization'
-    //   err.status = 403;
-    //   err.errors = { message: 'Require proper authorization'};
-    //   return next(err);
-    // }
+
     return next()
   }
   else {
@@ -221,7 +210,89 @@ const eventAuthorize = async function (req, res, next) {
   }
 }
 
+const groupImageAuthorize = async function (req, res, next) {
 
+    const { user } = req;
+
+    const imageId = req.params.imageId;
+
+    let image = await GroupImage.scope('specific').findByPk(imageId)
+
+    if(!image) {
+      res.status(404)
+      return res.json({
+         message: "Group image couldn't be found"
+      })
+    }
+
+    let groupId = image.groupId;
+
+    let group = await Group.findByPk(groupId);
+
+    let cohost = await Membership.findOne({
+      where: {
+        userId: user.id,
+        groupId: groupId,
+        status: 'co-host'
+      }
+    })
+
+
+    if(cohost || group.organizerId == user.id) {
+      return next();
+    }  else {
+      const err = new Error('Forbidden');
+      err.title = 'Require proper authorization'
+      err.status = 403;
+      err.errors = { message: 'Require proper authorization'};
+      return next(err);
+    }
+
+}
+
+const eventImageAuthorize = async function (req, res, next) {
+
+  const { user } = req;
+
+  const imageId = req.params.imageId;
+
+  let image = await EventImage.findByPk(imageId)
+
+  if(!image) {
+    res.status(404)
+    return res.json({
+       message: "Event image couldn't be found"
+    })
+  }
+
+  let eventId = image.eventId;
+
+  let event = await Event.findByPk(eventId);
+
+  let groupId = event.groupId;
+
+  let group = await Group.findByPk(groupId);
+
+  let cohost = await Membership.findOne({
+    where: {
+      userId: user.id,
+      groupId: groupId,
+      status: 'co-host'
+    }
+  })
+
+
+  if(cohost || group.organizerId == user.id) {
+    return next();
+  }  else {
+    const err = new Error('Forbidden');
+    err.title = 'Require proper authorization'
+    err.status = 403;
+    err.errors = { message: 'Require proper authorization'};
+    return next(err);
+  }
+
+}
 
 const checkId = async function (req, res, next) {
 
@@ -293,4 +364,4 @@ const checkEventId = async function (req, res, next) {
  }
 }
 
-module.exports = { setTokenCookie, restoreUser, requireAuth, groupAuthorize, venueAuthorize, eventAuthorize, checkId, checkVenueId, checkEventId };
+module.exports = { setTokenCookie, restoreUser, requireAuth, groupAuthorize, venueAuthorize, eventAuthorize, checkId, checkVenueId, checkEventId, groupImageAuthorize, eventImageAuthorize };

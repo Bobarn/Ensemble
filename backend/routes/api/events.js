@@ -2,7 +2,7 @@
 const express = require('express');
 
 const { setTokenCookie, requireAuth, eventAuthorize, checkEventId, checkVenueId } = require('../../utils/auth');
-const { Event, Venue, Group, EventImage, Membership, Attendance } = require('../../db/models');
+const { Event, Venue, Group, EventImage, Membership, Attendance, User } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -310,6 +310,129 @@ router.post('/:eventId/attendance', checkEventId, async (req, res, next) => {
         })
     }
 
+})
+
+router.put('/:eventId/attendance', checkEventId, requireAuth, eventAuthorize, async (req, res, next) => {
+
+    const { user } = req;
+
+    const eventId = parseInt(req.params.eventId);
+
+    let event = await Event.findByPk(eventId);
+
+    let groupId = event.groupId;
+
+    const { userId, status } = req.body;
+
+    let attendanceUser = await User.findByPk(userId);
+
+    let attendance = await Attendance.scope('specific').findOne({
+       where: {
+          userId: userId,
+          eventId: eventId
+       }
+    })
+
+    if(!attendanceUser) {
+
+       res.status(400);
+
+       return res.json(    {
+          "message": "Validation Error",
+          "errors": {
+            "userId": "User couldn't be found"
+          }
+       });
+
+    } else if (!attendance) {
+       res.status(404);
+
+       return res.json( {
+          "message": "Attendance between the user and the event does not exist"
+        });
+    }
+
+
+    let group = await Group.findByPk(groupId);
+
+    let organizer = group.organizerId;
+
+    let membership = await Membership.findOne({
+       where: {
+         userId: user.id,
+         groupId: groupId,
+         status: 'co-host'
+       }
+     });
+
+     if(status === 'pending') {
+       res.status(400);
+
+       return res.json( {
+          "message": "Validations Error",
+          "errors": {
+            "status" : "Cannot change an attendance status to pending"
+          }
+        })
+     }
+
+     if((organizer == user.id || membership)) {
+       attendance.status = status;
+
+     } else {
+        const err = new Error('Forbidden');
+        err.title = 'Require proper authorization'
+        err.status = 403;
+        err.errors = { message: 'Require proper authorization'};
+        return next(err);
+     }
+     await attendance.save();
+     res.json({
+       id: attendance.id,
+       groupId: groupId,
+       memberId: attendance.userId,
+       status: attendance.status
+     });
+})
+
+router.delete('/:eventId/attendance', checkEventId, requireAuth, async (req, res) => {
+    const { user } = req;
+
+    const eventId = parseInt(req.params.eventId);
+
+    const { userId } = req.body;
+
+    let event = await Event.findByPk(eventId, {
+        include: {
+            model: Group
+        }
+    })
+
+
+    let organizerId = event.Group.organizerId;
+
+    let attendance = await Attendance.scope('specific').findOne({
+        where: {
+            eventId: eventId,
+            userId: userId
+        }
+    })
+
+    if(!attendance) {
+        res.status(404);
+
+        return res.json( {
+           "message": "Attendance does not exist for this user"
+         });
+    }
+
+    if(userId == user.id || user.id == organizerId) {
+        await attendance.destroy();
+
+        return res.json( {
+            "message": "Successfully deleted attendance from event"
+          })
+    }
 })
 
 module.exports = router;
