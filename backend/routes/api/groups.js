@@ -421,7 +421,11 @@ router.get('/:groupId/events', checkId, async (req, res) => {
 
       event.numAttending = numAttending;
 
-      event.previewImage = previewImage[0].url;
+      if(previewImage.length) {
+
+         event.previewImage = previewImage[0].url;
+
+      }
 
       Events.push(event);
    }
@@ -562,7 +566,7 @@ router.post('/:groupId/membership', requireAuth, checkId, async (req, res) => {
 
 })
 
-router.put('/:groupId/membership', requireAuth, checkId, groupAuthorize, async (req, res) => {
+router.put('/:groupId/membership', requireAuth, checkId, groupAuthorize, async (req, res, next) => {
 
    const { user } = req;
 
@@ -628,10 +632,11 @@ router.put('/:groupId/membership', requireAuth, checkId, groupAuthorize, async (
     } else if(organizer == user.id && status === 'co-host') {
       member.status = status;
     } else {
-      res.status(400)
-      return res.json({
-         message: "Status must be either 'member' or 'co-host'"
-      })
+      const err = new Error('Forbidden');
+      err.title = 'Require proper authorization'
+      err.status = 403;
+      err.errors = { message: 'Require proper authorization'};
+      return next(err);
     }
     await member.save();
     res.json({

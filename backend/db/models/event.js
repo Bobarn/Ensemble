@@ -87,7 +87,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     price: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       allowNull: false,
       validate: {
         checkDecimals(value) {

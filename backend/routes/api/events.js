@@ -95,14 +95,11 @@ const validateEventPut = [
         .withMessage('Name must be a string'),
     query('type')
         .optional()
-        .isIn(['"Online"', '"In person"'])
+        .isIn(['Online', 'In person'])
         .withMessage('Type must be "Online" or "In person"'),
     query('startDate')
         .optional()
         .custom((startDate) => {
-
-            startDate = startDate.slice(1, startDate.length - 1)
-
 
             startDate = new Date(startDate);
 
@@ -149,38 +146,24 @@ router.get('/', validateEventQuery, async (req, res) => {
 
     queryObj.offset = offset;
 
-    console.log(queryObj);
+    // console.log(queryObj);
 
+    queryObj.where = {};
     if(name) {
-        queryObj.where = {};
-
-        name = name.slice(1, name.length - 1)
         queryObj.where.name = name;
-        console.log(queryObj);
+        // console.log(queryObj);
     }
     if(type) {
-        type = type.slice(1, type.length - 1)
         queryObj.where.type = type;
-        console.log(queryObj);
+        // console.log(queryObj);
     }
     if(startDate) {
-        startDate = startDate.slice(1, startDate.length - 1)
         queryObj.where.startDate = new Date(startDate);
-        console.log(queryObj);
+        // console.log(new Date('10-22-2023'));
+        // console.log(queryObj);
     }
 
     const Events = await Event.findAll(queryObj)
-
-    // const Events = await Event.findAll({
-    //     include: [{
-    //         model: Group,
-    //         attributes: ['id', 'name', 'city', 'state']
-    //     }, {
-    //         model: Venue,
-    //         attributes: ['id', 'city', 'state']
-    //     }],
-
-    // });
 
     let allEvents = []
 
