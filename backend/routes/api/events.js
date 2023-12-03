@@ -14,6 +14,14 @@ const validateEventPut = [
     check('venueId')
        .optional()
        .isInt()
+       .custom(async (value) => {
+        let venue = await Venue.findByPk(value);
+
+        if(!venue) {
+            throw new Error("Venue does not exist")
+        }
+        return true
+       })
        .withMessage('Venue does not exist'),
     check('name')
        .optional()
@@ -56,10 +64,16 @@ const validateEventPut = [
        .withMessage('Start date must be in the future'),
     check('endDate')
        .optional()
-       .custom((endDate, { req }) => {
+       .custom(async (endDate, { req }) => {
+        let event = await Event.findByPk(parseInt(req.params.eventId))
+        let start = event.startDate;
+
+        if(req.body.startDate) {
+            start = req.body.startDate;
+        }
 
         let enteredDate=new Date(endDate);
-        let startDate=new Date(req.body.startDate);
+        let startDate=new Date(start);
 
           if (enteredDate.getTime() < startDate.getTime()) {
               throw new Error('End date is less than start date');
@@ -290,29 +304,29 @@ router.post('/:eventId/images', requireAuth, checkEventId, async (req, res) => {
     }
 })
 
-router.put('/:eventId', requireAuth, checkEventId, checkVenueId, validateEventPut, eventAuthorize, async (req, res) => {
+router.put('/:eventId', requireAuth, checkEventId, validateEventPut, eventAuthorize, async (req, res) => {
 
     const eventId = parseInt(req.params.eventId);
 
     const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
 
-    // console.log(startDate);
-
-    const venue = await Venue.findByPk(parseInt(venueId));
-
-    if(!venue) {
-       res.status(400);
-       res.json({
-          message: 'Bad Request',
-          errors: {
-             venueId: "Venue does not exist"
-          }
-       })
-    }
-
     let event = await Event.findByPk(eventId);
 
-    event.set({ venueId, name, type, capacity, price, description, startDate, endDate });
+    event.venueId = venueId !== undefined ? venueId : event.venueId;
+
+    event.name = name !== undefined ? name : event.name;
+
+    event.type = type !== undefined ? type : event.type;
+
+    event.capacity = capacity !== undefined ? capacity : event.capacity;
+
+    event.price = price !== undefined ? price : event.price;
+
+    event.description = description !== undefined ? description : event.description;
+
+    event.startDate = startDate !== undefined ? startDate : event.startDate;
+
+    event.endDate = endDate !== undefined ? endDate : event.endDate;
 
     event = await event.save();
 
