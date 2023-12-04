@@ -49,7 +49,25 @@ module.exports = {
         private: false,
         city: 'Jacksonville',
         state: 'Florida'
-      }
+      },
+      {
+        organizerId: 4,
+        name: 'MinuteMen',
+        about: 'A casual historical re-enactment group',
+        type: 'In person',
+        private: false,
+        city: 'Philadelphia',
+        state: 'Pennsylvania'
+      },
+      {
+        organizerId: 5,
+        name: 'NewGen Exchange',
+        about: 'A safe space for exchanging and spreading cultural highlights with others',
+        type: 'In person',
+        private: false,
+        city: 'New York City',
+        state: 'New York'
+      },
     ])
   },
 

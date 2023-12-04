@@ -104,11 +104,11 @@ const validateEventPut = [
             startDate = new Date(startDate);
 
               if (!startDate.getTime()) {
-                  throw new Error('Start date must be a valid datetime');
+                  throw new Error('Start date must be a valid datetime (YYYY-MM-DD)');
               }
               return true
           })
-        .withMessage('Start date must be a valid datetime'),
+        .withMessage('Start date must be a valid datetime (YYYY-MM-DD)'),
     handleValidationErrors
  ]
 
