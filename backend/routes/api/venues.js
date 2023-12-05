@@ -12,15 +12,18 @@ const validateVenueEdit = [
     check('address')
       .optional()
       .isString()
+      .isLength({min: 1})
       .withMessage('Street address is required'),
     check('city')
        .optional()
        .isString()
+       .isLength({min: 1})
        .isAlpha('en-US', {ignore: [' ', '-']})
        .withMessage('City is required'),
     check('state')
       .optional()
       .isString()
+      .isLength({min: 1})
       .isAlpha('en-US', {ignore: [' ', '-']})
       .withMessage('State is required'),
     check('lat')
