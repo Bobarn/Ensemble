@@ -46,6 +46,22 @@ module.exports = {
         state: 'Florida',
         lat: 32.486,
         lng: 16.2
+      },
+      {
+        groupId: 4,
+        address: '926 Liberty Lane',
+        city: 'Philadelphia',
+        state: 'Pennsylvania',
+        lat: -12.486,
+        lng: 21.2
+      },
+      {
+        groupId: 5,
+        address: '123 First Street',
+        city: 'New York City',
+        state: 'New York',
+        lat: -32.486,
+        lng: 26.2
       }
     ])
   },

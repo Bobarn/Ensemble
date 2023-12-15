@@ -35,6 +35,16 @@ module.exports = {
         groupId: 3,
         url: 'https://vercel.com/new/templates',
         preview: true
+      },
+      {
+        groupId: 4,
+        url: 'https://picsum.photos/seed/picsum/200/300/?blur',
+        preview: true
+      },
+      {
+        groupId: 5,
+        url: 'https://picsum.photos/seed/picsum/200/300',
+        preview: true
       }
     ])
   },
