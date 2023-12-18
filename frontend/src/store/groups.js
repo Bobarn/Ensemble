@@ -6,8 +6,11 @@ const GET_GROUPS_BY_USER = 'groups/GET_GROUPS_BY_USER';
 
 const GET_GROUP_BY_ID = 'groups/GET_GROUP_BY_ID';
 
+const CREATE_GROUP = 'groups/CREATE_GROUP';
+
 //action creator area
 
+//!GET ACTIONS
 const getAllGroups = (groups) => {
     return {
         type: GET_ALL_GROUPS,
@@ -29,8 +32,17 @@ const getSpecificGroup = (group) => {
     }
 }
 
+//! CREATE ACTIONS
+const createGroup = (group) => {
+    return {
+        type: CREATE_GROUP,
+        group
+    }
+}
+
 //thunk action creator area
 
+//? GET THUNKS
 export const thunkGetAllGroups = () => async (dispatch) => {
     const response = await fetch('/api/groups');
 
@@ -85,6 +97,29 @@ export const thunkGetSpecificGroup = (groupId) => async (dispatch) => {
     }
 }
 
+//? CREATE THUNKS
+
+export const thunkCreateGroup = (group) => async (dispatch) => {
+
+    const response = await fetch('/api/groups', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(group)
+    });
+
+    if(response.ok) {
+        const newGroup = await response.json();
+
+        dispatch(createGroup(newGroup));
+
+        return newGroup;
+    } else {
+        const errors = await response.json();
+
+        return errors;
+    }
+}
+
 //selectors area
 
 //reducer and state area
@@ -110,7 +145,14 @@ export default function groupsReducer(state = initialState, action) {
         case GET_GROUP_BY_ID: {
             const newState = {...state};
 
-            newState.Groups[group.id] = group;
+            newState.Groups[action.group.id] = action.group;
+
+            return newState;
+        }
+        case CREATE_GROUP: {
+            const newState = {...state};
+
+            newState.Groups[action.group.id] = action.group;
 
             return newState;
         }
