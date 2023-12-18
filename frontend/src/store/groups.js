@@ -7,6 +7,8 @@ const GET_GROUPS_BY_USER = 'groups/GET_GROUPS_BY_USER';
 
 const GET_GROUP_BY_ID = 'groups/GET_GROUP_BY_ID';
 
+
+
 //*Used in both update and create
 const CREATE_GROUP = 'groups/CREATE_GROUP';
 
@@ -57,12 +59,14 @@ const deleteGroup = (groupId) => {
 
 //? GET THUNKS
 export const thunkGetAllGroups = () => async (dispatch) => {
-    const response = await fetch('/api/groups');
+    const response = await fetch('/api/groups', {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'}
+    });
 
     if(response.ok) {
 
         const groups = await response.json();
-        console.log("Here are all my groups", groups);
 
         dispatch(getAllGroups(groups.Groups));
 
@@ -76,7 +80,10 @@ export const thunkGetAllGroups = () => async (dispatch) => {
 
 export const thunkGetUserGroups = () => async (dispatch) => {
 
-    const response = await fetch('/api/groups/current');
+    const response = await fetch('/api/groups/current', {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'}
+    });
 
     if(response.ok) {
 
@@ -95,7 +102,10 @@ export const thunkGetUserGroups = () => async (dispatch) => {
 
 export const thunkGetSpecificGroup = (groupId) => async (dispatch) => {
 
-    const response = await fetch(`/api/groups/${groupId}`);
+    const response = await fetch(`/api/groups/${groupId}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'}
+    });
 
     if(response.ok) {
 
@@ -177,16 +187,15 @@ export const thunkDeleteGroup = (groupId) => async (dispatch) => {
     }
 }
 
-//selectors area
+// selectors area
 
-// const selectGroups = (state) => {
-//     return state.groups.Groups;
-// }
+const selectGroups = (state) => {
+    return state.groups.Groups;
+}
 
-// export const selectGroupsArray = createSelector(selectGroups, (groups) => {
-//     console.log("Inside selector creator", groups);
-//     return Object.values(groups);
-// })
+export const selectGroupsArray = createSelector(selectGroups, (groups) => {
+    return Object.values(groups);
+})
 
 //reducer and state area
 const initialState = { Groups: {} }
@@ -194,10 +203,9 @@ const initialState = { Groups: {} }
 export default function groupsReducer(state = initialState, action) {
     switch (action.type) {
         case GET_ALL_GROUPS: {
-            const newState = {Groups: {...action.groups}};
+            const newState = {...state, Groups: {...state.Groups}};
 
             action.groups.forEach((group) => {
-                console.log('Group', group.id)
                 newState.Groups[group.id] = group;
             })
 
@@ -212,7 +220,7 @@ export default function groupsReducer(state = initialState, action) {
         case GET_GROUP_BY_ID: {
             const newState = {...state, Groups: {...state.Groups}};
 
-            newState.Groups[action.group.id] = action.group;
+            newState[action.group.id] = action.group;
 
             return newState;
         }
@@ -221,12 +229,16 @@ export default function groupsReducer(state = initialState, action) {
 
             newState.Groups[action.group.id] = action.group;
 
+            newState[action.group.id] = action.group;
+
             return newState;
         }
         case DELETE_GROUP: {
             const newState = {...state, Groups: {...state.Groups}};
 
             delete newState.Groups[action.groupId];
+
+            delete newState[action.groupId];
 
             return newState;
         }
