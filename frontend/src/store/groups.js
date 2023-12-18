@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect';
 
 //Action type variables area
 const GET_ALL_GROUPS = 'groups/GET_ALL_GROUPS';
@@ -61,10 +62,11 @@ export const thunkGetAllGroups = () => async (dispatch) => {
     if(response.ok) {
 
         const groups = await response.json();
+        console.log("Here are all my groups", groups);
 
-        dispatch(getAllGroups(groups));
+        dispatch(getAllGroups(groups.Groups));
 
-        return groups;
+        return groups.Groups;
     } else {
         const errors = await response.json();
 
@@ -80,9 +82,9 @@ export const thunkGetUserGroups = () => async (dispatch) => {
 
         const groups = await response.json();
 
-        dispatch(getUserGroups(groups));
+        dispatch(getUserGroups(groups.Groups));
 
-        return groups;
+        return groups.Groups;
     } else {
         const errors = await response.json();
 
@@ -142,9 +144,9 @@ export const thunkUpdateGroup = (group) => async (dispatch) => {
     });
 
     if(response.ok) {
-        const newGroup = await response.json();
+        const updatedGroup = await response.json();
 
-        dispatch(createGroup(newGroup));
+        dispatch(createGroup(updatedGroup));
 
         return updatedGroup;
     } else {
@@ -177,6 +179,15 @@ export const thunkDeleteGroup = (groupId) => async (dispatch) => {
 
 //selectors area
 
+// const selectGroups = (state) => {
+//     return state.groups.Groups;
+// }
+
+// export const selectGroupsArray = createSelector(selectGroups, (groups) => {
+//     console.log("Inside selector creator", groups);
+//     return Object.values(groups);
+// })
+
 //reducer and state area
 const initialState = { Groups: {} }
 
@@ -186,6 +197,7 @@ export default function groupsReducer(state = initialState, action) {
             const newState = {Groups: {...action.groups}};
 
             action.groups.forEach((group) => {
+                console.log('Group', group.id)
                 newState.Groups[group.id] = group;
             })
 

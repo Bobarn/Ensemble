@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navigation from './components//Navigation/Navigation';
+import OpeningPage from './components/OpeningPage/OpeningPage';
+import GroupsList from './components/GroupsList/GroupsList';
 import * as sessionActions from './store/session';
 
 function Layout() {
@@ -28,7 +30,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <h1>Welcome!</h1>
+        element: <OpeningPage />
+      },
+      {
+        path: '/groups',
+        element: <GroupsList />
       }
     ]
   }
