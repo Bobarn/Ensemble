@@ -6,7 +6,10 @@ const GET_GROUPS_BY_USER = 'groups/GET_GROUPS_BY_USER';
 
 const GET_GROUP_BY_ID = 'groups/GET_GROUP_BY_ID';
 
+//*Used in both update and create
 const CREATE_GROUP = 'groups/CREATE_GROUP';
+
+const DELETE_GROUP = 'groups/DELETE_GROUP';
 
 //action creator area
 
@@ -33,10 +36,19 @@ const getSpecificGroup = (group) => {
 }
 
 //! CREATE ACTIONS
+//*Used in both create and update
 const createGroup = (group) => {
     return {
         type: CREATE_GROUP,
         group
+    }
+}
+
+//! DELETE ACTIONS
+const deleteGroup = (groupId) => {
+    return {
+        type: DELETE_GROUP,
+        groupId
     }
 }
 
@@ -62,7 +74,7 @@ export const thunkGetAllGroups = () => async (dispatch) => {
 
 export const thunkGetUserGroups = () => async (dispatch) => {
 
-    const response = await fetch('/api/groups');
+    const response = await fetch('/api/groups/current');
 
     if(response.ok) {
 
@@ -87,7 +99,7 @@ export const thunkGetSpecificGroup = (groupId) => async (dispatch) => {
 
         const group = await response.json();
 
-        dispatch(getUserGroups(group));
+        dispatch(getSpecificGroup(group));
 
         return group;
     } else {
@@ -97,7 +109,7 @@ export const thunkGetSpecificGroup = (groupId) => async (dispatch) => {
     }
 }
 
-//? CREATE THUNKS
+//? CREATE THUNK
 
 export const thunkCreateGroup = (group) => async (dispatch) => {
 
@@ -114,6 +126,49 @@ export const thunkCreateGroup = (group) => async (dispatch) => {
 
         return newGroup;
     } else {
+        const errors = await response.json();
+
+        return errors;
+    }
+}
+
+//? UPDATE THUNK
+export const thunkUpdateGroup = (group) => async (dispatch) => {
+
+    const response = await fetch(`/api/groups/${group.id}`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(group)
+    });
+
+    if(response.ok) {
+        const newGroup = await response.json();
+
+        dispatch(createGroup(newGroup));
+
+        return updatedGroup;
+    } else {
+        const errors = await response.json();
+
+        return errors;
+    }
+}
+
+//? DELETE THUNK
+
+export const thunkDeleteGroup = (groupId) => async (dispatch) => {
+
+    const response = await fetch(`/api/groups/${groupId}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'}
+    });
+
+    if(response.ok) {
+
+        dispatch(deleteGroup(groupId));
+
+    } else {
+
         const errors = await response.json();
 
         return errors;
@@ -143,20 +198,27 @@ export default function groupsReducer(state = initialState, action) {
             return newState;
         }
         case GET_GROUP_BY_ID: {
-            const newState = {...state};
+            const newState = {...state, Groups: {...state.Groups}};
 
             newState.Groups[action.group.id] = action.group;
 
             return newState;
         }
         case CREATE_GROUP: {
-            const newState = {...state};
+            const newState = {...state, Groups: {...state.Groups}};
 
             newState.Groups[action.group.id] = action.group;
 
             return newState;
         }
+        case DELETE_GROUP: {
+            const newState = {...state, Groups: {...state.Groups}};
+
+            delete newState.Groups[action.groupId];
+
+            return newState;
+        }
         default:
-        return state;
+            return state;
     }
 }
