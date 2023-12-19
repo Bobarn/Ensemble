@@ -4,6 +4,9 @@ import { useModal } from '../../context/Modal';
 import * as sessionActions from '../../store/session';
 import './SignupForm.css';
 
+
+
+//! MUST ADD ON THE UNIQUE USERNAME CONSTRAINT THING
 function SignupFormModal() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");

@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navigation from './components//Navigation/Navigation';
 import OpeningPage from './components/OpeningPage/OpeningPage';
 import GroupsList from './components/GroupsList/GroupsList';
+import GroupDetailsPage from './components/GroupDetailsPage/GroupDetailsPage';
 import * as sessionActions from './store/session';
 
 function Layout() {
@@ -34,7 +35,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/groups',
-        element: <GroupsList />
+        element: <GroupsList />,
+      },
+      {
+        path: '/groups/:groupId',
+        element: <GroupDetailsPage/>
       }
     ]
   }

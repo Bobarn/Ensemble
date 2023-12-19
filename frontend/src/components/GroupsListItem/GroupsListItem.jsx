@@ -11,8 +11,6 @@ export default function GroupListItem({ group }) {
 
     const events = useSelector((state) => state.events[group.id]);
 
-    console.log("Here are the group's events", events);
-
     useEffect(() => {
         dispatch(thunkGetGroupEvents(group.id));
     }, [dispatch])
@@ -24,7 +22,7 @@ export default function GroupListItem({ group }) {
     return (
         <li className='GroupItem' onClick={onClick}>
             <div>
-                <img src={group.previewImage}/>
+                <img src={group.previewImage} alt='Preview image for this group'/>
             </div>
             <div>
                 <h2 className='group-name'>{group.name}</h2>

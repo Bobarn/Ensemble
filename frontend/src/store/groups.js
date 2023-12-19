@@ -200,7 +200,7 @@ export const selectGroupsArray = createSelector(selectGroups, (groups) => {
 //reducer and state area
 const initialState = { Groups: {} }
 
-export default function groupsReducer(state = initialState, action) {
+export default function groupsReducer(state = {...initialState}, action) {
     switch (action.type) {
         case GET_ALL_GROUPS: {
             const newState = {...state, Groups: {...state.Groups}};

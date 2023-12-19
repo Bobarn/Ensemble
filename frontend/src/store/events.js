@@ -28,7 +28,7 @@ export const thunkGetGroupEvents = (groupId) => async (dispatch) => {
 
 const initialState = { Events: {} };
 
-export default function eventsReducer(state = initialState, action ) {
+export default function eventsReducer(state = {...initialState}, action ) {
     switch(action.type) {
         case GET_GROUP_EVENTS: {
             const newState = {...state, Events: {...state.Events}};
