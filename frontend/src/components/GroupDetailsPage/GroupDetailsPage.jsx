@@ -18,7 +18,7 @@ export default function GroupDetailsPage() {
 
     const events = useSelector((state) => state.events.Events[group?.id]);
 
-    const userId = useSelector((state) => state.session.user.id);
+    const userId = useSelector((state) => state.session.user?.id);
 
     useEffect(() => {
         dispatch(thunkGetSpecificGroup(groupId));
@@ -27,7 +27,7 @@ export default function GroupDetailsPage() {
     }, [dispatch]);
 
     // function onClick() {
-
+    //     dispatch(thunkDeleteGroup(groupId));
     // }
 
     return (
