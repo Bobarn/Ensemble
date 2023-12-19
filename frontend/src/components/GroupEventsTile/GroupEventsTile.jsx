@@ -1,6 +1,6 @@
 export default function GroupEventsTile( { event } ) {
 
-    console.log(event);
+    // console.log(event);
 
     return (
         <>

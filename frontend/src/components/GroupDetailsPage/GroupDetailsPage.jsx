@@ -1,18 +1,26 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { thunkGetAllGroups, thunkGetSpecificGroup } from '../../store/groups';
 import { thunkGetGroupEvents } from '../../store/events';
 import GroupExtrasArea from '../GroupExtrasArea/GroupExtrasArea';
+import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
+import DeleteConfirmationModal from '../DeleteConfirmationModal/DeleteConfirmationModal';
 
 
 export default function GroupDetailsPage() {
+
+    const navigate = useNavigate();
 
     const { groupId } = useParams();
 
     const dispatch = useDispatch();
 
     const group = useSelector((state) => state.groups[groupId]);
+
+    if(!group) {
+        navigate('/groups');
+    }
 
     const groupImage = useSelector((state) => state.groups.Groups[groupId]?.previewImage);
 
@@ -26,9 +34,8 @@ export default function GroupDetailsPage() {
         dispatch(thunkGetAllGroups());
     }, [dispatch]);
 
-    // function onClick() {
-    //     dispatch(thunkDeleteGroup(groupId));
-    // }
+
+
 
     return (
         <div>
@@ -52,7 +59,10 @@ export default function GroupDetailsPage() {
                     <div>
                         <button>Create event</button>
                         <button>Update</button>
-                        <button>Delete</button>
+                        <OpenModalMenuItem
+                        itemText="Delete"
+                        modalComponent={<DeleteConfirmationModal groupId={groupId} />}
+                        />
                     </div>
                     :
                     <div>

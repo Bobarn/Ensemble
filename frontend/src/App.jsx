@@ -40,6 +40,9 @@ const router = createBrowserRouter([
       {
         path: '/groups/:groupId',
         element: <GroupDetailsPage/>
+      },
+      {
+        path: '/groups/new',
       }
     ]
   }

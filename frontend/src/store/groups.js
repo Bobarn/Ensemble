@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { csrfFetch } from './csrf';
 
 //Action type variables area
 const GET_ALL_GROUPS = 'groups/GET_ALL_GROUPS';
@@ -80,7 +81,7 @@ export const thunkGetAllGroups = () => async (dispatch) => {
 
 export const thunkGetUserGroups = () => async (dispatch) => {
 
-    const response = await fetch('/api/groups/current', {
+    const response = await csrfFetch('/api/groups/current', {
         method: 'GET',
         headers: {'Content-Type': 'application/json'}
     });
@@ -102,7 +103,7 @@ export const thunkGetUserGroups = () => async (dispatch) => {
 
 export const thunkGetSpecificGroup = (groupId) => async (dispatch) => {
 
-    const response = await fetch(`/api/groups/${groupId}`, {
+    const response = await csrfFetch(`/api/groups/${groupId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'}
     });
@@ -125,7 +126,7 @@ export const thunkGetSpecificGroup = (groupId) => async (dispatch) => {
 
 export const thunkCreateGroup = (group) => async (dispatch) => {
 
-    const response = await fetch('/api/groups', {
+    const response = await csrfFetch('/api/groups', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(group)
@@ -147,7 +148,7 @@ export const thunkCreateGroup = (group) => async (dispatch) => {
 //? UPDATE THUNK
 export const thunkUpdateGroup = (group) => async (dispatch) => {
 
-    const response = await fetch(`/api/groups/${group.id}`, {
+    const response = await csrfFetch(`/api/groups/${group.id}`, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(group)
@@ -170,9 +171,8 @@ export const thunkUpdateGroup = (group) => async (dispatch) => {
 
 export const thunkDeleteGroup = (groupId) => async (dispatch) => {
 
-    const response = await fetch(`/api/groups/${groupId}`, {
-        method: 'DELETE',
-        headers: {'Content-Type': 'application/json'}
+    const response = await csrfFetch(`/api/groups/${groupId}`, {
+        method: 'DELETE'
     });
 
     if(response.ok) {
@@ -182,6 +182,8 @@ export const thunkDeleteGroup = (groupId) => async (dispatch) => {
     } else {
 
         const errors = await response.json();
+
+        console.log(errors);
 
         return errors;
     }
