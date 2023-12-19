@@ -26,7 +26,7 @@ export const thunkGetGroupEvents = (groupId) => async (dispatch) => {
     }
 }
 
-const initialState = { Events: {} };
+const initialState = { Past: {}, Upcoming: {},  Events: {} };
 
 export default function eventsReducer(state = {...initialState}, action ) {
     switch(action.type) {
@@ -34,10 +34,22 @@ export default function eventsReducer(state = {...initialState}, action ) {
             const newState = {...state, Events: {...state.Events}};
 
             if(action.events.length) {
-                newState[action.groupId] = action.events;
+                newState.Events[action.groupId] = action.events;
             } else {
-                newState[action.groupId] = [];
+                newState.Events[action.groupId] = [];
             }
+
+            newState.Upcoming[action.groupId] = [];
+
+            newState.Past[action.groupId] = [];
+
+            action.events.forEach((event) => {
+                const today = new Date().getTime();
+
+                const start = new Date(event.startDate).getTime();
+
+                today > start ? newState.Past[action.groupId].push(event) : newState.Upcoming[action.groupId].push(event);
+            })
 
             return newState;
         }

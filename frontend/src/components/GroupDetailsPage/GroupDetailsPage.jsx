@@ -1,27 +1,30 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { thunkGetSpecificGroup } from '../../store/groups';
+import { thunkGetGroupEvents } from '../../store/events';
+import GroupExtrasArea from '../GroupExtrasArea/GroupExtrasArea';
 
 
 export default function GroupDetailsPage() {
 
     const { groupId } = useParams();
-    const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(thunkGetSpecificGroup(groupId));
-    }, [dispatch]);
-
     const group = useSelector((state) => state.groups[groupId]);
 
-    const events = useSelector((state) => state.events[group?.id]);
+    const events = useSelector((state) => state.events.Events[group?.id]);
+
+    useEffect(() => {
+        dispatch(thunkGetSpecificGroup(groupId));
+        dispatch(thunkGetGroupEvents(groupId));
+    }, [dispatch]);
+
+    // console.log(events);
 
     return (
         <div>
-
             <div>
                 <Link to='/groups' className='back-button'>Groups</Link>
                 <img src={group?.previewImage} alt='Preview Image for this group'/>
@@ -36,6 +39,7 @@ export default function GroupDetailsPage() {
                 </div>
                 <h5>Organized by {`${group?.Organizer.firstName} ${group?.Organizer.lastName}`}</h5>
             </div>
+            <GroupExtrasArea group={group} events={events}/>
         </div>
     )
 }
