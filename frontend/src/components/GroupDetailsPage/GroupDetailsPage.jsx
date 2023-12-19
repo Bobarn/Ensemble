@@ -26,9 +26,9 @@ export default function GroupDetailsPage() {
         dispatch(thunkGetAllGroups());
     }, [dispatch]);
 
-    function onClick() {
+    // function onClick() {
 
-    }
+    // }
 
     return (
         <div>
