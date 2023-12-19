@@ -96,7 +96,7 @@ module.exports = {
       capacity: 120,
       price: 5.00,
       startDate: '2024-01-22',
-      endDate: '2023-01-22'
+      endDate: '2024-01-23'
     },
     {
       venueId: 3,
@@ -106,8 +106,8 @@ module.exports = {
       type: 'Online',
       capacity: 200,
       price: 0.00,
-      startDate: '2023-12-16',
-      endDate: '2023-12-16 19:00:00'
+      startDate: '2024-2-16',
+      endDate: '2024-2-16 19:00:00'
     }
 
    ])
