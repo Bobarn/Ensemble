@@ -2,14 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { thunkGetGroupEvents } from "../../store/events";
 import { useRef } from "react";
+import GroupEventsTile from "../GroupEventsTile/GroupEventsTile.jsx";
 // import { useNavigate } from "react-router-dom";
 
 export default function GroupExtrasArea( { group } ) {
     const ref = useRef();
 
     const dispatch = useDispatch();
-
-    const events = useSelector((state) => state.events.Events[group?.id]);
 
     const past = useSelector((state) => state.events.Past[group?.id]);
 
@@ -19,11 +18,6 @@ export default function GroupExtrasArea( { group } ) {
         dispatch(thunkGetGroupEvents(group?.id));
     }, [dispatch]);
 
-    // console.log(events);
-
-    // console.log('Here are the past ones', past);
-
-    // console.log('Here are the upcoming ones', upcoming);
 
     return (
         <div ref={ref}>
@@ -39,7 +33,7 @@ export default function GroupExtrasArea( { group } ) {
                 {upcoming?.length > 0 && <h2>Upcoming Events &#40;{upcoming?.length}&#41;</h2>}
                 <ul>
                     {upcoming?.map((event) => (
-                        <li key={event?.id}>{event?.name}</li>
+                        <li key={event?.id}><GroupEventsTile event={event}/></li>
                     ))}
                 </ul>
             </span>
@@ -47,7 +41,7 @@ export default function GroupExtrasArea( { group } ) {
                 {past?.length > 0 && <h2>Past Events &#40;{past?.length}&#41;</h2>}
                 <ul>
                     {past?.map((event) => (
-                        <li key={event?.id}>{event?.name}</li>
+                        <li key={event?.id}><GroupEventsTile event={event}/></li>
                     ))}
                 </ul>
             </span>

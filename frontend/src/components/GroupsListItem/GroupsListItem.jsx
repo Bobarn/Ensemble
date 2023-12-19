@@ -9,7 +9,7 @@ export default function GroupListItem({ group }) {
 
     const dispatch = useDispatch();
 
-    const events = useSelector((state) => state.events[group.id]);
+    const events = useSelector((state) => state.events.Events[group?.id]);
 
     useEffect(() => {
         dispatch(thunkGetGroupEvents(group.id));
