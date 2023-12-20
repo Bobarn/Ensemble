@@ -14,6 +14,8 @@ const UpdateAGroupPage = () => {
 
 const group = useSelector((state) => state.groups[groupId]);
 
+const groupImage = useSelector((state) => state.groups.Groups[groupId])
+
   if (!group) return(<></>);
 
   /* **DO NOT CHANGE THE RETURN VALUE** */
@@ -26,7 +28,8 @@ const group = useSelector((state) => state.groups[groupId]);
             location: `${group?.city}, ${group?.state}`,
             about: group?.about,
             type: group?.type,
-            private: group?.private === 'true'
+            private: group?.private === 'true',
+            image: groupImage?.previewImage
           }}
           groupId={groupId}
           formType="Update Group"

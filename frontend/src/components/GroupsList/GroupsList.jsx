@@ -16,6 +16,7 @@ export default function GroupsList() {
 
     return (
         <section>
+            <h5>Groups in Meetup</h5>
             <ul>
                 {groups.map((group) => (
                     <GroupListItem

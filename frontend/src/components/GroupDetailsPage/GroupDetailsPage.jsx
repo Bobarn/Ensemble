@@ -58,7 +58,7 @@ export default function GroupDetailsPage() {
                     <h5>Organized by {`${group?.Organizer?.firstName} ${group?.Organizer?.lastName}`}</h5>
                 </div>
                 <span>
-                    {userId === group?.organizerId ?
+                    {userId === group?.organizerId &&
                     <div>
                         <button>Create event</button>
                         <button onClick={onClickUpdate}>Update</button>
@@ -68,9 +68,8 @@ export default function GroupDetailsPage() {
                         modalComponent={<DeleteConfirmationModal groupId={groupId} />}
                         />
                         </button>
-                    </div>
-                    :
-                    <div>
+                    </div>}
+                    {userId && userId !== group?.organizerId && <div>
                         <button>Join this group</button>
                     </div>}
                 </span>

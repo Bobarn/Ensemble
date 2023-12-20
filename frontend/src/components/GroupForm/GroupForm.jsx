@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { thunkCreateGroup, thunkUpdateGroup } from '../../store/groups';
+import { thunkCreateGroupImage } from '../../store/groupImages';
 
 const GroupForm = ({ group, formType, groupId }) => {
   const navigate = useNavigate();
@@ -25,8 +26,11 @@ const GroupForm = ({ group, formType, groupId }) => {
     group = { city, state, name, about, private: privateBoolean, type };
     if(formType === 'Create Group') {
       group = await dispatch(thunkCreateGroup(group));
+      await dispatch(thunkCreateGroupImage(image, group?.id))
     } else if(formType === 'Update Group'){
       group = await dispatch(thunkUpdateGroup(group, groupId));
+      // console.log(i)
+      await dispatch(thunkCreateGroupImage(image, groupId));
     } else {
       return null;
     }
@@ -48,7 +52,7 @@ const GroupForm = ({ group, formType, groupId }) => {
     if(privateBoolean === '') {
         newErrors.private = 'Visibility Type is required';
     }
-    if((!image?.endsWith('png') || !image?.endsWith('jpg') || !image?.endsWith('jpeg')) && image) {
+    if((!image?.endsWith('png') || !image?.endsWith('PNG') || !image?.endsWith('jpg') || !image?.endsWith('JPG') || !image?.endsWith('jpeg') || !image?.endsWith('JPEG')) && image) {
         newErrors.image = 'Image URL must end in .png, .jpg, or .jpeg';
     }
     if(about?.length < 30) {
