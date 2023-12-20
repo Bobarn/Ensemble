@@ -151,9 +151,9 @@ export const thunkCreateGroup = (group) => async (dispatch) => {
 }
 
 //? UPDATE THUNK
-export const thunkUpdateGroup = (group) => async (dispatch) => {
+export const thunkUpdateGroup = (group, groupId) => async (dispatch) => {
 
-    const response = await csrfFetch(`/api/groups/${group.id}`, {
+    const response = await csrfFetch(`/api/groups/${groupId}`, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(group)

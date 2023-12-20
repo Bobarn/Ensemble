@@ -34,6 +34,9 @@ export default function GroupDetailsPage() {
         dispatch(thunkGetAllGroups());
     }, [dispatch]);
 
+    function onClickUpdate() {
+        navigate(`/groups/${groupId}/edit`);
+    }
 
 
 
@@ -58,11 +61,13 @@ export default function GroupDetailsPage() {
                     {userId === group?.organizerId ?
                     <div>
                         <button>Create event</button>
-                        <button>Update</button>
+                        <button onClick={onClickUpdate}>Update</button>
+                        <button>
                         <OpenModalMenuItem
                         itemText="Delete"
                         modalComponent={<DeleteConfirmationModal groupId={groupId} />}
                         />
+                        </button>
                     </div>
                     :
                     <div>
