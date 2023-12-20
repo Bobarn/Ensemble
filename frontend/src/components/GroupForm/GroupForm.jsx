@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { thunkCreateGroup, thunkUpdateGroup } from '../../store/groups';
 
-const GroupForm = ({ group, formType }) => {
+const GroupForm = ({ group, formType, groupId }) => {
   const navigate = useNavigate();
   const [location, setLocation] = useState(group?.location);
   const [name, setName] = useState(group?.name);
@@ -26,7 +26,7 @@ const GroupForm = ({ group, formType }) => {
     if(formType === 'Create Group') {
       group = await dispatch(thunkCreateGroup(group));
     } else if(formType === 'Update Group'){
-      group = await dispatch(thunkUpdateGroup(group));
+      group = await dispatch(thunkUpdateGroup(group, groupId));
     } else {
       return null;
     }
@@ -48,16 +48,16 @@ const GroupForm = ({ group, formType }) => {
     if(privateBoolean === '') {
         newErrors.private = 'Visibility Type is required';
     }
-    if((!image.endsWith('png') || !image.endsWith('jpg') || !image.endsWith('jpeg')) && image) {
+    if((!image?.endsWith('png') || !image?.endsWith('jpg') || !image?.endsWith('jpeg')) && image) {
         newErrors.image = 'Image URL must end in .png, .jpg, or .jpeg';
     }
-    if(about.length < 30) {
+    if(about?.length < 30) {
         newErrors.about = 'Description must be at least 30 characters long';
     }
     if(!name) {
         newErrors.name = 'Name is required';
     }
-    if(!location || location.split(', ').length <= 1) {
+    if(!location || location?.split(', ').length <= 1) {
         newErrors.location = 'Location is required (City, state)';
     }
 
