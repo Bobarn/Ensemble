@@ -22,7 +22,7 @@ export default function ActionNavigation() {
                 </div>
                 <div className="actionHolder">
                     <img src="#"/>
-                    <NavLink to={'/'}>Start a new group</NavLink>
+                    <NavLink to={'/groups/new'}>Start a new group</NavLink>
                     <p>Sound out your own call to your own breed of uniquely minded individuals!</p>
                 </div>
             </div>
