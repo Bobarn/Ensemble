@@ -23,7 +23,7 @@ export default function GroupExtrasArea( { group } ) {
         <div ref={ref}>
             <div>
                 <h2>Organizer</h2>
-                <h5>{`${group?.Organizer.firstName} ${group?.Organizer.lastName}`}</h5>
+                <h5>{`${group?.Organizer?.firstName} ${group?.Organizer?.lastName}`}</h5>
             </div>
             <div>
                 <h2>What we&#39;re about</h2>

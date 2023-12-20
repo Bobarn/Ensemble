@@ -1,16 +1,19 @@
 import GroupForm from '../GroupForm/GroupForm.jsx';
 
-const CreateReportForm = () => {
-  const report = {
-    understanding: '',
-    improvement: ''
+export default function CreateAGroupPage() {
+  const group = {
+    location: '',
+    name: '',
+    about: '',
+    private: '',
+    type: '',
+    image: ''
   };
 
-  /* **DO NOT CHANGE THE RETURN VALUE** */
   return (
     <GroupForm
       group={group}
       formType="Create Group"
     />
   );
-};
+}

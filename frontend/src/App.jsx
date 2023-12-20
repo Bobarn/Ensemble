@@ -5,6 +5,7 @@ import Navigation from './components//Navigation/Navigation';
 import OpeningPage from './components/OpeningPage/OpeningPage';
 import GroupsList from './components/GroupsList/GroupsList';
 import GroupDetailsPage from './components/GroupDetailsPage/GroupDetailsPage';
+import CreateAGroupPage from './components/CreateAGroupPage/CreateAGroupPage';
 import * as sessionActions from './store/session';
 
 function Layout() {
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/groups/new',
+        element: <CreateAGroupPage />
       }
     ]
   }

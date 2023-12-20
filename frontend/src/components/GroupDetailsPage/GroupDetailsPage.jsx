@@ -52,7 +52,7 @@ export default function GroupDetailsPage() {
                         <h5>&bull;</h5>
                         <h5>{group?.private ? "Private": "Public"}</h5>
                     </div>
-                    <h5>Organized by {`${group?.Organizer.firstName} ${group?.Organizer.lastName}`}</h5>
+                    <h5>Organized by {`${group?.Organizer?.firstName} ${group?.Organizer?.lastName}`}</h5>
                 </div>
                 <span>
                     {userId === group?.organizerId ?
