@@ -24,10 +24,15 @@ const GroupForm = ({ group, formType, groupId }) => {
     const [city, state] = location.split(', ');
 
     group = { city, state, name, about, private: privateBoolean, type };
-    if(formType === 'Create Group') {
+
+    if(Object.values(errors).length) {
+      group.errors = errors;
+    }
+
+    if(formType === 'Create Group' && !group.errors) {
       group = await dispatch(thunkCreateGroup(group));
       await dispatch(thunkCreateGroupImage(image, group?.id))
-    } else if(formType === 'Update Group'){
+    } else if(formType === 'Update Group' && !group.errors){
       group = await dispatch(thunkUpdateGroup(group, groupId));
       // console.log(i)
       await dispatch(thunkCreateGroupImage(image, groupId));
@@ -36,7 +41,7 @@ const GroupForm = ({ group, formType, groupId }) => {
     }
     console.log('Here is the whole group', group);
     if(group.errors) {
-        console.log('And here are the errors', group.errors);
+        // console.log('And here are the errors', group.errors);
       setErrors(group.errors);
     } else {
       navigate(`/groups/${group.id}`);
@@ -52,7 +57,7 @@ const GroupForm = ({ group, formType, groupId }) => {
     if(privateBoolean === '') {
         newErrors.private = 'Visibility Type is required';
     }
-    if((!image?.endsWith('png') || !image?.endsWith('PNG') || !image?.endsWith('jpg') || !image?.endsWith('JPG') || !image?.endsWith('jpeg') || !image?.endsWith('JPEG')) && image) {
+    if((!image?.endsWith('.png') && !image?.endsWith('.PNG') && !image?.endsWith('.jpg') && !image?.endsWith('.JPG') && !image?.endsWith('.jpeg') && !image?.endsWith('.JPEG')) && image) {
         newErrors.image = 'Image URL must end in .png, .jpg, or .jpeg';
     }
     if(about?.length < 30) {
