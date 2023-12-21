@@ -3,10 +3,12 @@ import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navigation from './components//Navigation/Navigation';
 import OpeningPage from './components/OpeningPage/OpeningPage';
-import GroupsList from './components/GroupsList/GroupsList';
+import GroupsList from './components/ListsPage/Lists/Groups/GroupsList/GroupsList';
 import GroupDetailsPage from './components/GroupDetailsPage/GroupDetailsPage';
 import CreateAGroupPage from './components/CreateAGroupPage/CreateAGroupPage';
 import UpdateAGroupPage from './components/UpdateAGroupPage/UpdateAGroupPage';
+import EventsList from './components/ListsPage/Lists/Events/EventsList/EventsList';
+import EventDetailsPage from './components/EventDetailsPage/EventDetailsPage';
 import * as sessionActions from './store/session';
 
 function Layout() {
@@ -50,6 +52,14 @@ const router = createBrowserRouter([
       {
         path: '/groups/:groupId/edit',
         element: <UpdateAGroupPage />
+      },
+      {
+        path: '/events',
+        element: <EventsList />
+      },
+      {
+        path: '/events/:eventId',
+        element: <EventDetailsPage />
       }
     ]
   }

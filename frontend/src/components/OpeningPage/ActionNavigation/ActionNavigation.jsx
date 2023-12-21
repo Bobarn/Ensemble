@@ -17,7 +17,7 @@ export default function ActionNavigation() {
                 </div>
                 <div className="actionHolder">
                     <img src="#"/>
-                    <NavLink to={'/'}>Find an Event</NavLink>
+                    <NavLink to={'/events'}>Find an Event</NavLink>
                     <p>See what everyone is up to. Peruse the many opportunities open to you and check out one you like!</p>
                 </div>
                 <div className="actionHolder">
