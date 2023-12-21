@@ -34,8 +34,6 @@ const EventForm = ({ event, formType }) => {
 
     event = {name, capacity: 100, description, private: privateBoolean, type, venueId: 1, price: Number(price), startDate, endDate };
 
-    console.log('Here is the event we send over', event);
-
     if(Object.values(errors).length) {
       event.errors = errors;
     }
@@ -63,7 +61,6 @@ const EventForm = ({ event, formType }) => {
     if(event.errors) {
 
       setErrors(event.errors);
-      console.log('Here are all the errors', errors);
 
     } else {
 
@@ -184,9 +181,7 @@ const EventForm = ({ event, formType }) => {
         name="endDate"
         value={endDate}
         min={new Date().toISOString().split("T")[0]}
-        onChange={(e) => {
-            setEndDate(e.target.value)
-        console.log(endDate)}}
+        onChange={(e) => setEndDate(e.target.value)}
         />
         </label>
       </div>

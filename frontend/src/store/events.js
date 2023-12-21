@@ -121,8 +121,6 @@ export const thunkCreateEvent = (event, groupId) => async (dispatch) => {
         body: JSON.stringify(event)
     });
 
-    console.log(response, "Here's the response")
-
     if(response.ok) {
 
         const event = await response.json();
@@ -186,8 +184,6 @@ export const thunkDeleteEvent = (eventId) => async (dispatch) => {
 
         const errors = await response.json();
 
-        console.log(errors);
-
         return errors;
     }
 }
@@ -247,8 +243,6 @@ export default function eventsReducer(state = {...initialState}, action ) {
                }
 
             })
-
-            console.log(events);
 
             events.forEach((event) => {
                 const today = new Date().getTime();

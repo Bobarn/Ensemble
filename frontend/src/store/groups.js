@@ -126,19 +126,14 @@ export const thunkGetSpecificGroup = (groupId) => async (dispatch) => {
 
 export const thunkCreateGroup = (group) => async (dispatch) => {
 
-    console.log(group);
-
     const response = await csrfFetch('/api/groups', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(group)
     });
-    // console.log("Here is the response", response);
 
     if(response.ok) {
         const newGroup = await response.json();
-
-        console.log("Here is the new group", newGroup);
 
         dispatch(createGroup(newGroup));
 
@@ -187,8 +182,6 @@ export const thunkDeleteGroup = (groupId) => async (dispatch) => {
     } else {
 
         const errors = await response.json();
-
-        console.log(errors);
 
         return errors;
     }
