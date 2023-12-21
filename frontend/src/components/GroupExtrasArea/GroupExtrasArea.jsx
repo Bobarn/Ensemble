@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { thunkGetGroupEvents } from "../../store/events";
 import { useRef } from "react";
-import GroupEventsTile from "../GroupEventsTile/GroupEventsTile.jsx";
+import GroupEventsTile from "../ListsPage/Lists/Events/GroupEventsTile/GroupEventsTile.jsx";
 // import { useNavigate } from "react-router-dom";
 
 export default function GroupExtrasArea( { group } ) {

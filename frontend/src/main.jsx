@@ -8,7 +8,7 @@ import { restoreCSRF, csrfFetch } from './store/csrf';
 import * as sessionActions from './store/session';
 import * as groupActions from './store/groups';
 import * as eventActions from './store/events';
-import { Modal, ModalProvider } from './context/Modal';
+import { ModalProvider } from './context/Modal';
 
 const store = configureStore();
 
@@ -27,7 +27,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ModalProvider>
       <Provider store={store}>
         <App />
-        <Modal />
       </Provider>
     </ModalProvider>
   </React.StrictMode>

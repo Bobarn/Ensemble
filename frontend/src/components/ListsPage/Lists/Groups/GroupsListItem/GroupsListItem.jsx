@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { thunkGetGroupEvents } from '../../store/events';
+import { thunkGetGroupEvents } from '../../../../../store/events';
 import { useNavigate } from 'react-router-dom';
 
 export default function GroupListItem({ group }) {
