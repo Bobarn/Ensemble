@@ -234,11 +234,11 @@ export default function eventsReducer(state = {...initialState}, action ) {
 
                if(aTime < bTime) {
 
-                return -1;
+                return 1;
 
                } else if(aTime > bTime) {
 
-                return 1
+                return -1
 
                } else {
 
@@ -247,6 +247,8 @@ export default function eventsReducer(state = {...initialState}, action ) {
                }
 
             })
+
+            console.log(events);
 
             events.forEach((event) => {
                 const today = new Date().getTime();
