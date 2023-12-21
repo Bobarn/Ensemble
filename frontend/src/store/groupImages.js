@@ -12,8 +12,6 @@ const createGroupImage = (groupId, image) => {
 
 export const thunkCreateGroupImage = (image, groupId) => async (dispatch) => {
 
-    // console.log(image);
-
     const response = await csrfFetch(`/api/groups/${groupId}/images`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -22,8 +20,6 @@ export const thunkCreateGroupImage = (image, groupId) => async (dispatch) => {
             preview: true
         })
     });
-
-    console.log('Here is the image creation response', response);
 
     if(response.ok) {
         const image = await response.json();

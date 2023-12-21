@@ -5,7 +5,7 @@ import { thunkGetAllGroups, thunkGetSpecificGroup } from '../../store/groups';
 import { thunkGetGroupEvents } from '../../store/events';
 import GroupExtrasArea from '../GroupExtrasArea/GroupExtrasArea';
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
-import DeleteConfirmationModal from '../DeleteConfirmationModal/DeleteConfirmationModal';
+import DeleteGroupConfirmationModal from '../DeleteGroupConfirmationModal/DeleteGroupConfirmationModal';
 
 
 export default function GroupDetailsPage() {
@@ -17,10 +17,6 @@ export default function GroupDetailsPage() {
     const dispatch = useDispatch();
 
     const group = useSelector((state) => state.groups[groupId]);
-
-    if(!group) {
-        navigate('/groups');
-    }
 
     const groupImage = useSelector((state) => state.groups.Groups[groupId]?.previewImage);
 
@@ -38,7 +34,9 @@ export default function GroupDetailsPage() {
         navigate(`/groups/${groupId}/edit`);
     }
 
-
+    function onClickCreateEvent() {
+        navigate(`/groups/${groupId}/events/new`);
+    }
 
     return (
         <div>
@@ -60,17 +58,15 @@ export default function GroupDetailsPage() {
                 <span>
                     {userId === group?.organizerId &&
                     <div>
-                        <button>Create event</button>
+                        <button onClick={onClickCreateEvent}>Create event</button>
                         <button onClick={onClickUpdate}>Update</button>
-                        <button>
                         <OpenModalMenuItem
                         itemText="Delete"
-                        modalComponent={<DeleteConfirmationModal groupId={groupId} />}
+                        modalComponent={<DeleteGroupConfirmationModal groupId={groupId} />}
                         />
-                        </button>
                     </div>}
                     {userId && userId !== group?.organizerId && <div>
-                        <button>Join this group</button>
+                        <button onClick={() => alert('Functionality coming soon')}>Join this group</button>
                     </div>}
                 </span>
             </div>

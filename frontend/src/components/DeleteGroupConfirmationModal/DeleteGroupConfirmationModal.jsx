@@ -1,17 +1,19 @@
-
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal.jsx';
 import { thunkDeleteGroup } from '../../store/groups.js';
 
-import './DeleteConfirmationModal.css';
+import './DeleteGroupConfirmationModal.css';
 
-function DeleteConfirmationModal( { groupId } ) {
+function DeleteGroupConfirmationModal( { groupId } ) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
     dispatch(thunkDeleteGroup(groupId))
       .then(closeModal)
+      .then(navigate('/groups'))
   };
 
   const handleCancel = () => {
@@ -29,4 +31,4 @@ function DeleteConfirmationModal( { groupId } ) {
   );
 }
 
-export default DeleteConfirmationModal;
+export default DeleteGroupConfirmationModal;

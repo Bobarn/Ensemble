@@ -30,21 +30,31 @@ const GroupForm = ({ group, formType, groupId }) => {
     }
 
     if(formType === 'Create Group' && !group.errors) {
+
       group = await dispatch(thunkCreateGroup(group));
+
       await dispatch(thunkCreateGroupImage(image, group?.id))
+
     } else if(formType === 'Update Group' && !group.errors){
+
       group = await dispatch(thunkUpdateGroup(group, groupId));
-      // console.log(i)
+
       await dispatch(thunkCreateGroupImage(image, groupId));
+
     } else {
+
       return null;
+
     }
-    console.log('Here is the whole group', group);
+
     if(group.errors) {
-        // console.log('And here are the errors', group.errors);
+
       setErrors(group.errors);
+
     } else {
+
       navigate(`/groups/${group.id}`);
+
     }
   };
 
@@ -124,7 +134,7 @@ Feel free to get creative! You can edit this later if you change your mind.</p>
         <h2>Final steps...</h2>
         <div className={"selector type"}>
            {submitted && <div className="errors">{errors.type}</div>}
-            <p>Is this an in person or online group?</p>
+            <h5>Is this an in person or online group?</h5>
             <label>
                 <select
                 value={type}
@@ -138,7 +148,7 @@ Feel free to get creative! You can edit this later if you change your mind.</p>
         </div>
         <div className={"selector private"}>
             {submitted && <div className="errors">{errors.private}</div>}
-            <p>Is this group private or public?</p>
+            <h5>Is this group private or public?</h5>
             <label>
                 <select
                 value={privateBoolean}
@@ -152,11 +162,11 @@ Feel free to get creative! You can edit this later if you change your mind.</p>
             </label>
         </div>
         <div>
-        <p>Please add an image url for your group below:</p>
+        <h5>Please add an image url for your group below:</h5>
         {submitted && <div className="errors">{errors.image}</div>}
         <label>
             <textarea
-            placeholder='What is your group name?'
+            placeholder='Image URL'
             value={image}
             onChange={(e) => setImage(e.target.value)}
             />

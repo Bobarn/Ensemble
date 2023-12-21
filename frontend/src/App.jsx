@@ -9,6 +9,8 @@ import CreateAGroupPage from './components/CreateAGroupPage/CreateAGroupPage';
 import UpdateAGroupPage from './components/UpdateAGroupPage/UpdateAGroupPage';
 import EventsList from './components/ListsPage/Lists/Events/EventsList/EventsList';
 import EventDetailsPage from './components/EventDetailsPage/EventDetailsPage';
+import CreateEventPage from './components/CreateEventPage/CreateEventPage';
+import { Modal } from './context/Modal';
 import * as sessionActions from './store/session';
 
 function Layout() {
@@ -23,6 +25,7 @@ function Layout() {
 
   return (
     <>
+      <Modal />
       <Navigation isLoaded={isLoaded} />
       {isLoaded && <Outlet />}
     </>
@@ -60,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: '/events/:eventId',
         element: <EventDetailsPage />
+      },
+      {
+        path: '/groups/:groupId/events/new',
+        element: <CreateEventPage />
       }
     ]
   }

@@ -3,10 +3,8 @@ import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { thunkGetSpecificEvent } from '../../store/events';
 import GroupTile from '../GroupTile/GroupTile';
-// import GroupExtrasArea from '../GroupExtrasArea/GroupExtrasArea';
-// import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
-// import DeleteConfirmationModal from '../DeleteConfirmationModal/DeleteConfirmationModal';
-
+import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
+import DeleteEventConfirmationModal from '../DeleteEventConfirmationModal/DeleteEventConfirmationModal';
 
 export default function EventDetailsPage() {
 
@@ -17,19 +15,10 @@ export default function EventDetailsPage() {
 
     const event = useSelector((state) => state.events.All[eventId]);
 
-    const eventImage = useSelector((state) => state.events.All[eventId]?.previewImage);
-
-    // const group = useSelector((state) => state.groups.Groups[groupId]);
-
-
     useEffect(() => {
         dispatch(thunkGetSpecificEvent(eventId));
     }, [dispatch]);
-    // const userId = useSelector((state) => state.session.user?.id);
-
-    // function onClickUpdate() {
-    //     navigate(`/groups/${groupId}/edit`);
-    // }
+    const userId = useSelector((state) => state.session.user?.id);
 
 
     return (
@@ -42,7 +31,7 @@ export default function EventDetailsPage() {
              </div>
              <div>
                 <div>
-                <img src={eventImage} alt='Preview Image for this event'/>
+                <img src={event?.EventImages?.find((image) => image.preview === true)?.url} alt='Preview Image for this event'/>
                 </div>
                 <div>
                     <div>
@@ -56,6 +45,19 @@ export default function EventDetailsPage() {
                         </div>
                         <div><i className="fa-solid fa-dollar-sign"></i></div>
                         <div><i className="fa-solid fa-location-dot"></i></div>
+                        <span>
+                     {userId === event?.Group?.organizerId &&
+                     <div>
+                         <button onClick={() => alert('Functionality coming soon')}>Update</button>
+                         <OpenModalMenuItem
+                         itemText="Delete"
+                         modalComponent={<DeleteEventConfirmationModal eventId={eventId} />}
+                         />
+                     </div>}
+                     {userId && userId !== event?.Group?.organizerId && <div>
+                         <button onClick={() => alert('Functionality coming soon~!')}>Attend</button>
+                     </div>}
+                 </span>
                     </div>
                 </div>
                 <div>
@@ -64,22 +66,6 @@ export default function EventDetailsPage() {
                         {event?.description}
                     </p>
                 </div>
-                 {/*<span>
-                     {userId === group?.organizerId &&
-                     <div>
-                         <button>Create event</button>
-                         <button onClick={onClickUpdate}>Update</button>
-                         <button>
-                         <OpenModalMenuItem
-                         itemText="Delete"
-                         modalComponent={<DeleteConfirmationModal groupId={groupId} />}
-                         />
-                         </button>
-                     </div>}
-                     {userId && userId !== group?.organizerId && <div>
-                         <button>Join this group</button>
-                     </div>}
-                 </span>*/}
              </div>
         </div>
     )
