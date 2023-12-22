@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-// import { thunkGetAllEvents, selectEventsArray } from '../../../../store/events';
 import { thunkGetAllEvents, selectEventsArray } from '../../../../../store/events';
 import { useEffect } from 'react';
 import GroupEventsTile from '../GroupEventsTile/GroupEventsTile';

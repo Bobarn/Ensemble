@@ -15,10 +15,14 @@ const GroupForm = ({ group, formType, groupId }) => {
   const [image, setImage] = useState(group?.image);
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false)
+  const [disabled, setDisabled] = useState(false);
+
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setDisabled(true);
 
     setSubmitted(true);
 
@@ -43,6 +47,7 @@ const GroupForm = ({ group, formType, groupId }) => {
       await dispatch(thunkCreateGroupImage(image, groupId));
 
     } else {
+      setDisabled(false)
 
       return null;
 
@@ -51,6 +56,8 @@ const GroupForm = ({ group, formType, groupId }) => {
     if(group.errors) {
 
       setErrors(group.errors);
+
+      setDisabled(false);
 
     } else {
 
@@ -191,7 +198,7 @@ const GroupForm = ({ group, formType, groupId }) => {
           </div>
         </div>
 
-        <button id='group-form-submit' type="submit">{formType}</button>
+        <button disabled={disabled} id='group-form-submit' type="submit">{formType}</button>
       </div>
     </form>
   );

@@ -178,6 +178,9 @@ export const thunkDeleteEvent = (eventId) => async (dispatch) => {
         method: 'DELETE'
     });
 
+    await dispatch(thunkGetAllEvents());
+
+
     if(response.ok) {
 
         await dispatch(deleteEvent(eventId));
@@ -271,7 +274,7 @@ export default function eventsReducer(state = {...initialState}, action ) {
             return newState;
         }
         case DELETE_EVENT: {
-            const newState = { Past: {...state.Past}, Upcoming: {...state.Upcoming}, Events: {...state.Events}, All: {...state.All}};
+            const newState = {...state, Past: {...state.Past}, Upcoming: {...state.Upcoming}, All: {...state.All}};
 
             delete newState.All[action.eventId];
 

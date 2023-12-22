@@ -25,7 +25,7 @@ const validateEventPut = [
        .withMessage('Venue does not exist'),
     check('name')
        .optional()
-       .isLength({ min: 5 })
+       .isLength({ max: 60 })
        .withMessage('Name must be 60 characters or less'),
     check('type')
        .optional()
@@ -337,18 +337,14 @@ router.put('/:eventId', requireAuth, checkEventId, validateEventPut, eventAuthor
 
 router.delete('/:eventId', requireAuth, checkEventId, eventAuthorize, async (req, res) => {
 
-    let eventId = req.params.eventId;
-
-    // console.log('==============',eventId);
-
-    eventId = parseInt(eventId);
+    let eventId = parseInt(req.params.eventId);
 
     const event = await Event.findByPk(eventId);
 
     await event.destroy()
 
     return res.json({
-        "message": "Successfully deleted"
+        message: "Successfully deleted"
     })
 })
 

@@ -11,8 +11,9 @@ function DeleteGroupConfirmationModal( { groupId } ) {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
+    closeModal();
+
     dispatch(thunkDeleteGroup(groupId))
-      .then(closeModal)
       .then(navigate('/groups'))
   };
 

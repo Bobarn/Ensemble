@@ -1,18 +1,13 @@
 import { useNavigate } from "react-router-dom";
-// import { useDispatch, useEffect } from "react-redux";
 import './GroupEventsTile.css'
-// import { thunkGetSpecificEvent } from "../../../../../store/events";
 
 export default function GroupEventsTile( { event } ) {
-
 
     const navigate = useNavigate();
 
     function onClick() {
         navigate(`/events/${event.id}`);
     }
-
-
 
     return (
             <div className="event" onClick={onClick}>

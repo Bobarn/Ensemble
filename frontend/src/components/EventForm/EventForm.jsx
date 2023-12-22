@@ -16,12 +16,15 @@ const EventForm = ({ event, formType }) => {
   const [endDate, setEndDate] = useState(event?.endDate);
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false)
+  const [disabled, setDisabled] = useState(false);
   const dispatch = useDispatch();
 
   const { groupId } = useParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setDisabled(true);
 
     setSubmitted(true);
 
@@ -49,6 +52,8 @@ const EventForm = ({ event, formType }) => {
     // }
     else {
 
+      setDisabled(false)
+
       return null;
 
     }
@@ -56,6 +61,8 @@ const EventForm = ({ event, formType }) => {
     if(event.errors) {
 
       setErrors(event.errors);
+
+      setDisabled(false);
 
     } else {
 
@@ -220,7 +227,7 @@ const EventForm = ({ event, formType }) => {
         </label>
             {submitted && <div className="errors">{errors.description}</div>}
         </div>
-      <button id='event-form-submit' type="submit">{formType}</button>
+      <button disabled={disabled} id='event-form-submit' type="submit">{formType}</button>
     </form>
   );
 };
