@@ -4,6 +4,7 @@ import { thunkGetAllEvents, selectEventsArray } from '../../../../../store/event
 import { useEffect } from 'react';
 import GroupEventsTile from '../GroupEventsTile/GroupEventsTile';
 import ListNav from '../../ListNav/ListNav';
+import './EventsList.css'
 
 export default function EventsList() {
 
@@ -16,10 +17,10 @@ export default function EventsList() {
     }, [dispatch]);
 
     return (
-        <section>
+        <section id='events-list-section'>
             <ListNav />
-            <h5>Events in Meetup</h5>
-            <ul>
+            <h5 id='events-category-head'>Events in Meetup</h5>
+            <ul id='events-list'>
                 {events.map((event) => (
                     <GroupEventsTile
                         event={event}

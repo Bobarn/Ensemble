@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { thunkGetGroupEvents } from '../../../../../store/events';
 import { useNavigate } from 'react-router-dom';
+import './GroupsListItem.css'
 
 export default function GroupListItem({ group }) {
 
@@ -20,20 +21,20 @@ export default function GroupListItem({ group }) {
     }
 
     return (
-        <li className='GroupItem' onClick={onClick}>
-            <div>
-                <img src={group.previewImage} alt='Preview image for this group'/>
+        <div className='group-item' onClick={onClick}>
+            <div className='group-img-container'>
+                <img className='group-img' src={group.previewImage} alt='Preview image for this group'/>
             </div>
-            <div>
+            <div className='group-information'>
                 <h2 className='group-name'>{group.name}</h2>
                 <h5 className='group-location'>{`${group.city}, ${group.state}`}</h5>
-                <p className='group-about-preview'>{group.about.slice(0, 30)}</p>
-                <div className='group-details'>
-                    <h5># {events?.length} events</h5>
+                <p className='group-about-preview'>{group.about}</p>
+                <div className='group-description'>
+                    <h5># {events?.length} event&#40;s&#41;</h5>
                     <h5>&bull;</h5>
                     <h5>{group.private ? "Private": "Public"}</h5>
                 </div>
             </div>
-        </li>
+        </div>
     )
 }

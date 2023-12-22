@@ -41,19 +41,21 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={toggleMenu}>
-        <i className="fa-solid fa-user-tie"></i>
-      </button>
-      <ul className={ulClassName} ref={ulRef}>
+
         {user ? (
-          <>
-            <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
-            <li>{user.email}</li>
-            <li>
+          <div>
+          <button onClick={toggleMenu}>
+            <i className="fa-solid fa-user-tie"></i>
+          </button>
+          <ul className={ulClassName} ref={ulRef}>
+            <li className='floating'>{user.username}</li>
+            <li className='floating'>{user.firstName} {user.lastName}</li>
+            <li className='floating'>{user.email}</li>
+            <li className='floating'>
               <button onClick={logout}>Log Out</button>
             </li>
-          </>
+          </ul>
+          </div>
         ) : (
           <>
             <OpenModalMenuItem
@@ -66,9 +68,7 @@ function ProfileButton({ user }) {
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
             />
-          </>
-        )}
-      </ul>
+          </>)}
     </>
   );
 }

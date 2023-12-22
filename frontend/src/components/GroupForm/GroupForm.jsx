@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { thunkCreateGroup, thunkUpdateGroup } from '../../store/groups';
 import { thunkCreateGroupImage } from '../../store/groupImages';
+import './GroupForm.css'
 
 const GroupForm = ({ group, formType, groupId }) => {
   const navigate = useNavigate();
@@ -83,96 +84,115 @@ const GroupForm = ({ group, formType, groupId }) => {
     setErrors(newErrors);
   }, [submitted, type, privateBoolean, image, about, name, location])
 
-  /* **DO NOT CHANGE THE RETURN VALUE** */
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>{formType}</h2>
-      <div>
-        <h2>First, set your group&#39;s location</h2>
-        <p>Meetup groups meet locally, in person and online. We&#39;ll connect you with people
-in your area, and more can join you online.</p>
-        {submitted && <div className="errors">{errors.location}</div>}
-        <label>
-            <input
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            placeholder='City, STATE'
-            />
-        </label>
+    <form id='group-form' onSubmit={handleSubmit}>
+      <div id='group-form-headings'>
+        <h5>BECOME AN ORGANIZER</h5>
+        <h2>We&#39;ll walk you through a few steps to build your local community</h2>
       </div>
-      <div>
-        <h2>What will your group&#39;s name be?</h2>
-        <p>Choose a name that will give people a clear idea of what the group is about.
-Feel free to get creative! You can edit this later if you change your mind.</p>
-        {submitted && <div className="errors">{errors.name}</div>}
-        <label>
-            <textarea
-            placeholder='What is your group name?'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            />
-        </label>
-      </div>
-      <div>
-        <h2>Now describe what your group will be about</h2>
-        <p>People will see this when we promote your group, but you&#39;ll be able to add to it later, too.</p>
-        <ol>
-            <li>What&#39;s the purpose of the group?</li>
-            <li>Who should join?</li>
-            <li>What will you do at your events?</li>
-        </ol>
-        {submitted && <div className="errors">{errors.about}</div>}
-        <label>
-            <textarea
-            placeholder='Please write at least 30 characters'
-            value={about}
-            onChange={(e) => setAbout(e.target.value)}
-            />
-        </label>
-        </div>
-        <h2>Final steps...</h2>
-        <div className={"selector type"}>
-           {submitted && <div className="errors">{errors.type}</div>}
-            <h5>Is this an in person or online group?</h5>
+
+      <div id='group-form-input-area'>
+        <div className={`group-form-input `}>
+          <div className={`group-form-restraint`}>
+            <h2>First, set your group&#39;s location</h2>
+            <p>Meetup groups meet locally, in person and online. We&#39;ll connect you with people
+    in your area, and more can join you online.</p>
+            {submitted && <div className="errors">{errors.location}</div>}
             <label>
-                <select
-                value={type}
-                onChange={(event) => setType(event.target.value)}
-                >
-                    <option value={'In person'}>In person</option>
-                    <option value={'Online'}>Online</option>
-                    <option value={''} disabled>&#40;select one&#41;</option>
-                </select>
+                <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder='City, STATE'
+                />
             </label>
+          </div>
         </div>
-        <div className={"selector private"}>
-            {submitted && <div className="errors">{errors.private}</div>}
-            <h5>Is this group private or public?</h5>
+
+        <div className={`group-form-input `}>
+          <div className={`group-form-restraint`}>
+            <h2>What will your group&#39;s name be?</h2>
+            <p>Choose a name that will give people a clear idea of what the group is about.
+    Feel free to get creative! You can edit this later if you change your mind.</p>
+            {submitted && <div className="errors">{errors.name}</div>}
             <label>
-                <select
-                value={privateBoolean}
-                onChange={(event) => setPrivateBoolean(event.target.value)}
-                placeholder='(select one)'
-                >
-                    <option value={true}>Private</option>
-                    <option value={false}>Public</option>
-                    <option value={''} disabled>&#40;select one&#41;</option>
-                </select>
+                <textarea
+                placeholder='What is your group name?'
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                />
             </label>
+          </div>
         </div>
-        <div>
-        <h5>Please add an image url for your group below:</h5>
-        {submitted && <div className="errors">{errors.image}</div>}
-        <label>
-            <textarea
-            placeholder='Image URL'
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-            />
-        </label>
+
+        <div className={`group-form-input `}>
+          <div className={`group-form-restraint`}>
+            <h2>Now describe what your group will be about</h2>
+            <p>People will see this when we promote your group, but you&#39;ll be able to add to it later, too.</p>
+            <ol>
+                <li>What&#39;s the purpose of the group?</li>
+                <li>Who should join?</li>
+                <li>What will you do at your events?</li>
+            </ol>
+            {submitted && <div className="errors">{errors.about}</div>}
+            <label>
+                <textarea
+                placeholder='Please write at least 30 characters'
+                value={about}
+                onChange={(e) => setAbout(e.target.value)}
+                />
+            </label>
+            </div>
+          </div>
+
+          <div className={`group-form-input `}>
+            <div className={`group-form-restraint`}>
+              <h2>Final steps...</h2>
+              <div className={"selector type"}>
+                {submitted && <div className="errors">{errors.type}</div>}
+                  <h5>Is this an in person or online group?</h5>
+                  <label>
+                      <select
+                      value={type}
+                      onChange={(event) => setType(event.target.value)}
+                      >
+                          <option value={'In person'}>In person</option>
+                          <option value={'Online'}>Online</option>
+                          <option value={''} disabled>&#40;select one&#41;</option>
+                      </select>
+                  </label>
+              </div>
+              <div className={"selector private"}>
+                  {submitted && <div className="errors">{errors.private}</div>}
+                  <h5>Is this group private or public?</h5>
+                  <label>
+                      <select
+                      value={privateBoolean}
+                      onChange={(event) => setPrivateBoolean(event.target.value)}
+                      placeholder='(select one)'
+                      >
+                          <option value={true}>Private</option>
+                          <option value={false}>Public</option>
+                          <option value={''} disabled>&#40;select one&#41;</option>
+                      </select>
+                  </label>
+              </div>
+              <div>
+              <h5>Please add an image url for your group below:</h5>
+              {submitted && <div className="errors">{errors.image}</div>}
+              <label>
+                  <textarea
+                  placeholder='Image URL'
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
+                  />
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <button id='group-form-submit' type="submit">{formType}</button>
       </div>
-      <button type="submit">{formType}</button>
     </form>
   );
 };

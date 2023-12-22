@@ -23,7 +23,7 @@ module.exports = {
    await EventImage.bulkCreate([
     {
       eventId: 1,
-      url: 'https://example.com/',
+      url: 'https://picsum.photos/200',
       preview: true
     },
     {
@@ -33,12 +33,12 @@ module.exports = {
     },
     {
       eventId: 3,
-      url: 'https://vercel.com/new/templates',
+      url: 'https://picsum.photos/200',
       preview: true
     },
     {
       eventId: 4,
-      url: 'https://example.com/',
+      url: 'https://i.imgur.com/CHE6ilh.jpg',
       preview: true
     },
     {
@@ -53,7 +53,7 @@ module.exports = {
     },
     {
       eventId: 5,
-      url: 'https://example.com/',
+      url: 'https://picsum.photos/200',
       preview: true
     },
     {
@@ -63,12 +63,12 @@ module.exports = {
     },
     {
       eventId: 7,
-      url: 'https://vercel.com/new/templates',
+      url: 'https://picsum.photos/200',
       preview: true
     },
     {
       eventId: 8,
-      url: 'https://example.com/',
+      url: 'https://picsum.photos/200',
       preview: true
     },
     {
@@ -78,7 +78,7 @@ module.exports = {
     },
     {
       eventId: 2,
-      url: 'https://vercel.com/new/templates',
+      url: 'https://picsum.photos/200',
       preview: false
     }
    ])

@@ -6,20 +6,21 @@ import './Navigation.css';
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
+
+
   return (
-    <>
-      <NavLink to={'/groups/new'}>Start a new group</NavLink>
-      <ul>
-        <li>
-          <NavLink>Home</NavLink>
-        </li>
+    <div id='Navbar'>
+        <NavLink className='logo'>Home</NavLink>
         {isLoaded && (
-          <li>
+          <div className='profile-area' id={sessionUser ? "logged" : "not-logged"}>
+            {sessionUser &&
+            <NavLink to={'/groups/new'}>Start a new group</NavLink>
+            }
             <ProfileButton user={sessionUser} />
-          </li>
+
+          </div>
         )}
-      </ul>
-    </>
+    </div>
   );
 }
 

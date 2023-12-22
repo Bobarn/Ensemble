@@ -1,0 +1,44 @@
+.event-image {
+    width: 200px;
+}
+
+.event {
+    display: flex;
+    flex-direction: column;
+    width: 650px;
+    border-top: 1px solid lightgrey;
+}
+
+.event-display {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    margin: 5px;
+}
+
+.event-description {
+    align-self: left;
+    word-wrap: break-word;
+}
+
+.event-information {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    position: relative;
+    bottom: 35px;
+    word-wrap: break-word;
+}
+
+.event-information > * {
+    margin: 0px;
+}
+
+.event-display > * {
+    margin: 5px;
+}
+
+.event-information > * {
+    font-weight: 500;
+}

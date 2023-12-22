@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-// import { thunkGetSpecificGroup } from '../../store/groups';
 import { thunkCreateEvent, thunkCreateEventImage } from '../../store/events';
+import './EventForm.css'
 
 const EventForm = ({ event, formType }) => {
   const navigate = useNavigate();
@@ -19,13 +19,6 @@ const EventForm = ({ event, formType }) => {
   const dispatch = useDispatch();
 
   const { groupId } = useParams();
-
-//   const group = useSelector((state) => state.groups[groupId]);
-
-//   useEffect(() => {
-//     dispatch(thunkGetSpecificGroup(groupId))
-//   }, [dispatch])
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -100,24 +93,23 @@ const EventForm = ({ event, formType }) => {
     setErrors(newErrors);
   }, [submitted, type, privateBoolean, image, description, name, price, startDate, endDate])
 
-  /* **DO NOT CHANGE THE RETURN VALUE** */
   return (
-    <form onSubmit={handleSubmit}>
+    <form id='event-form' onSubmit={handleSubmit}>
       <h2>{formType}</h2>
-      <div>
+      <div id='event-name'>
         <h2>What will your event&#39;s name be?</h2>
-        {submitted && <div className="errors">{errors.name}</div>}
         <label>
             <textarea
+            className='event-text'
             placeholder='Event name'
             value={name}
             onChange={(e) => setName(e.target.value)}
             />
         </label>
+        {submitted && <div className="errors">{errors.name}</div>}
       </div>
-      <div>
+      <div id='selectors'>
       <div className={"selector type"}>
-           {submitted && <div className="errors">{errors.type}</div>}
             <h5>Is this an in person or online event?</h5>
             <label>
                 <select
@@ -129,9 +121,9 @@ const EventForm = ({ event, formType }) => {
                     <option value={''} disabled>&#40;select one&#41;</option>
                 </select>
             </label>
+                  {submitted && <div className="errors">{errors.type}</div>}
         </div>
         <div className={"selector private"}>
-            {submitted && <div className="errors">{errors.private}</div>}
             <h5>Is this event private or public?</h5>
             <label>
                 <select
@@ -144,24 +136,26 @@ const EventForm = ({ event, formType }) => {
                     <option value={''} disabled>&#40;select one&#41;</option>
                 </select>
             </label>
+            {submitted && <div className="errors">{errors.private}</div>}
         </div>
-        <div>
+        <div id=''>
         <h5>What is the price of your event?</h5>
-        {submitted && <div className="errors">{errors.price}</div>}
         <div>
         <label>
         <input
         type="number"
         min="0.00"
         step="0.50"
+        placeholder='0'
         value={price}
         onChange={(e) => setPrice(e.target.value)}
         />
         </label>
         </div>
+        {submitted && <div className="errors">{errors.price}</div>}
       </div>
       </div>
-      <div>
+      <div id='event-dates'>
         <h5>When does your event start?</h5>
         <label htmlFor="start">
         <input
@@ -173,41 +167,46 @@ const EventForm = ({ event, formType }) => {
         onChange={(e) => setStartDate(e.target.value)}
         />
         </label>
+        {submitted && <div className="errors">{errors.startDate}</div>}
         <h5>When does your event end?</h5>
-        <label htmlFor="start">
+        <label htmlFor="end">
         <input
         type="datetime-local"
-        id="start"
+        id="end"
         name="endDate"
         value={endDate}
         min={new Date().toISOString().split("T")[0]}
         onChange={(e) => setEndDate(e.target.value)}
         />
         </label>
+        {submitted && <div className="errors">{errors.endDate}</div>}
+
       </div>
-      <div>
+      <div id='event-image-url'>
         <h5>Please add an image url for your event below:</h5>
-        {submitted && <div className="errors">{errors.image}</div>}
         <label>
             <textarea
+            className='event-text'
             placeholder='Image URL'
             value={image}
             onChange={(e) => setImage(e.target.value)}
             />
         </label>
+            {submitted && <div className="errors">{errors.image}</div>}
       </div>
       <div>
         <h5>Please describe your event:</h5>
-        {submitted && <div className="errors">{errors.description}</div>}
         <label>
             <textarea
+            id='event-description-area'
             placeholder='Please include at least 30 characters'
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             />
         </label>
+            {submitted && <div className="errors">{errors.description}</div>}
         </div>
-      <button type="submit">{formType}</button>
+      <button id='event-form-submit' type="submit">{formType}</button>
     </form>
   );
 };

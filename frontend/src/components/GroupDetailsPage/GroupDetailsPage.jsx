@@ -6,6 +6,7 @@ import { thunkGetGroupEvents } from '../../store/events';
 import GroupExtrasArea from '../GroupExtrasArea/GroupExtrasArea';
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import DeleteGroupConfirmationModal from '../DeleteGroupConfirmationModal/DeleteGroupConfirmationModal';
+import './GroupDetailsPage.css';
 
 
 export default function GroupDetailsPage() {
@@ -39,36 +40,38 @@ export default function GroupDetailsPage() {
     }
 
     return (
-        <div>
-            <div>
-                <Link to='/groups' className='back-button'>Groups</Link>
-                <img src={groupImage} alt='Preview Image for this group'/>
-            </div>
-            <div>
-                <div>
-                    <h2 className='group-name'>{group?.name}</h2>
-                    <h5 className='group-location'>{`${group?.city}, ${group?.state}`}</h5>
-                    <div className='group-details'>
-                        <h5># {events?.length} events</h5>
-                        <h5>&bull;</h5>
-                        <h5>{group?.private ? "Private": "Public"}</h5>
-                    </div>
-                    <h5>Organized by {`${group?.Organizer?.firstName} ${group?.Organizer?.lastName}`}</h5>
+        <div id='group-details-main'>
+                    <Link to='/groups' className='back-button'>Groups</Link>
+            <div id='group-details-body'>
+                <div id='group-details-img-container'>
+                    <img id='group-details-img' src={groupImage} alt='Preview Image for this group'/>
                 </div>
-                <span>
-                    {userId === group?.organizerId &&
-                    <div>
-                        <button onClick={onClickCreateEvent}>Create event</button>
-                        <button onClick={onClickUpdate}>Update</button>
-                        <OpenModalMenuItem
-                        itemText="Delete"
-                        modalComponent={<DeleteGroupConfirmationModal groupId={groupId} />}
-                        />
-                    </div>}
-                    {userId && userId !== group?.organizerId && <div>
-                        <button onClick={() => alert('Functionality coming soon')}>Join this group</button>
-                    </div>}
-                </span>
+                <div id='group-details-information'>
+                    <div className='group-information'>
+                        <h2 className='group-name'>{group?.name}</h2>
+                        <h5 className='group-location'>{`${group?.city}, ${group?.state}`}</h5>
+                        <div className='group-details'>
+                            <h5># {events?.length} events</h5>
+                            <h5>&bull;</h5>
+                            <h5>{group?.private ? "Private": "Public"}</h5>
+                        </div>
+                        <h5>Organized by {`${group?.Organizer?.firstName} ${group?.Organizer?.lastName}`}</h5>
+                    </div>
+                    <span>
+                        {userId === group?.organizerId &&
+                        <div className='organizer-actions'>
+                            <button onClick={onClickCreateEvent}>Create event</button>
+                            <button onClick={onClickUpdate}>Update</button>
+                            <OpenModalMenuItem
+                            itemText="Delete"
+                            modalComponent={<DeleteGroupConfirmationModal groupId={groupId} />}
+                            />
+                        </div>}
+                        {userId && userId !== group?.organizerId && <div className='join-button-soon-div'>
+                            <button className='join-button-soon' onClick={() => alert('Functionality coming soon')}>Join this group</button>
+                        </div>}
+                    </span>
+                </div>
             </div>
             <GroupExtrasArea group={group} events={events}/>
         </div>
