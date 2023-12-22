@@ -12,6 +12,7 @@ import EventDetailsPage from './components/EventDetailsPage/EventDetailsPage';
 import CreateEventPage from './components/CreateEventPage/CreateEventPage';
 import { Modal } from './context/Modal';
 import * as sessionActions from './store/session';
+import './index.css'
 
 function Layout() {
   const dispatch = useDispatch();
@@ -27,7 +28,9 @@ function Layout() {
     <>
       <Modal />
       <Navigation isLoaded={isLoaded} />
+      <main>
       {isLoaded && <Outlet />}
+      </main>
     </>
   );
 }

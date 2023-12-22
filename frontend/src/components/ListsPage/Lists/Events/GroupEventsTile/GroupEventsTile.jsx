@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import './GroupEventsTile.css'
 
 export default function GroupEventsTile( { event } ) {
 
@@ -9,19 +10,18 @@ export default function GroupEventsTile( { event } ) {
     }
 
     return (
-        <>
-            <div onClick={onClick}>
-                <div>
-                    <div><img src={event.previewImage} alt={`${event.name} preview image`}/></div>
-                    <div>
+            <div className="event" onClick={onClick}>
+                <div className="event-display">
+                    <div><img className="event-image" src={event.previewImage} alt={`${event.name} preview image`}/></div>
+                    <div className="event-information">
                         <h5>{`${new Date (event.startDate)}`.slice(0, 21)}</h5>
                         <h3>{event.name}</h3>
+                        <h5>{`${event.Group.city}, ${event.Group.state}`}</h5>
                     </div>
                 </div>
-                <p>
+                <p className="event-description">
                     {event.description}
                 </p>
             </div>
-        </>
     )
 }

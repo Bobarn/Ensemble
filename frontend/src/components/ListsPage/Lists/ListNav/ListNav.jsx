@@ -1,10 +1,12 @@
 import { NavLink } from "react-router-dom"
+import './ListNav.css'
+
 export default function ListNav() {
 
     return (
-    <div>
-        <NavLink to='/events'>Events</NavLink>
-        <NavLink to='/groups' end>Groups</NavLink>
+    <div id="list-nav">
+        <NavLink className='list-nav-link' to='/events'>Events</NavLink>
+        <NavLink className='list-nav-link' to='/groups' end>Groups</NavLink>
     </div>
     )
 }

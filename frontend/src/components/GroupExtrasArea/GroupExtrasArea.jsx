@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { thunkGetGroupEvents } from "../../store/events";
 import { useRef } from "react";
 import GroupEventsTile from "../ListsPage/Lists/Events/GroupEventsTile/GroupEventsTile.jsx";
-// import { useNavigate } from "react-router-dom";
+import './GroupExtrasArea.css';
 
 export default function GroupExtrasArea( { group } ) {
     const ref = useRef();
@@ -20,7 +20,7 @@ export default function GroupExtrasArea( { group } ) {
 
 
     return (
-        <div ref={ref}>
+        <div ref={ref} className="extras-area">
             <div>
                 <h2>Organizer</h2>
                 <h5>{`${group?.Organizer?.firstName} ${group?.Organizer?.lastName}`}</h5>
@@ -31,19 +31,17 @@ export default function GroupExtrasArea( { group } ) {
             </div>
             <span>
                 {upcoming?.length > 0 && <h2>Upcoming Events &#40;{upcoming?.length}&#41;</h2>}
-                <ul>
-                    {upcoming?.map((event) => (
-                        <li key={event?.id}><GroupEventsTile event={event}/></li>
-                    ))}
-                </ul>
+
+                {upcoming?.map((event) => (
+                    <div key={event?.id}><GroupEventsTile event={event}/></div>
+                ))}
             </span>
             <span>
                 {past?.length > 0 && <h2>Past Events &#40;{past?.length}&#41;</h2>}
-                <ul>
-                    {past?.map((event) => (
-                        <li key={event?.id}><GroupEventsTile event={event}/></li>
-                    ))}
-                </ul>
+
+                {past?.map((event) => (
+                    <div key={event?.id}><GroupEventsTile event={event}/></div>
+                ))}
             </span>
         </div>
     )

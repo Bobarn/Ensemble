@@ -23,7 +23,7 @@ module.exports = {
     await GroupImage.bulkCreate([
       {
         groupId: 1,
-        url: 'https://example.com/',
+        url: 'https://picsum.photos/200.jpg',
         preview: true
       },
       {
@@ -33,7 +33,7 @@ module.exports = {
       },
       {
         groupId: 3,
-        url: 'https://vercel.com/new/templates',
+        url: 'https://picsum.photos/300?random=2',
         preview: true
       },
       {
@@ -62,7 +62,7 @@ module.exports = {
 
     return await queryInterface.bulkDelete(options, {
       url: {
-        [Op.in]: ['https://vercel.com/new/templates', 'https://i.imgur.com/CHE6ilh.jpg', 'https://example.com/']
+        [Op.in]: ['https://picsum.photos/200/300?random=2', 'https://i.imgur.com/CHE6ilh.jpg', 'https://picsum.photos/seed/picsum/200/300/?blur', 'https://picsum.photos/200.jpg']
       }
     }, {})
   }

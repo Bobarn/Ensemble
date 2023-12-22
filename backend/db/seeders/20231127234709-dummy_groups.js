@@ -53,7 +53,7 @@ module.exports = {
       {
         organizerId: 4,
         name: 'MinuteMen',
-        about: 'A casual historical re-enactment group',
+        about: 'A casual historical re-enactment group, we cover mostly US history but are open to exploring and accepting other eras and geographical origins.',
         type: 'In person',
         private: false,
         city: 'Philadelphia',

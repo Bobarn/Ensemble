@@ -1,0 +1,47 @@
+#event-form {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 400px;
+    margin: 0px auto;
+}
+
+#event-name {
+    border-bottom: 2px solid lightgrey;
+}
+
+#selectors {
+    border-bottom: 2px solid lightgrey;
+}
+
+#event-dates {
+    border-bottom: 2px solid lightgrey;
+}
+
+#event-image-url {
+    border-bottom: 2px solid lightgrey;
+}
+
+#event-description-area {
+    width: 300px;
+    height: 100px;
+}
+
+.event-text {
+    width: 300px;
+    line-height: 0.6em;
+    display: flex;
+    align-items: center;
+}
+
+#event-form-submit {
+    margin: 10px;
+    width: 100px;
+    height: 40px;
+    font-size: 0.9rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    box-shadow: 1px 2px 2px lightgrey;
+    border: solid 1px;
+    border-radius: 5px;
+}

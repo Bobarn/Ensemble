@@ -1,0 +1,19 @@
+#landing-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    top: 50px;
+}
+
+#landing-intro {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.landing-intro-content {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}

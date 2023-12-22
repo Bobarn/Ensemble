@@ -1,0 +1,6 @@
+.extras-area {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    left: 140px;
+}

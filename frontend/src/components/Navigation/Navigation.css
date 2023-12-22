@@ -1,3 +1,43 @@
 .hidden {
     display: none
 }
+
+#Navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    margin-right: 0px;
+    margin-left: 0px;
+    border-bottom: 1px solid lightgrey;
+}
+
+.logo {
+    margin: 10px;
+}
+
+.profile-area {
+    display: flex;
+}
+
+#logged {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 15%;
+}
+
+#not-logged {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 15%;
+}
+
+.floating {
+    position: relative;
+    top: 15px;
+}
