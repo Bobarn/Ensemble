@@ -1,0 +1,30 @@
+#group-tile {
+    display: flex;
+    flex-direction: row;
+}
+
+#group-tile-img-container {
+    display: flex;
+    width: 150px;
+    justify-content: center;
+    align-items: center;
+}
+
+#group-tile-img {
+    width: 80%;
+}
+
+#group-tile-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#group-tile-info > * {
+    margin: 5px 0px;
+}
+
+#group-tile-info > h6 {
+    color: grey;
+}

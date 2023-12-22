@@ -37,6 +37,8 @@ const EventForm = ({ event, formType }) => {
 
       await dispatch(thunkCreateEventImage(event?.id, image))
 
+      console.log(event);
+
     }
     // else if(formType === 'Update Event' && !event.errors){
 
@@ -80,14 +82,26 @@ const EventForm = ({ event, formType }) => {
     if(!name) {
         newErrors.name = 'Name is required';
     }
+    if(name?.length > 60) {
+      newErrors.name = 'Name must be between 60 and 3 characters';
+    }
+    if(name?.length < 3) {
+      newErrors.name = 'Name must be 3 character or'
+    }
     if(!price){
         newErrors.price = 'Price is required';
     }
     if(!startDate) {
         newErrors.startDate = 'Event start is required'
     }
+    if(new Date(startDate).getTime() < new Date().getTime()) {
+      newErrors.startDate = 'Event start must be in the future'
+    }
     if(!endDate) {
-        newErrors.endDate = 'Event end is required'
+      newErrors.endDate = 'Event end is required'
+    }
+    if(new Date(endDate).getTime() <= new Date(startDate).getTime()) {
+      newErrors.endDate = 'Event end must be after the start'
     }
 
     setErrors(newErrors);

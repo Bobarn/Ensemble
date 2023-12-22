@@ -1,7 +1,10 @@
 import { useNavigate } from "react-router-dom";
+// import { useDispatch, useEffect } from "react-redux";
 import './GroupEventsTile.css'
+// import { thunkGetSpecificEvent } from "../../../../../store/events";
 
 export default function GroupEventsTile( { event } ) {
+
 
     const navigate = useNavigate();
 
@@ -9,10 +12,12 @@ export default function GroupEventsTile( { event } ) {
         navigate(`/events/${event.id}`);
     }
 
+
+
     return (
             <div className="event" onClick={onClick}>
                 <div className="event-display">
-                    <div><img className="event-image" src={event.previewImage} alt={`${event.name} preview image`}/></div>
+                    <div className="event-image-container"><img className="event-image" src={event.previewImage} alt={`${event.name} preview image`}/></div>
                     <div className="event-information">
                         <h5>{`${new Date (event.startDate)}`.slice(0, 21)}</h5>
                         <h3>{event.name}</h3>

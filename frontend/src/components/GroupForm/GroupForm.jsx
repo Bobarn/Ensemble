@@ -71,8 +71,8 @@ const GroupForm = ({ group, formType, groupId }) => {
     if((!image?.endsWith('.png') && !image?.endsWith('.PNG') && !image?.endsWith('.jpg') && !image?.endsWith('.JPG') && !image?.endsWith('.jpeg') && !image?.endsWith('.JPEG')) && image) {
         newErrors.image = 'Image URL must end in .png, .jpg, or .jpeg';
     }
-    if(about?.length < 30) {
-        newErrors.about = 'Description must be at least 30 characters long';
+    if(about?.length < 50) {
+        newErrors.about = 'Description must be at least 50 characters long';
     }
     if(!name) {
         newErrors.name = 'Name is required';
@@ -137,7 +137,7 @@ const GroupForm = ({ group, formType, groupId }) => {
             {submitted && <div className="errors">{errors.about}</div>}
             <label>
                 <textarea
-                placeholder='Please write at least 30 characters'
+                placeholder='Please write at least 50 characters'
                 value={about}
                 onChange={(e) => setAbout(e.target.value)}
                 />
