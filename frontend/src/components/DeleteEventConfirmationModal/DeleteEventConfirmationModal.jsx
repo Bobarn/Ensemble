@@ -11,8 +11,9 @@ function DeleteEventConfirmationModal( { eventId } ) {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
+    closeModal()
+
     dispatch(thunkDeleteEvent(eventId))
-      .then(closeModal)
       .then(navigate('/events'))
   };
 

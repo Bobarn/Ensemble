@@ -15,10 +15,14 @@ const GroupForm = ({ group, formType, groupId }) => {
   const [image, setImage] = useState(group?.image);
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false)
+  const [disabled, setDisabled] = useState(false);
+
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setDisabled(true);
 
     setSubmitted(true);
 
@@ -43,6 +47,7 @@ const GroupForm = ({ group, formType, groupId }) => {
       await dispatch(thunkCreateGroupImage(image, groupId));
 
     } else {
+      setDisabled(false)
 
       return null;
 
@@ -51,6 +56,8 @@ const GroupForm = ({ group, formType, groupId }) => {
     if(group.errors) {
 
       setErrors(group.errors);
+
+      setDisabled(false);
 
     } else {
 
@@ -71,8 +78,8 @@ const GroupForm = ({ group, formType, groupId }) => {
     if((!image?.endsWith('.png') && !image?.endsWith('.PNG') && !image?.endsWith('.jpg') && !image?.endsWith('.JPG') && !image?.endsWith('.jpeg') && !image?.endsWith('.JPEG')) && image) {
         newErrors.image = 'Image URL must end in .png, .jpg, or .jpeg';
     }
-    if(about?.length < 30) {
-        newErrors.about = 'Description must be at least 30 characters long';
+    if(about?.length < 50) {
+        newErrors.about = 'Description must be at least 50 characters long';
     }
     if(!name) {
         newErrors.name = 'Name is required';
@@ -137,7 +144,7 @@ const GroupForm = ({ group, formType, groupId }) => {
             {submitted && <div className="errors">{errors.about}</div>}
             <label>
                 <textarea
-                placeholder='Please write at least 30 characters'
+                placeholder='Please write at least 50 characters'
                 value={about}
                 onChange={(e) => setAbout(e.target.value)}
                 />
@@ -191,7 +198,7 @@ const GroupForm = ({ group, formType, groupId }) => {
           </div>
         </div>
 
-        <button id='group-form-submit' type="submit">{formType}</button>
+        <button disabled={disabled} id='group-form-submit' type="submit">{formType}</button>
       </div>
     </form>
   );

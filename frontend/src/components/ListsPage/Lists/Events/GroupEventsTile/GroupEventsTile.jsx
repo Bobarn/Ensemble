@@ -12,7 +12,7 @@ export default function GroupEventsTile( { event } ) {
     return (
             <div className="event" onClick={onClick}>
                 <div className="event-display">
-                    <div><img className="event-image" src={event.previewImage} alt={`${event.name} preview image`}/></div>
+                    <div className="event-image-container"><img className="event-image" src={event.previewImage} alt={`${event.name} preview image`}/></div>
                     <div className="event-information">
                         <h5>{`${new Date (event.startDate)}`.slice(0, 21)}</h5>
                         <h3>{event.name}</h3>

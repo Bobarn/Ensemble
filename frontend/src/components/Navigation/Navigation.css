@@ -16,6 +16,14 @@
 
 .logo {
     margin: 10px;
+    overflow: hidden;
+    height: 55px;
+    border-radius: 10px;
+}
+
+#ensemble-logo {
+    width: 100px;
+    border-radius: 10px;
 }
 
 .profile-area {

@@ -98,7 +98,7 @@ const validateEventPost = [
       .withMessage('Venue does not exist'),
    check('name')
       .exists()
-      .isLength({ min: 5 })
+      .isLength({ max: 60 })
       .withMessage('Name must be 60 characters or less'),
    check('type')
       .exists()

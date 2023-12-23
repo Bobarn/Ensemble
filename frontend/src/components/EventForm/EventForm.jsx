@@ -16,12 +16,15 @@ const EventForm = ({ event, formType }) => {
   const [endDate, setEndDate] = useState(event?.endDate);
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false)
+  const [disabled, setDisabled] = useState(false);
   const dispatch = useDispatch();
 
   const { groupId } = useParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setDisabled(true);
 
     setSubmitted(true);
 
@@ -37,6 +40,8 @@ const EventForm = ({ event, formType }) => {
 
       await dispatch(thunkCreateEventImage(event?.id, image))
 
+      console.log(event);
+
     }
     // else if(formType === 'Update Event' && !event.errors){
 
@@ -47,6 +52,8 @@ const EventForm = ({ event, formType }) => {
     // }
     else {
 
+      setDisabled(false)
+
       return null;
 
     }
@@ -54,6 +61,8 @@ const EventForm = ({ event, formType }) => {
     if(event.errors) {
 
       setErrors(event.errors);
+
+      setDisabled(false);
 
     } else {
 
@@ -80,14 +89,26 @@ const EventForm = ({ event, formType }) => {
     if(!name) {
         newErrors.name = 'Name is required';
     }
+    if(name?.length > 60) {
+      newErrors.name = 'Name must be between 60 and 3 characters';
+    }
+    if(name?.length < 3) {
+      newErrors.name = 'Name must be 3 character or'
+    }
     if(!price){
         newErrors.price = 'Price is required';
     }
     if(!startDate) {
         newErrors.startDate = 'Event start is required'
     }
+    if(new Date(startDate).getTime() < new Date().getTime()) {
+      newErrors.startDate = 'Event start must be in the future'
+    }
     if(!endDate) {
-        newErrors.endDate = 'Event end is required'
+      newErrors.endDate = 'Event end is required'
+    }
+    if(new Date(endDate).getTime() <= new Date(startDate).getTime()) {
+      newErrors.endDate = 'Event end must be after the start'
     }
 
     setErrors(newErrors);
@@ -206,7 +227,7 @@ const EventForm = ({ event, formType }) => {
         </label>
             {submitted && <div className="errors">{errors.description}</div>}
         </div>
-      <button id='event-form-submit' type="submit">{formType}</button>
+      <button disabled={disabled} id='event-form-submit' type="submit">{formType}</button>
     </form>
   );
 };

@@ -1,0 +1,37 @@
+#group-tile {
+    display: flex;
+    flex-direction: row;
+    background-color: #90C494;
+    width: 60%;
+    height: 150px;
+    border-radius: 15px;
+    height: fit-content;
+}
+
+#group-tile-img-container {
+    display: flex;
+    width: 150px;
+    justify-content: center;
+    align-items: center;
+    height: 160px;
+}
+
+#group-tile-img {
+    width: 80%;
+    max-height: 150px;
+}
+
+#group-tile-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#group-tile-info > * {
+    margin: 5px 0px;
+}
+
+#group-tile-info > h6 {
+    color: grey;
+}

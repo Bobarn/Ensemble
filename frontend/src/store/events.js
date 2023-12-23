@@ -58,7 +58,10 @@ const createEventImage = (eventId, image) => {
 }
 
 export const thunkGetAllEvents = () => async (dispatch) => {
-    const response = await csrfFetch('/api/events');
+    const response = await csrfFetch('/api/events', {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'}
+    });
 
     if(response.ok) {
         const events = await response.json();
@@ -172,13 +175,15 @@ export const thunkCreateEventImage = (eventId, image) => async (dispatch) => {
 export const thunkDeleteEvent = (eventId) => async (dispatch) => {
 
     const response = await csrfFetch(`/api/events/${eventId}`, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json'}
+        method: 'DELETE'
     });
+
+    await dispatch(thunkGetAllEvents());
+
 
     if(response.ok) {
 
-        dispatch(deleteEvent(eventId));
+        await dispatch(deleteEvent(eventId));
 
     } else {
 
@@ -202,7 +207,7 @@ const initialState = { Past: {}, Upcoming: {},  Events: {}, All: {} };
 export default function eventsReducer(state = {...initialState}, action ) {
     switch(action.type) {
         case GET_ALL_EVENTS: {
-            const newState = { Past: {...state.Past}, Upcoming: {...state.Upcoming}, Events: {...state.Events}, All: {...state.All}}
+            const newState = { ...state, All: {...state.All}}
 
             action.events.forEach((event) => {
                 newState.All[event.id] = event;
@@ -269,7 +274,7 @@ export default function eventsReducer(state = {...initialState}, action ) {
             return newState;
         }
         case DELETE_EVENT: {
-            const newState = { Past: {...state.Past}, Upcoming: {...state.Upcoming}, Events: {...state.Events}, All: {...state.All}};
+            const newState = {...state, Past: {...state.Past}, Upcoming: {...state.Upcoming}, All: {...state.All}};
 
             delete newState.All[action.eventId];
 

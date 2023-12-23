@@ -5,6 +5,7 @@ import { thunkGetSpecificEvent } from '../../store/events';
 import GroupTile from '../GroupTile/GroupTile';
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import DeleteEventConfirmationModal from '../DeleteEventConfirmationModal/DeleteEventConfirmationModal';
+import './EventDetailsPage.css';
 
 export default function EventDetailsPage() {
 
@@ -22,50 +23,53 @@ export default function EventDetailsPage() {
 
 
     return (
-        <div>
-            This is the Events page
-             <div>
-                <Link to='/events' className='back-button'>Events</Link>
-                <h2 className='group-name'>{event?.name}</h2>
+        <div id='events-page'>
+             <div id='events-heading'>
+                <Link to='/events' className='back-button-events'> <i className="fa-solid fa-angle-left"></i>Events</Link>
+                <h2 className='event-name'>{event?.name}</h2>
                 <h5>Hosted by {`${event?.Group?.Organizer?.firstName} ${event?.Group?.Organizer?.lastName}`}</h5>
              </div>
-             <div>
-                <div>
-                <img src={event?.EventImages?.find((image) => image.preview === true)?.url} alt='Preview Image for this event'/>
-                </div>
-                <div>
-                    <div>
-                        <GroupTile group={event?.Group}/>
+             <div id='event-body-container'>
+                <div id='event-display-info'>
+                    <div id='event-details-img-container'>
+                    <img id='event-details-img' src={event?.EventImages?.find((image) => image.preview === true)?.url} alt='Preview Image for this event'/>
                     </div>
-                    <div>
+                    <div id='event-details-information'>
                         <div>
-                            <i className="fa-regular fa-clock"></i>
-                            <h5>{`${new Date (event?.startDate)}`.slice(0, 21)}</h5>
-                            <h5>{`${new Date (event?.endDate)}`.slice(0, 21)}</h5>
+                            <GroupTile group={event?.Group}/>
                         </div>
-                        <div><i className="fa-solid fa-dollar-sign"></i></div>
-                        <div><i className="fa-solid fa-location-dot"></i></div>
-                        <span>
-                     {userId === event?.Group?.organizerId &&
-                     <div>
-                         <button onClick={() => alert('Functionality coming soon')}>Update</button>
-                         <OpenModalMenuItem
-                         itemText="Delete"
-                         modalComponent={<DeleteEventConfirmationModal eventId={eventId} />}
-                         />
-                     </div>}
-                     {userId && userId !== event?.Group?.organizerId && <div>
-                         <button onClick={() => alert('Functionality coming soon~!')}>Attend</button>
-                     </div>}
-                 </span>
+                        <div id='event-details-additional'>
+                            <div className='event-additional'>
+                                <div id='event-time-icon'><i className="fa-regular fa-clock"></i></div>
+                                <div>
+                                    <h5>{`${new Date (event?.startDate)}`.slice(0, 21)}</h5>
+                                    <h5>{`${new Date (event?.endDate)}`.slice(0, 21)}</h5>
+                                </div>
+                            </div>
+                            <div className='event-additional'><i className="fa-solid fa-dollar-sign"></i> {event?.price}</div>
+                            <div className='event-additional'><i className="fa-solid fa-location-dot"></i> {event?.type}</div>
+                            <span id='event-organizer-actions-containter'>
+                        {userId === event?.Group?.organizerId &&
+                        <div id='event-organizer-actions'>
+                            <button onClick={() => alert('Functionality coming soon')}>Update</button>
+                            <OpenModalMenuItem
+                            itemText="Delete"
+                            modalComponent={<DeleteEventConfirmationModal eventId={eventId} />}
+                            />
+                        </div>}
+                        {userId && userId !== event?.Group?.organizerId && <div>
+                            <button onClick={() => alert('Functionality coming soon~!')}>Attend</button>
+                        </div>}
+                    </span>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <h2>Details</h2>
-                    <p>
-                        {event?.description}
-                    </p>
-                </div>
+                    <div>
+                        <h2>Details</h2>
+                        <p>
+                            {event?.description}
+                        </p>
+                    </div>
              </div>
         </div>
     )

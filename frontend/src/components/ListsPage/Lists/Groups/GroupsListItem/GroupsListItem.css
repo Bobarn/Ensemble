@@ -14,6 +14,9 @@
     height: 250px;
     border-top: 1px solid lightgrey;
     width: 650px;
+    background-color: #90C494;
+    border-radius: 5px;
+    margin-top: 10px;
 }
 
 .group-information {

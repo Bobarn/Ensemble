@@ -1,4 +1,4 @@
-#list-nav {
+.list-nav {
     display: flex;
     position: relative;
     right: 200px;
@@ -7,7 +7,25 @@
     width: 160px;
 }
 
+.list-nav > * {
+    color: grey;
+}
+
+.list-nav > *:hover {
+    text-decoration: underline;
+}
+
 .list-nav-link {
     font-size: 1.5rem;
     align-self: left;
+    text-decoration: none;
+}
+
+.list-nav > .active {
+    color: seagreen;
+    text-decoration: underline;
+}
+
+.list-nav > .active:hover {
+    cursor: default;
 }

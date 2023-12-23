@@ -1,6 +1,7 @@
 #group-details-main {
     display: flex;
     flex-direction: column;
+    padding-left: 5%;
 }
 
 #group-details-img-container {
@@ -82,5 +83,5 @@
 
 .back-button {
     position: relative;
-    left: 145px;
+    left: 7%;
 }

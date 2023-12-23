@@ -41,7 +41,7 @@ export default function GroupDetailsPage() {
 
     return (
         <div id='group-details-main'>
-                    <Link to='/groups' className='back-button'>Groups</Link>
+                    <Link to='/groups' className='back-button'> <i className="fa-solid fa-angle-left"></i>Groups</Link>
             <div id='group-details-body'>
                 <div id='group-details-img-container'>
                     <img id='group-details-img' src={groupImage} alt='Preview Image for this group'/>
