@@ -25,6 +25,18 @@ function LoginFormModal() {
       });
   };
 
+  const onClick = () => {
+
+      return dispatch(sessionActions.login({ credential: 'Demo-lition', password: 'password' }))
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
+  }
+
   useEffect(() => {
     let boolean = true
     if(credential.length >= 4 && password.length >= 6) {
@@ -60,6 +72,7 @@ function LoginFormModal() {
           <p>{errors.credential}</p>
         )}
         <button disabled={disabled} type="submit">Log In</button>
+        <h5 id='demo' onClick={onClick}>Log in as Demo User</h5>
       </form>
     </div>
   );

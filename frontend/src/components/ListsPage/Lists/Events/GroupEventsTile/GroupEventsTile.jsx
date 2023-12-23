@@ -10,6 +10,7 @@ export default function GroupEventsTile( { event } ) {
     }
 
     return (
+        <div className="block">
             <div className="event" onClick={onClick}>
                 <div className="event-display">
                     <div className="event-image-container"><img className="event-image" src={event.previewImage} alt={`${event.name} preview image`}/></div>
@@ -23,5 +24,6 @@ export default function GroupEventsTile( { event } ) {
                     {event.description}
                 </p>
             </div>
+        </div>
     )
 }

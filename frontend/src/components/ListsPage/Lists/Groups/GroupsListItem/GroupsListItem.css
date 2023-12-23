@@ -17,6 +17,11 @@
     background-color: #90C494;
     border-radius: 5px;
     margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.group-item:hover {
+    cursor: pointer;
 }
 
 .group-information {

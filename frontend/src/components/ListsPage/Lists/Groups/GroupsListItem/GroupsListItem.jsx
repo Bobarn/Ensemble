@@ -21,18 +21,20 @@ export default function GroupListItem({ group }) {
     }
 
     return (
-        <div className='group-item' onClick={onClick}>
-            <div className='group-img-container'>
-                <img className='group-img' src={group.previewImage} alt='Preview image for this group'/>
-            </div>
-            <div className='group-information'>
-                <h2 className='group-name'>{group.name}</h2>
-                <h5 className='group-location'>{`${group.city}, ${group.state}`}</h5>
-                <p className='group-about-preview'>{group.about}</p>
-                <div className='group-description'>
-                    <h5># {events?.length} event&#40;s&#41;</h5>
-                    <h5>&bull;</h5>
-                    <h5>{group.private ? "Private": "Public"}</h5>
+        <div className='block'>
+            <div className='group-item' onClick={onClick}>
+                <div className='group-img-container'>
+                    <img className='group-img' src={group.previewImage} alt='Preview image for this group'/>
+                </div>
+                <div className='group-information'>
+                    <h2 className='group-name'>{group.name}</h2>
+                    <h5 className='group-location'>{`${group.city}, ${group.state}`}</h5>
+                    <p className='group-about-preview'>{group.about}</p>
+                    <div className='group-description'>
+                        <h5># {events?.length} event&#40;s&#41;</h5>
+                        <h5>&bull;</h5>
+                        <h5>{group.private ? "Private": "Public"}</h5>
+                    </div>
                 </div>
             </div>
         </div>
