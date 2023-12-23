@@ -10,7 +10,7 @@ function Navigation({ isLoaded }) {
 
   return (
     <div id='Navbar'>
-        <NavLink className='logo'>Home</NavLink>
+        <NavLink className='logo'><img id='ensemble-logo' alt='Ensemble Logo' src='https://cdn.discordapp.com/attachments/1187515837817557065/1187871344793243739/Screenshot_2023-12-22_133621.png?ex=65987666&is=65860166&hm=50e8aad8e19072bbc26e85266fd973868b9dd2761be2dabd8c9eb15661637640&'/></NavLink>
         {isLoaded && (
           <div className='profile-area' id={sessionUser ? "logged" : "not-logged"}>
             {sessionUser &&

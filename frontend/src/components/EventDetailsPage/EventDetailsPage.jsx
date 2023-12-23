@@ -25,7 +25,7 @@ export default function EventDetailsPage() {
     return (
         <div id='events-page'>
              <div id='events-heading'>
-                <Link to='/events' className='back-button-events'>Events</Link>
+                <Link to='/events' className='back-button-events'> <i className="fa-solid fa-angle-left"></i>Events</Link>
                 <h2 className='event-name'>{event?.name}</h2>
                 <h5>Hosted by {`${event?.Group?.Organizer?.firstName} ${event?.Group?.Organizer?.lastName}`}</h5>
              </div>

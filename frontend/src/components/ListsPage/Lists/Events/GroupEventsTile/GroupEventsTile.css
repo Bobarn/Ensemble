@@ -12,6 +12,9 @@
     flex-direction: column;
     width: 650px;
     border-top: 1px solid lightgrey;
+    background-color: #90C494;
+    margin-top: 10px;
+    border-radius: 5px;
 }
 
 .event-display {
