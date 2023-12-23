@@ -22,7 +22,7 @@
 }
 
 .list-nav > .active {
-    color: seagreen;
+    color: teal;
     text-decoration: underline;
 }
 
