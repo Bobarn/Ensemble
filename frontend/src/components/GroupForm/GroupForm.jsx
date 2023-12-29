@@ -16,8 +16,9 @@ const GroupForm = ({ group, formType, groupId }) => {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false)
   const [disabled, setDisabled] = useState(false);
-
   const dispatch = useDispatch();
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +45,7 @@ const GroupForm = ({ group, formType, groupId }) => {
 
       group = await dispatch(thunkUpdateGroup(group, groupId));
 
-      await dispatch(thunkCreateGroupImage(image, groupId));
+      // await dispatch(thunkCreateGroupImage(image, groupId));
 
     } else {
       setDisabled(false)
@@ -75,7 +76,7 @@ const GroupForm = ({ group, formType, groupId }) => {
     if(privateBoolean === '') {
         newErrors.private = 'Visibility Type is required';
     }
-    if((!image?.endsWith('.png') && !image?.endsWith('.PNG') && !image?.endsWith('.jpg') && !image?.endsWith('.JPG') && !image?.endsWith('.jpeg') && !image?.endsWith('.JPEG')) && image) {
+    if((!image?.endsWith('.png') && !image?.endsWith('.PNG') && !image?.endsWith('.jpg') && !image?.endsWith('.JPG') && !image?.endsWith('.jpeg') && !image?.endsWith('.JPEG'))) {
         newErrors.image = 'Image URL must end in .png, .jpg, or .jpeg';
     }
     if(about?.length < 50) {
@@ -93,18 +94,19 @@ const GroupForm = ({ group, formType, groupId }) => {
 
   return (
     <form id='group-form' onSubmit={handleSubmit}>
-      <div id='group-form-headings'>
-        <h5>BECOME AN ORGANIZER</h5>
-        <h2>We&#39;ll walk you through a few steps to build your local community</h2>
-      </div>
+      {formType === 'Create Group' ? <div id='group-form-headings'>
+        <h2>Start a New Group</h2>
+        <h5>We&#39;ll walk you through a few steps to build your local community</h5>
+      </div> : <div id='group-form-headings'>
+        <h2>Update your Group</h2>
+        </div>}
 
       <div id='group-form-input-area'>
         <div className={`group-form-input `}>
           <div className={`group-form-restraint`}>
-            <h2>First, set your group&#39;s location</h2>
+            <h2>Set your group&#39;s location</h2>
             <p>Meetup groups meet locally, in person and online. We&#39;ll connect you with people
     in your area, and more can join you online.</p>
-            {submitted && <div className="errors">{errors.location}</div>}
             <label>
                 <input
                 type="text"
@@ -113,6 +115,7 @@ const GroupForm = ({ group, formType, groupId }) => {
                 placeholder='City, STATE'
                 />
             </label>
+            {submitted && <div className="errors">{errors.location}</div>}
           </div>
         </div>
 
@@ -121,7 +124,6 @@ const GroupForm = ({ group, formType, groupId }) => {
             <h2>What will your group&#39;s name be?</h2>
             <p>Choose a name that will give people a clear idea of what the group is about.
     Feel free to get creative! You can edit this later if you change your mind.</p>
-            {submitted && <div className="errors">{errors.name}</div>}
             <label>
                 <textarea
                 placeholder='What is your group name?'
@@ -129,19 +131,19 @@ const GroupForm = ({ group, formType, groupId }) => {
                 onChange={(e) => setName(e.target.value)}
                 />
             </label>
+            {submitted && <div className="errors">{errors.name}</div>}
           </div>
         </div>
 
         <div className={`group-form-input `}>
           <div className={`group-form-restraint`}>
-            <h2>Now describe what your group will be about</h2>
+            <h2>Describe the purpose of your group</h2>
             <p>People will see this when we promote your group, but you&#39;ll be able to add to it later, too.</p>
             <ol>
                 <li>What&#39;s the purpose of the group?</li>
                 <li>Who should join?</li>
                 <li>What will you do at your events?</li>
             </ol>
-            {submitted && <div className="errors">{errors.about}</div>}
             <label>
                 <textarea
                 placeholder='Please write at least 50 characters'
@@ -149,6 +151,7 @@ const GroupForm = ({ group, formType, groupId }) => {
                 onChange={(e) => setAbout(e.target.value)}
                 />
             </label>
+            {submitted && <div className="errors">{errors.about}</div>}
             </div>
           </div>
 
@@ -156,7 +159,6 @@ const GroupForm = ({ group, formType, groupId }) => {
             <div className={`group-form-restraint`}>
               <h2>Final steps...</h2>
               <div className={"selector type"}>
-                {submitted && <div className="errors">{errors.type}</div>}
                   <h5>Is this an in person or online group?</h5>
                   <label>
                       <select
@@ -168,9 +170,9 @@ const GroupForm = ({ group, formType, groupId }) => {
                           <option value={''} disabled>&#40;select one&#41;</option>
                       </select>
                   </label>
+                  {submitted && <div className="errors">{errors.type}</div>}
               </div>
               <div className={"selector private"}>
-                  {submitted && <div className="errors">{errors.private}</div>}
                   <h5>Is this group private or public?</h5>
                   <label>
                       <select
@@ -183,10 +185,10 @@ const GroupForm = ({ group, formType, groupId }) => {
                           <option value={''} disabled>&#40;select one&#41;</option>
                       </select>
                   </label>
+                  {submitted && <div className="errors">{errors.private}</div>}
               </div>
               <div>
               <h5>Please add an image url for your group below:</h5>
-              {submitted && <div className="errors">{errors.image}</div>}
               <label>
                   <textarea
                   placeholder='Image URL'
@@ -194,6 +196,7 @@ const GroupForm = ({ group, formType, groupId }) => {
                   onChange={(e) => setImage(e.target.value)}
                   />
               </label>
+              {submitted && <div className="errors">{errors.image}</div>}
             </div>
           </div>
         </div>

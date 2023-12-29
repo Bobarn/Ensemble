@@ -23,7 +23,7 @@ module.exports = {
     await GroupImage.bulkCreate([
       {
         groupId: 1,
-        url: 'https://picsum.photos/200.jpg',
+        url: 'https://picsum.photos/id/237/200.jpg',
         preview: true
       },
       {
@@ -33,7 +33,7 @@ module.exports = {
       },
       {
         groupId: 3,
-        url: 'https://picsum.photos/300?random=2',
+        url: 'https://picsum.photos/id/26/300',
         preview: true
       },
       {
@@ -43,7 +43,7 @@ module.exports = {
       },
       {
         groupId: 5,
-        url: 'https://picsum.photos/seed/picsum/200/300',
+        url: 'https://picsum.photos/seed/virtual/200/300',
         preview: true
       }
     ])
@@ -60,10 +60,6 @@ module.exports = {
 
     const Op = Sequelize.Op;
 
-    return await queryInterface.bulkDelete(options, {
-      url: {
-        [Op.in]: ['https://picsum.photos/200/300?random=2', 'https://i.imgur.com/CHE6ilh.jpg', 'https://picsum.photos/seed/picsum/200/300/?blur', 'https://picsum.photos/200.jpg']
-      }
-    }, {})
+    return await queryInterface.bulkDelete(options, {}, {})
   }
 };
