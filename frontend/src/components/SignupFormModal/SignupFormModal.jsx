@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import * as sessionActions from '../../store/session';
@@ -17,6 +17,7 @@ function SignupFormModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+  const [disabled, setDisabled] = useState(true)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,6 +36,7 @@ function SignupFormModal() {
         .catch(async (res) => {
           const data = await res.json();
           if (data?.errors) {
+            console.log(errors);
             setErrors(data.errors);
           }
         });
@@ -43,6 +45,15 @@ function SignupFormModal() {
       confirmPassword: "Confirm Password field must be the same as the Password field"
     });
   };
+
+  useEffect(() => {
+    let boolean = true
+    if(username.length >= 4 && password.length >= 6 && email.length > 0 && firstName.length > 0 && lastName.length > 0 && confirmPassword.length > 0) {
+      boolean = false
+    }
+
+    setDisabled(boolean);
+  }, [username, password, password, email, firstName, lastName, confirmPassword])
 
   return (
     <>
@@ -110,7 +121,7 @@ function SignupFormModal() {
         {errors.confirmPassword && (
           <p>{errors.confirmPassword}</p>
         )}
-        <button type="submit">Sign Up</button>
+        <button disabled={disabled} type="submit">Sign Up</button>
       </form>
     </>
   );

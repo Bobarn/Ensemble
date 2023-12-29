@@ -46,7 +46,7 @@ export default function EventDetailsPage() {
                                     <h5>{`${new Date (event?.endDate)}`.slice(0, 21)}</h5>
                                 </div>
                             </div>
-                            <div className='event-additional'><i className="fa-solid fa-dollar-sign"></i> {event?.price}</div>
+                            <div className='event-additional'><i className="fa-solid fa-dollar-sign"></i> {event?.price === 0 ? 'FREE' : `$${event?.price}`}</div>
                             <div className='event-additional'><i className="fa-solid fa-location-dot"></i> {event?.type}</div>
                             <span id='event-organizer-actions-containter'>
                         {userId === event?.Group?.organizerId &&
@@ -54,7 +54,7 @@ export default function EventDetailsPage() {
                             <button onClick={() => alert('Functionality coming soon')}>Update</button>
                             <OpenModalMenuItem
                             itemText="Delete"
-                            modalComponent={<DeleteEventConfirmationModal eventId={eventId} />}
+                            modalComponent={<DeleteEventConfirmationModal event={event} />}
                             />
                         </div>}
                         {userId && userId !== event?.Group?.organizerId && <div>

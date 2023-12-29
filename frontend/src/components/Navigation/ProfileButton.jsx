@@ -49,10 +49,11 @@ function ProfileButton({ user }) {
           <div>
           <button onClick={toggleMenu}>
             <i className="fa-solid fa-user-tie"></i>
+            {showMenu ? <i className="fa-solid fa-angle-up"></i> : <i className="fa-solid fa-angle-down"></i>}
           </button>
           <ul className={ulClassName} ref={ulRef}>
-            <li className='floating'>{user.username}</li>
-            <li className='floating'>{user.firstName} {user.lastName}</li>
+            {/* <li className='floating'>{user.username}</li> */}
+            <li className='floating'>Hello, {user.firstName} {user.lastName}</li>
             <li className='floating'>{user.email}</li>
             <li className='floating'>
               <button onClick={logout}>Log Out</button>

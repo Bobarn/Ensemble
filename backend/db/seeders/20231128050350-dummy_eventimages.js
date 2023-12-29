@@ -23,7 +23,7 @@ module.exports = {
    await EventImage.bulkCreate([
     {
       eventId: 1,
-      url: 'https://picsum.photos/200',
+      url: 'https://picsum.photos/id/49/200',
       preview: true
     },
     {
@@ -33,7 +33,7 @@ module.exports = {
     },
     {
       eventId: 3,
-      url: 'https://picsum.photos/200',
+      url: 'https://picsum.photos/id/57/200',
       preview: true
     },
     {
@@ -63,12 +63,12 @@ module.exports = {
     },
     {
       eventId: 7,
-      url: 'https://picsum.photos/200',
+      url: 'https://picsum.photos/id/117/200',
       preview: true
     },
     {
       eventId: 8,
-      url: 'https://picsum.photos/200',
+      url: 'https://picsum.photos/id/158/200',
       preview: true
     },
     {
@@ -78,7 +78,7 @@ module.exports = {
     },
     {
       eventId: 2,
-      url: 'https://picsum.photos/200',
+      url: 'https://picsum.photos/id/200/200',
       preview: false
     }
    ])
@@ -96,10 +96,6 @@ module.exports = {
 
     const Op = Sequelize.Op;
 
-    return await queryInterface.bulkDelete(options, {
-      url: {
-        [Op.in]: ['https://vercel.com/new/templates', 'https://i.imgur.com/CHE6ilh.jpg', 'https://example.com/']
-      }
-    }, {})
+    return await queryInterface.bulkDelete(options, {}, {})
   }
 };

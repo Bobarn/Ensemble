@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { thunkCreateEvent, thunkCreateEventImage } from '../../store/events';
 import './EventForm.css'
+import { thunkGetSpecificGroup } from '../../store/groups';
 
 const EventForm = ({ event, formType }) => {
   const navigate = useNavigate();
@@ -21,8 +22,17 @@ const EventForm = ({ event, formType }) => {
 
   const { groupId } = useParams();
 
+  const group = useSelector((state) => state.groups[groupId]);
+
+  useEffect(() => {
+
+    dispatch(thunkGetSpecificGroup(groupId));
+
+  }, [dispatch])
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(errors);
 
     setDisabled(true);
 
@@ -39,8 +49,6 @@ const EventForm = ({ event, formType }) => {
       event = await dispatch(thunkCreateEvent(event, groupId));
 
       await dispatch(thunkCreateEventImage(event?.id, image))
-
-      console.log(event);
 
     }
     // else if(formType === 'Update Event' && !event.errors){
@@ -116,13 +124,13 @@ const EventForm = ({ event, formType }) => {
 
   return (
     <form id='event-form' onSubmit={handleSubmit}>
-      <h2>{formType}</h2>
+      <h2>{`Create a new event for ${group?.name}`}</h2>
       <div id='event-name'>
-        <h2>What will your event&#39;s name be?</h2>
+        <h2>What is the name of your event?</h2>
         <label>
             <textarea
             className='event-text'
-            placeholder='Event name'
+            placeholder='Event Name'
             value={name}
             onChange={(e) => setName(e.target.value)}
             />
@@ -131,7 +139,7 @@ const EventForm = ({ event, formType }) => {
       </div>
       <div id='selectors'>
       <div className={"selector type"}>
-            <h5>Is this an in person or online event?</h5>
+            <h5>Is this an in-person or online group?</h5>
             <label>
                 <select
                 value={type}
@@ -183,6 +191,7 @@ const EventForm = ({ event, formType }) => {
         type="datetime-local"
         id="start"
         name="startDate"
+        placeholder='MM/DD/YYYY, HH/mm PM'
         value={startDate}
         min={new Date().toISOString().split("T")[0]}
         onChange={(e) => setStartDate(e.target.value)}
@@ -195,6 +204,7 @@ const EventForm = ({ event, formType }) => {
         type="datetime-local"
         id="end"
         name="endDate"
+        placeholder="mm/dd/yyyy hh:mm xm"
         value={endDate}
         min={new Date().toISOString().split("T")[0]}
         onChange={(e) => setEndDate(e.target.value)}

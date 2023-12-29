@@ -95,10 +95,6 @@ module.exports = {
 
     const Op = Sequelize.Op;
 
-    return await queryInterface.bulkDelete(options, {
-      userId: {
-        [Op.in]: [1, 2, 3]
-      }
-    }, {})
+    return await queryInterface.bulkDelete(options, {}, {})
   }
 };

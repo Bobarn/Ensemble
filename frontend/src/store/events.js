@@ -209,7 +209,28 @@ export default function eventsReducer(state = {...initialState}, action ) {
         case GET_ALL_EVENTS: {
             const newState = { ...state, All: {...state.All}}
 
-            action.events.forEach((event) => {
+            const events = action.events.sort((a, b) => {
+                const aTime =  new Date(a.startDate).getTime();
+
+                const bTime = new Date(b.startDate).getTime();
+
+                if(aTime < bTime) {
+
+                 return 1;
+
+                } else if(aTime > bTime) {
+
+                 return -1
+
+                } else {
+
+                    return 0;
+
+                }
+
+             })
+
+            events.forEach((event) => {
                 newState.All[event.id] = event;
             })
 
