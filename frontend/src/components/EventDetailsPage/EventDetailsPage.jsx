@@ -48,19 +48,19 @@ export default function EventDetailsPage() {
                             </div>
                             <div className='event-additional'><i className="fa-solid fa-dollar-sign"></i> {event?.price === 0 ? 'FREE' : `$${event?.price}`}</div>
                             <div className='event-additional'><i className="fa-solid fa-location-dot"></i> {event?.type}</div>
-                            <span id='event-organizer-actions-containter'>
+                            <span id='event-organizer-actions-container'>
                         {userId === event?.Group?.organizerId &&
-                        <div id='event-organizer-actions'>
-                            <button onClick={() => alert('Functionality coming soon')}>Update</button>
+                        <>
+                            <button onClick={() => alert('Feature coming soon')}>Update</button>
                             <OpenModalMenuItem
                             itemText="Delete"
                             modalComponent={<DeleteEventConfirmationModal event={event} />}
                             />
-                        </div>}
-                        {userId && userId !== event?.Group?.organizerId && <div>
-                            <button onClick={() => alert('Functionality coming soon~!')}>Attend</button>
-                        </div>}
-                    </span>
+                        </>}
+                        {userId && userId !== event?.Group?.organizerId && <>
+                            <button onClick={() => alert('Feature coming soon')}>Attend</button>
+                        </>}
+                        </span>
                         </div>
                     </div>
                 </div>
