@@ -1,0 +1,39 @@
+.profile-dropdown {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 100%;
+    margin-top: 5px;
+    right: 0;
+    width: 200px;
+    z-index: 2;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: 3px;
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14);
+    background-color: #FA6666;
+
+}
+
+.profile-dropdown > ul {
+    margin: 0px 0px 15px;
+    list-style-type: none;
+}
+
+.log-out-item {
+    border-top: darkgrey 1px solid;
+    width: 100px;
+    padding-top: 5px;
+}
+
+.drop-down-container {
+  position: relative;
+  display: inline-block;
+}
+
+.floating {
+    margin: 5px auto;
+}
+
+.drop-down-link {
+    text-decoration: none;
+}

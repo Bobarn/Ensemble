@@ -4,7 +4,8 @@ import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from '../SignupFormModal/SignupFormModal';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
+import './ProfileButton.css'
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -46,19 +47,22 @@ function ProfileButton({ user }) {
     <>
 
         {user ? (
-          <div>
+          <div className='drop-down-container'>
           <button onClick={toggleMenu}>
             <i className="fa-solid fa-user-tie"></i>
             {showMenu ? <i className="fa-solid fa-angle-up"></i> : <i className="fa-solid fa-angle-down"></i>}
           </button>
-          <ul className={ulClassName} ref={ulRef}>
-            {/* <li className='floating'>{user.username}</li> */}
-            <li className='floating'>Hello, {user.firstName} {user.lastName}</li>
+          <div className={ulClassName} ref={ulRef}>
+          <ul>
+            <li className='floating'>Hello, {user.firstName}</li>
             <li className='floating'>{user.email}</li>
-            <li className='floating'>
+            <li className='floating'><NavLink className='drop-down-link' to='/groups'>View Groups</NavLink></li>
+            <li className='floating'><NavLink className='drop-down-link' to='/events'>View Events</NavLink></li>
+            <li className='floating log-out-item'>
               <button onClick={logout}>Log Out</button>
             </li>
           </ul>
+          </div>
           </div>
         ) : (
           <>
