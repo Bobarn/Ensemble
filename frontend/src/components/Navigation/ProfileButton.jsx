@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
-import OpenModalMenuItem from './OpenModalMenuItem';
+import OpenModalNonButton from './OpenModalNonButton';
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from '../SignupFormModal/SignupFormModal';
 import { useNavigate, NavLink } from 'react-router-dom';
@@ -48,10 +48,10 @@ function ProfileButton({ user }) {
 
         {user ? (
           <div className='drop-down-container'>
-          <button onClick={toggleMenu}>
+          <div onClick={toggleMenu}>
             <i className="fa-solid fa-user-tie"></i>
             {showMenu ? <i className="fa-solid fa-angle-up"></i> : <i className="fa-solid fa-angle-down"></i>}
-          </button>
+          </div>
           <div className={ulClassName} ref={ulRef}>
           <ul>
             <li className='floating'>Hello, {user.firstName}</li>
@@ -59,19 +59,19 @@ function ProfileButton({ user }) {
             <li className='floating'><NavLink className='drop-down-link' to='/groups'>View Groups</NavLink></li>
             <li className='floating'><NavLink className='drop-down-link' to='/events'>View Events</NavLink></li>
             <li className='floating log-out-item'>
-              <button onClick={logout}>Log Out</button>
+              <div onClick={logout}>Log Out</div>
             </li>
           </ul>
           </div>
           </div>
         ) : (
           <>
-            <OpenModalMenuItem
+            <OpenModalNonButton
               itemText="Log In"
               onItemClick={closeMenu}
               modalComponent={<LoginFormModal />}
             />
-            <OpenModalMenuItem
+            <OpenModalNonButton
               itemText="Sign Up"
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
