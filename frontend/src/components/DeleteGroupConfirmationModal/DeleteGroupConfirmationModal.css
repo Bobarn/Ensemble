@@ -5,3 +5,22 @@
 .keep-button {
     background-color: darkgrey;
 }
+
+#delete-group-modal {
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#delete-group-modal > button {
+    width: 90%;
+    box-shadow: 2px 2px 2px lightgrey;
+    border-radius: 5px;
+    line-height: 2rem;
+}
+
+#delete-group-modal > h1, h3 {
+    margin: 5px 0px;
+}

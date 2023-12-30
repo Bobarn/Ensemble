@@ -23,12 +23,12 @@ function DeleteGroupConfirmationModal( { groupId } ) {
   }
 
   return (
-    <>
+    <div id='delete-group-modal'>
       <h1>Confirm Delete</h1>
       <h3>Are you sure you want to remove this group?</h3>
       <button className='delete-button' onClick={handleSubmit}>Yes &#40;Delete Group&#41;</button>
       <button className='keep-button' onClick={handleCancel}>No &#40;Keep Group&#41;</button>
-    </>
+    </div>
   );
 }
 
