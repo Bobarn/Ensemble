@@ -1,0 +1,23 @@
+#sign-up-modal {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: 350px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#sign-up-form {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+#sign-up-form > * {
+    margin: 5px 0px;
+    width: 100%;
+}
+
+#sign-up-submit {
+    line-height: 2rem;
+}

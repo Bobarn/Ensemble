@@ -14,7 +14,7 @@ function Navigation({ isLoaded }) {
         {isLoaded && (
           <div className='profile-area' id={sessionUser ? "logged" : "not-logged"}>
             {sessionUser &&
-            <NavLink to={'/groups/new'}>Start a new group</NavLink>
+            <NavLink id='start-group-link' to={'/groups/new'}>Start a new group</NavLink>
             }
             <ProfileButton user={sessionUser} />
 

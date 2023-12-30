@@ -49,3 +49,7 @@
     position: relative;
     top: 15px;
 }
+
+#start-group-link {
+    text-decoration: none;
+}
