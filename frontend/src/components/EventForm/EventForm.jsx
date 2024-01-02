@@ -38,7 +38,7 @@ const EventForm = ({ event, formType }) => {
 
     setSubmitted(true);
 
-    event = {name, capacity: 100, description, private: privateBoolean, type, venueId: 1, price: Number(price), startDate, endDate };
+    event = {name, capacity: 100, description, private: privateBoolean, type, venueId: 1, price: Number(price), startDate: new Date(startDate), endDate: new Date(endDate) };
 
     if(Object.values(errors).length) {
       event.errors = errors;
