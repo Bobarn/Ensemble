@@ -32,7 +32,7 @@ const EventForm = ({ event, formType }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(errors);
+    console.log("Here are the errors before submitting", errors);
 
     setDisabled(true);
 
@@ -69,6 +69,9 @@ const EventForm = ({ event, formType }) => {
     if(event.errors) {
 
       setErrors(event.errors);
+
+      console.log("Here are the errors after submitting", errors);
+
 
       setDisabled(false);
 
