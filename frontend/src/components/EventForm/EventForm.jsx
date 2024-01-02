@@ -178,7 +178,7 @@ const EventForm = ({ event, formType }) => {
         <input
         type="number"
         min="0.00"
-        step="0.50"
+        step="0.01"
         placeholder='0'
         value={price}
         onChange={(e) => setPrice(e.target.value)}
