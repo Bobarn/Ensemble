@@ -46,6 +46,7 @@
     flex-direction: column;
     justify-content: space-evenly;
     position: relative;
+    width: 65%;
     bottom: 35px;
     word-wrap: break-word;
 }

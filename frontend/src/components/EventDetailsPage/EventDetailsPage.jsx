@@ -64,7 +64,7 @@ export default function EventDetailsPage() {
                         </div>
                     </div>
                 </div>
-                    <div>
+                    <div className='event-details-page-description'>
                         <h2>Details</h2>
                         <p>
                             {event?.description}

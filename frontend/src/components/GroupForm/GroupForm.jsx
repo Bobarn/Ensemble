@@ -82,8 +82,14 @@ const GroupForm = ({ group, formType, groupId }) => {
     if(about?.length < 50) {
         newErrors.about = 'Description must be at least 50 characters long';
     }
+    if(about?.includes('     ')) {
+      newErrors.about = 'Description must be at least 50 characters long without excess blank space.'
+    }
     if(!name) {
         newErrors.name = 'Name is required';
+    }
+    if(name?.length > 60) {
+      newErrors.name = 'Name must be 60 characters or less'
     }
     if(!location || location?.split(', ').length <= 1) {
         newErrors.location = 'Location is required (City, state)';

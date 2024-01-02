@@ -26,6 +26,7 @@
 .group-information {
     display: flex;
     flex-direction: column;
+    word-wrap: break-word;
 }
 
 .group-information > * {
@@ -86,4 +87,5 @@
 .back-button {
     position: relative;
     left: 7%;
+    width: fit-content;
 }
