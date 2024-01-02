@@ -35,6 +35,12 @@
 .action-title {
     padding: 0px;
     margin: 0px;
+    color: teal;
+    text-decoration: none;
+}
+
+.action-title:hover:not(.disabled) {
+    text-decoration: underline;
 }
 
 .action-description {
