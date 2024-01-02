@@ -91,8 +91,11 @@ const GroupForm = ({ group, formType, groupId }) => {
     if(name?.length > 60) {
       newErrors.name = 'Name must be 60 characters or less'
     }
-    if(!location || location?.split(', ').length <= 1) {
+    if(!location || location?.split(', ').length <= 1 || location?.split(', ').length > 2) {
         newErrors.location = 'Location is required (City, state)';
+    }
+    if(location?.split(', ')[0]?.length > 50 || location?.split(', ')[1]?.length > 50) {
+      newErrors.location = 'Location given is too long, ensure both parts (part one, part two) are less than 50 characters.'
     }
 
     setErrors(newErrors);
