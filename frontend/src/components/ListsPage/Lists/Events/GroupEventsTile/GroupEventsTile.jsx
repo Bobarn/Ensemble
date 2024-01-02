@@ -15,7 +15,7 @@ export default function GroupEventsTile( { event } ) {
                 <div className="event-display">
                     <div className="event-image-container"><img className="event-image" src={event.previewImage} alt={`${event.name} preview image`}/></div>
                     <div className="event-information">
-                        <h5>{`${new Date (event.startDate)}`.slice(0, 21)}</h5>
+                        <h5>{`${new Date(event?.startDate).toLocaleDateString()} ${new Date(event?.startDate).toLocaleTimeString()}`.slice(0, 21)}</h5>
                         <h3>{event.name}</h3>
                         <h5>{`${event.Group.city}, ${event.Group.state}`}</h5>
                     </div>

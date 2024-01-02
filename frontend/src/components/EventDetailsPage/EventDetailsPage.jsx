@@ -42,8 +42,8 @@ export default function EventDetailsPage() {
                             <div className='event-additional'>
                                 <div id='event-time-icon'><i className="fa-regular fa-clock"></i></div>
                                 <div>
-                                    <h5>{`${new Date (event?.startDate)}`.slice(0, 21)}</h5>
-                                    <h5>{`${new Date (event?.endDate)}`.slice(0, 21)}</h5>
+                                    <h5>{`${new Date(event?.startDate).toLocaleDateString()} ${new Date(event?.startDate).toLocaleTimeString()}`.slice(0, 21)}</h5>
+                                    <h5>{`${new Date(event?.endDate).toLocaleDateString()} ${new Date(event?.endDate).toLocaleTimeString()}`.slice(0, 21)}</h5>
                                 </div>
                             </div>
                             <div className='event-additional'><i className="fa-solid fa-dollar-sign"></i> {event?.price === 0 ? 'FREE' : `$${event?.price}`}</div>
