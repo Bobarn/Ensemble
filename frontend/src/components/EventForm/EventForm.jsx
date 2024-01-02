@@ -32,7 +32,6 @@ const EventForm = ({ event, formType }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Here are the errors before submitting", errors);
 
     setDisabled(true);
 
@@ -70,7 +69,6 @@ const EventForm = ({ event, formType }) => {
 
       setErrors(event.errors);
 
-      console.log("Here are the errors after submitting", errors);
 
 
       setDisabled(false);
@@ -96,6 +94,9 @@ const EventForm = ({ event, formType }) => {
     }
     if(description?.length < 30) {
         newErrors.description = 'Description must be at least 30 characters long';
+    }
+    if(description?.includes('     ')) {
+      newErrors.description = 'Description must be at least 30 characters long without excess blank space.'
     }
     if(!name) {
         newErrors.name = 'Name is required';

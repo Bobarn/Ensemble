@@ -25,18 +25,18 @@ export default function GroupExtrasArea( { group } ) {
                 <h2>Organizer</h2>
                 <h5>{`${group?.Organizer?.firstName} ${group?.Organizer?.lastName}`}</h5>
             </div>
-            <div>
+            <div className="extras-about">
                 <h2>What we&#39;re about</h2>
                 <p>{group?.about}</p>
             </div>
-            <span>
+            <span className="event-listing">
                 {upcoming?.length > 0 && <h2>Upcoming Events &#40;{upcoming?.length}&#41;</h2>}
 
                 {upcoming?.map((event) => (
                     <div key={event?.id}><GroupEventsTile event={event}/></div>
                 ))}
             </span>
-            <span>
+            <span className="event-listing">
                 {past?.length > 0 && <h2>Past Events &#40;{past?.length}&#41;</h2>}
 
                 {past?.map((event) => (
