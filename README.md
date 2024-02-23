@@ -36,8 +36,8 @@ Ensemble is a dynamic event planning website that allows users to effortlessly o
 - **JavaScript:**
   - Utilizing JavaScript for both frontend and backend development.
  
-  ## Future Plans (Coming Soon...)
-- - **Membership Actions:**
+## Future Plans (Coming Soon...)
+- **Membership Actions:**
   - Join a group and indicate your attendance for events to foster community engagement.
 
 - **User Flexibility:**
