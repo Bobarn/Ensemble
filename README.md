@@ -22,12 +22,6 @@ Ensemble is a dynamic event planning website that allows users to effortlessly o
 - **Navigation:**
   - Seamlessly navigate between past and present events within a group, enhancing the user experience.
 
-- **Membership Actions:**
-  - Join a group and indicate your attendance for events to foster community engagement.
-
-- **User Flexibility:**
-  - Remove your attendance from an event or leave a group effortlessly, ensuring a flexible and user-friendly experience.
-
 ## Technologies Used
 
 - **Frontend:**
@@ -40,7 +34,14 @@ Ensemble is a dynamic event planning website that allows users to effortlessly o
   - Sequelize as the ORM to interact with the database and manage models.
 
 - **JavaScript:**
-  - Utilizing the power of JavaScript for both frontend and backend development.
+  - Utilizing JavaScript for both frontend and backend development.
+ 
+  ## Future Plans (Coming Soon...)
+- - **Membership Actions:**
+  - Join a group and indicate your attendance for events to foster community engagement.
+
+- **User Flexibility:**
+  - Remove your attendance from an event or leave a group for a more interactive user experience.
 
 ## Contact
 
